@@ -1,3 +1,4 @@
+#prueba git 1
 from pymodbus.client import ModbusSerialClient
 #import minimalmodbus
 import threading
