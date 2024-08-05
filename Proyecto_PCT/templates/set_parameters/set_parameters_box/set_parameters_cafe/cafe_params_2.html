@@ -1,0 +1,128 @@
+{% load static %}
+<div class="container">
+    <div class="row flex-column justify-content-center align-items-center">
+      <div class="col-sm-12 d-flex justify-content-center align-items-center w-100 mx-0 px-0">
+        <div class="container">
+          <div class="row" style="margin-bottom: 5px;">
+            <div class="col-sm-6 d-flex justify-content-center align-items-center" style="white-space: nowrap;">
+              <h3>Oper. Mode</h3>
+            </div>
+            <div class="col-sm-6 justify-content-center align-items-center">
+              <div class="dropdown justify-content-center align-items-center">
+                <select id="operation_mode_2" class="form-select">
+                  <option value="digital">Digital</option>
+                  <option value="modulation">Modulation</option>
+                  <option value="modbus">ModBus</option>
+                </select>
+            </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-sm-12 d-flex justify-content-center align-items-center w-100 mx-0 px-0">
+        <div class="container">
+          <div class="row" id="divOpVoltage_2" style="margin-bottom: 5px;">
+            <div class="col-sm-6 d-flex justify-content-center align-items-center" style="white-space: nowrap;">
+              <h3>Op. Voltage</h3>
+            </div>
+            <div class="col-sm-6 justify-content-center align-items-center">
+              <div class="dropdown">
+                <select id="opVoltage_2" class="form-select">
+                  <option value="24vdc">24V DC</option>
+                  <option value="120vac">120V AC</option>
+                  <option value="240vac">240V AC</option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div> 
+
+      <div class="col-sm-12 d-flex justify-content-center align-items-center w-100 mx-0 px-0">
+        <div class="container">
+          <div class="row" id="divInputSignal_2" style="margin-bottom: 5px;" hidden>
+            <div class="col-sm-6 d-flex justify-content-center align-items-center" style="white-space: nowrap;">
+              <h3>Input Type</h3>
+            </div>
+            <div class="col-sm-6 justify-content-center align-items-center">
+              <div class="dropdown">
+                <select id="inputSignal_2" class="form-select">
+                  <option value="24vdc">24V DC</option>
+                  <option value="120vac">120V AC</option>
+                  <option value="240vac">240V AC</option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-sm-12 d-flex justify-content-center align-items-center w-100 mx-0 px-0">
+        <div class="container">
+          <div class="row justify-content-center" id="divBaud_2" hidden="hidden" style="margin-bottom: 5px;">
+            <div class="col-sm-6 d-flex justify-content-center align-items-center" style="white-space: nowrap;">
+              <h3>Baud</h3>
+            </div>
+            <div class="col-sm-6 justify-content-center align-items-center">
+              <div class="dropdown">
+                <select id="baud_2" class="form-select">
+                  <option value="9600">9600</option>
+                  <option value="19200">19200</option>
+                  <option value="57600">57600</option>
+                </select>
+              </div>
+            </div>
+            <div class="col-sm-6 d-flex justify-content-center align-items-center" style="white-space: nowrap;">
+              <h3>Node</h3>
+            </div>
+            <div class="col-sm-6 justify-content-center align-items-center" style="width: auto;">
+              <button id="decrement_2" style="width: 50px;">-</button>
+              <input type="number" id="node_2" value="1" min="1" max="32" readonly style="width: 50px; text-align: center;">
+              <button id="increment_2" style="width: 50px;">+</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-sm-12 d-flex justify-content-center align-items-center w-100 mx-0 px-0"">
+        <div class="container">
+          <div class="row" id="divSignalType_2" style="margin-bottom: 5px;">
+            <div class="col-sm-6 d-flex justify-content-center align-items-center" style="white-space: nowrap;">
+              <h3>Signal Type</h3>
+            </div>
+            <div class="col-sm-6 justify-content-center align-items-center">
+              <div class="dropdown">
+                <select id="signalType_2" class="form-select">
+                  <option value="pulseSignal">Pulse Signal</option>
+                </select>
+            </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-sm-12 d-flex justify-content-center align-items-center w-100 mx-0 px-0"">
+        <div class="container">
+          <div class="row" id="divWidthTime_2">
+            <div class="col-sm-6 d-flex justify-content-center align-items-center" style="white-space: nowrap;">
+              <h3>Pulse width time</h3>
+            </div>
+            <div class="col-sm-6 justify-content-center align-items-center">
+              <div class="dropdown">
+                <select id="widthTime_2" class="form-select">
+                  <option value="1Sec">1 Sec</option>
+                  <option value="2Sec">2 Sec</option>
+                  <option value="3Sec">3 Sec</option>
+                  <option value="4Sec">4 Sec</option>
+                  <option value="5Sec">5 Sec</option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+    </div>
+</div>
+<script src="{% static 'scripts/set_parameters/set_parameters_cafe/cafe_parameters_2.js' %}"></script>

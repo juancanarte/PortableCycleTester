@@ -1,0 +1,117 @@
+{% extends 'Proyecto_PCT/templates/menu.html' %}
+
+{% load static %}
+
+{% block content %}
+<style>
+    .custom-checkbox input[type="checkbox"] {
+      transform: scale(1.5); /* Ajusta el valor para cambiar el tamaño del checkbox */
+      -webkit-transform: scale(1.5);
+      -moz-transform: scale(1.5);
+      vertical-align: middle;
+      margin-right: 5px;
+    }
+    
+    .custom-checkbox label {
+      display: inline-block;
+      vertical-align: middle;
+      margin-bottom: 0;
+    }
+  </style>
+
+<div class="row flex-column d-flex justify-content-center align-items-center">
+  <div class="col-md-6 d-flex justify-content-center align-items-center w-100">
+    <!-- Contenido de la primera división -->
+        <div class="col-md-6 d-flex justify-content-center align-items-center">
+          <h1 class="computers_taital">{{ mode }}</h1>
+        </div>
+  </div>
+
+  <hr class="my-2 mt-1 mb-2">
+
+  <div class="col-md-6 d-flex justify-content-center align-items-center w-100">
+    <div class="container">
+        <div class="row">
+
+          <div class="col-sm-6 d-flex div-dut-1">
+            <h5 class="subtitulo_dut_1">DUT 1</h5>
+            <div class="dropdown d-inline-block mb-2">
+              <button class="css-dd-sharp--blue dropdown-toggle" style="width: auto;" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                CAFE</button>
+              <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                <li><a class="dropdown-item" data-value="CAFE">CAFE</a></li>
+                <li><a class="dropdown-item" data-value="COIL">COIL</a></li>
+                <li><a class="dropdown-item" data-value="LIMIT SWITCH">LIMIT SWITCH</a></li>
+                <li><a class="dropdown-item" data-value="NONE">NONE</a></li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="col-sm-6 d-flex div-dut-2">
+            <h5 class="subtitulo_dut_2">DUT 2</h5>
+            <div class="dropdown d-inline-block mb-2">
+              <button class="css-dd-sharp--blue dropdown-toggle" style="width: auto;" type="button" id="dropdownMenuButton2" data-bs-toggle="dropdown" aria-expanded="false">
+                CAFE</button>
+              <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton2">
+                <li><a class="dropdown-item" data-value="CAFE">CAFE</a></li>
+                <li><a class="dropdown-item" data-value="COIL">COIL</a></li>
+                <li><a class="dropdown-item" data-value="LIMIT SWITCH">LIMIT SWITCH</a></li>
+                <li><a class="dropdown-item" data-value="NONE">NONE</a></li>
+              </ul>
+            </div>
+          </div>
+
+        </div>
+    </div>
+  </div>
+
+
+
+
+
+  <div class="col-md-6 d-flex justify-content-center align-items-center">
+    <div class="d-flex" style="margin-top: 20px;">
+
+        <button type="submit" onclick="history.back()" class="css-button-sharp--blue" style="margin-right: 30px;">Back</button>
+
+        <form method="POST" action="{% url 'Dut' mode=mode %}">
+          {% csrf_token %}
+          <button id="submitButton" class="css-button-sharp--blue"  style="margin-left: 30px;" type="submit" name="opcion" value="opcion3">Next</button>
+        </form>
+    </div>
+  </div>
+
+
+
+</div>
+<script src="{% static 'js/code.jquery.com_jquery-3.7.0.min.js' %}"></script>
+<script>
+  $(document).ready(function() {
+    $('.dropdown-menu a').click(function() {
+      var selectedOption = $(this).data('value');
+      var dropdownButton = $(this).closest('.dropdown').find('.dropdown-toggle');
+      dropdownButton.text(selectedOption);
+    });
+  });
+</script>
+
+<script>
+  // Obtener referencia al botón de enviar
+  var submitButton = document.getElementById('submitButton');
+
+  // Agregar un evento al hacer clic en el botón de enviar
+  submitButton.addEventListener('click', function() {
+    // Obtener la opción seleccionada del Dropdown #1
+    var dropdown1Value = document.querySelector('#dropdownMenuButton1').innerText;
+    
+    // Obtener la opción seleccionada del Dropdown #2
+    var dropdown2Value = document.querySelector('#dropdownMenuButton2').innerText;
+    
+    // Crear un string con las opciones seleccionadas
+    var selectedOptions = dropdown1Value + '|' + dropdown2Value;
+    
+    // Asignar el string al parámetro value del botón
+    submitButton.value = selectedOptions;
+  });
+</script>
+{% endblock %}

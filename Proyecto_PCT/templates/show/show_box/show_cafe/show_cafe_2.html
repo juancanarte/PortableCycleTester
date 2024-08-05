@@ -1,0 +1,133 @@
+{% load static %}
+{% csrf_token %}
+<div class="container">
+  <div class="row justify-content-center align-items-center">
+    <div class="col-sm">
+      <h3 id="modo_cafe_2" hidden>{{modo_cafe_2}}</h3>
+      <div class="computer_text_main" style="margin-top: 10px; margin-bottom: 10px; width: auto;">
+        <h3 class="subtitulo" style="width: auto; padding: 0;">CAFE - {{modo_cafe_2}}</h3>
+        <div id="divShowParamsCafe_2">
+            <button id="showParamsCafe_2" class="css-button-eye" onclick="showParams_2()">
+                <img src="{% static 'images/eye.svg' %}" alt="Icono">
+            </button>
+        </div>
+        <div id="divHideParamsCafe_2" hidden>
+            <button id="hideParamsCafe_2" class="css-button-eye" onclick="hideParams_2()">
+                <img src="{% static 'images/eye-off.svg' %}" alt="Icono">
+            </button>
+        </div>
+      </div>
+      <div id="divParamsCafe_2" class="computer_text_main flex-column" style="margin-top: 10px; margin-bottom: 10px; width: 210px;" hidden>
+        <table style="width: 100%;">
+            <tr>
+              <th>Config.</th>
+              <th>Option</th>
+            </tr>
+            <tr>
+              <td>Op. Mode :</td>
+              <td class="tabla-parametros">{{modo_cafe_2}}</td>
+            </tr>
+            <tr>
+              <td>Op. Voltage :</td>
+              <td>{{opVoltage_cafe_2}}</td>
+            </tr>
+            <tr>
+              <td>Input Type :</td>
+              <td>{{def_input_signal_2}}</td>
+            </tr>
+            <tr>
+              <td>Pulse Width :</td>
+              <td>{{def_widthTime_cafe_2}}</td>
+            </tr>
+            <!-- Agrega más filas según sea necesario -->
+          </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="imagen-grande-container">
+  <img class="imagen-grande" src="{% static 'imgs/CoverCafe.png' %}">
+  <img class="imagen-pequena" style="transform: translate(-114%,34%); height: 37%;" id="knob_2" src="{% static 'css/theme/knob.png' %}">
+  <div id="txt_cafe_2" class="image_text" style="width: 21%;">
+    <h5 id="txt_drive_2" class="label_show_cafe_dual" style="margin-bottom: 10px; width: 100%; justify-content: center; display: flex;">AUTO</h5>
+    <h5 id="position_2" class="label_show_cafe_dual" style="margin-bottom: 5px; width: 100%; justify-content: center; display: flex;">POSITION: 0%</h5>
+    <h5 id="setPoint_2" class="label_show_cafe_dual" style="width: 100%; justify-content: center; display: flex;">SETPOINT: 0%</h5>
+  </div>
+</div>
+
+<div class="computer_text_main">
+
+  <div class="row justify-content-center align-items-center">
+    <div class="computer_text_main" style="padding: 5px; max-width: 540px;">
+      <button id="powerOn_Cafe_2" class="css-button-eye" style="margin-right: 10px; border-radius: 0%; min-width:80px;" onclick="powerOn_Cafe_2()">
+        ON
+        <img src="{% static 'images/on.svg' %}" alt="Icono">
+      </button>
+
+      <button id="powerOff_Cafe_2" class="css-button-eye" style="margin-right: 10px; border-radius: 0%; min-width:80px;" onclick="window.modalTurnOff_cafe_2.showModal();" hidden>
+        OFF
+        <img src="{% static 'images/off.svg' %}" alt="Icono">
+      </button>
+
+      <div id="ddAuto_manual_cafe_2" class="dropdown" style="width: 115px; margin-right: 5px;" hidden>
+        <select id="drive_2" class="form-select custom-bg-color" style="width: 115px; border-width: 3px; border-color: #143a51;">
+          <option value="auto">Auto</option>
+          <option value="manual">Manual</option>
+        </select>
+      </div> 
+    </div>
+
+    <div id="divButtons_cafe_2" class="computer_text_main" style="width: auto; " hidden>
+      <div id="divPorcent_cafe_2" class="computer_text_main" style="border-style: solid; border-width: 3px; border-color: #143a51; padding: 3px; max-width: 180px;" hidden>
+        <button class="css-button-eye" id="decrement_cafe_2" style="margin-left: 5px;  margin-right: 5px; width: 30px; height: 30px;">
+          <img src="{% static 'images/minus.svg' %}" alt="Icono">
+        </button>
+
+        <div style="border-style: solid; border-radius: 20%; border-width: 3px; border-color: #143a51; padding: 0 5 0 5;">
+          <input type="number" id="manual_porcent_cafe_2" value="100" min="1" max="100" readonly style="width: 42px; height: 20px; text-align: center; border-style: none;">
+            %
+        </div>
+        
+        <button class="css-button-eye" id="increment_cafe_2" style="margin-left: 5px; margin-right: 5px; width: 30px; height: 30px;">
+          <img src="{% static 'images/plus.svg' %}" alt="Icono">
+        </button>
+      </div>
+
+        <div id="divStart_2"><button id="bStart_2" class="css-button-show" onclick="start_2()">Start</button></div>
+        <div id="divStop_2"><button id="bStop_2" class="css-button-show" onclick="stop_2()">Stop</button></div>
+        <div id="divOpen_2" hidden="hidden"><button id="bOpen_2" class="css-button-show" onclick="openn_2()">Open</button></div>
+        <div id="divClose_2" hidden="hidden"><button id="bClose_2" class="css-button-show" onclick="closee_2()">Close</button></div>
+
+    </div>
+  </div>
+
+</div>
+
+<!-- Modal -->
+<dialog id="modalTurnOff_cafe_2">
+  <h2>Turn OFF device?</h2>
+  <br>
+  <button class="css-button-eye" style="margin-right: 10px; border-radius: 0%; width:80px;" onclick="powerOff_Cafe_2()">
+    Ok
+  </button>
+  <button class="css-button-eye" style="margin-right: 10px; border-radius: 0%; width:80px;" onclick="window.modalTurnOff_cafe_2.close();">
+    Cancel
+  </button>
+</dialog>
+
+<!-- Modal turn on waiting -->
+<dialog id="modalTurnON_waiting_cafe_2">
+  <h2>Turning ON CAFE ...</h2>
+  <progress style="width: 100%; height: 20px;" id="progressBarTurnOn_cafe_2" max="100" value="0"></progress>
+  <br>
+</dialog>
+
+<!-- Modal go to 0% -->
+<dialog id="modalGoTo_0_cafe_2">
+  <h2>Going to position 0% ...</h2>
+  <progress style="width: 100%; height: 20px;" id="progressBarGoTo0_cafe_2" max="100" value="0"></progress>
+  <br>
+</dialog>
+
+<script src="{% static 'scripts/show/show_cafe/show_cafe_2.js' %}"></script>

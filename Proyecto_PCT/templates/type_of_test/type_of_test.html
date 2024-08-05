@@ -1,0 +1,45 @@
+{% extends 'Proyecto_PCT/templates/menu.html' %}
+
+{% load static %}
+
+{% block content %}
+<div class="computers_section layout_padding">
+  <div class="container">
+     <h1 class="computers_taital">Type of test</h1>
+     <h1 id="type_of_test_mode" class="computers_taital" hidden>{{pct_mode}}</h1>
+  </div>
+</div>
+<div class="computers_section_2">
+  <div class="container-fluid">
+     <div class="computer_main">
+        <div class="row justify-content-center align-items-center">
+          <div class="row flex-column justify-content-center align-items-center">
+            <form method="post" action="{% url 'Type_of_test' %}">
+              {% csrf_token %}
+              <div class="col-md-6 d-flex justify-content-center align-items-center w-100">
+                <button type="submit" class="css-button-sharp--blue m-1" style="white-space: nowrap;" name="opcion_tot" value="Show">Show</button>
+              </div>
+              <div class="col-md-6 d-flex justify-content-center align-items-center w-100">
+                <button id="bCycle_test" type="submit" class="css-button-sharp--blue" style="white-space: nowrap;" name="opcion_tot" value="Cycle_test">Cycle test</button>
+              </div>
+            </form>
+          </div>
+        </div>
+     </div>
+  </div>
+</div>
+
+<script>
+  var bCycle_test = document.getElementById('bCycle_test');
+  var type_of_test_mode = document.getElementById('type_of_test_mode');
+
+  if (type_of_test_mode.textContent == 'Show')
+  {
+    bCycle_test.setAttribute("hidden", "hidden");
+  }
+  else
+  {
+    bCycle_test.removeAttribute("hidden");
+  }
+</script>
+{% endblock %}

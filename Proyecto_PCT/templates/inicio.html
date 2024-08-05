@@ -1,0 +1,39 @@
+{% load static %}
+
+<head>
+<title>POM</title>
+<link rel="icon" href="{% static 'images/footer-logo.png' %}" type="image/gif" />
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+  <link rel="stylesheet" href="{% static 'css/bootstrap-grid.min.css' %}">
+  <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+  <script src="{% static 'js/bootstrap.min.js' %}"></script>
+  <script src="{% static 'js/code.jquery.com_jquery-3.7.0.min.js' %}"></script>
+
+  <style>
+    html, body {
+        height: 100%;
+    }
+
+    body {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+</style>
+
+</head>
+
+<body>
+
+<!-- Contenido principal -->
+<div class="container text-center">
+    <div>
+        <h1 class="display-5 mt-0 mb-0" >Welcome</h1>
+        <img style="margin-top: 10px; margin-bottom: 10px;" class="imagen-grande" src="{% static 'images/pom_bb.png' %}">
+        <h1 class="display-6 mt-0 mb-2">Portable Cycle Tester</h1>
+        <a class="css-button-sharp--blue" href="/type_of_test/" role="button">Enter</a>
+    </div>
+</div>
+
+</body>

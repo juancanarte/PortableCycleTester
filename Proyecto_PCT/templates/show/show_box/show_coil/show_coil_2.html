@@ -1,0 +1,215 @@
+{% load static %}
+{% csrf_token %}
+<div class="container">
+  <div class="row justify-content-center align-items-center">
+    <div class="col-sm">
+      <h3 id="modo_cafe_2" hidden>{{opVoltage_coil_2}}</h3>
+      <div class="computer_text_main" style="margin-top: 10px; margin-bottom: 10px; width: auto;">
+        <h3 class="subtitulo" style="width: auto; padding: 0;">CAFE - {{opVoltage_coil_2}}</h3>
+        <div id="divShowParamsCafe_2">
+            <button id="showParamsCafe_2" class="css-button-eye" onclick="showParams_2()">
+                <img src="{% static 'images/eye.svg' %}" alt="Icono">
+            </button>
+        </div>
+        <div id="divHideParamsCafe_2" hidden>
+            <button id="hideParamsCafe_2" class="css-button-eye" onclick="hideParams_2()">
+                <img src="{% static 'images/eye-off.svg' %}" alt="Icono">
+            </button>
+        </div>
+      </div>
+      <div id="divParamsCafe_2" class="computer_text_main flex-column" style="margin-top: 10px; margin-bottom: 10px; width: 210px;" hidden>
+        <table style="width: 100%;">
+          <tr>
+            <th>Config.</th>
+            <th>Option</th>
+          </tr>
+          <tr>
+            <td>Op. Voltage :</td>
+            <td>{{opVoltage_coil_2}}</td>
+          </tr>
+          <tr>
+            <td>Pulse Width :</td>
+            <td>{{def_widthTime_coil_2}}</td>
+          </tr>
+          <!-- Agrega más filas según sea necesario -->
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="imagen-grande-container">
+  <img id="img_coil_close_2" class="imagen-grande" style="max-height: 400px;" src="{% static 'images/closeNew.png' %}">
+  <img id="img_coil_open_2" class="imagen-grande" style="max-height: 400px;"  src="{% static 'images/openNew.png' %}" hidden>
+</div>
+
+<div class="computer_text_main">
+
+  <div class="row justify-content-center align-items-center">
+    <div class="computer_text_main" style="padding: 5px; max-width: 540px;">
+      <div id="ddAuto_manual_coil_2" class="dropdown" style="width: 115px; margin-right: 5px;">
+        <select id="drive_2" class="form-select custom-bg-color" style="border-width: 3px; border-color: #143a51;">
+          <option value="auto">Auto</option>
+          <option value="manual">Manual</option>
+        </select>
+      </div> 
+    </div>
+
+    <div id="divButtons_coil_2" class="computer_text_main" style="width: auto; ">
+        <div id="divStart_2"><button id="bStart_2" class="css-button-show" onclick="start_2()">Start</button></div>
+        <div id="divStop_2"><button id="bStop_2" class="css-button-show" onclick="stop_2()">Stop</button></div>
+        <div id="divOpen_2" hidden="hidden"><button id="bOpen_2" class="css-button-show" onclick="openn_2()">Open</button></div>
+        <div id="divClose_2" hidden="hidden"><button id="bClose_2" class="css-button-show" onclick="closee_2()">Close</button></div>
+    </div>
+  </div>
+
+</div>
+<script>
+    var ddDrive_2 = document.getElementById('drive_2');
+    var divStart_2 = document.getElementById('divStart_2');
+    var divStop_2 = document.getElementById('divStop_2');
+    var divOpen_2 = document.getElementById('divOpen_2')
+    var divClose_2 = document.getElementById('divClose_2')
+    var ddAuto_manual_coil_2 = document.getElementById('ddAuto_manual_coil_2')
+    var divButtons_coil_2 = document.getElementById('divButtons_coil_2')
+  
+    var modo_coil_2 = document.getElementById('modo_coil_2');
+  
+    var bStart_2 = document.getElementById('bStart_2');
+    var bStop_2 = document.getElementById('bStop_2');
+    var bOpen_2 = document.getElementById('bOpen_2');
+    var bClose_2 = document.getElementById('bClose_2');
+  
+    var img_coil_close_2 = document.getElementById('img_coil_close_2');
+    var img_coil_open_2 = document.getElementById('img_coil_open_2');
+  
+   ddDrive_2.addEventListener('change', function() 
+    {
+        const selectedOption_2 = this.value;
+        if (selectedOption_2 == 'auto')
+        {
+          divStart_2.removeAttribute("hidden");
+          divStop_2.removeAttribute("hidden");
+          divOpen_2.setAttribute("hidden", "hidden");
+          divClose_2.setAttribute("hidden", "hidden");
+        }
+        else if (selectedOption_2 == 'manual')
+        {
+          divOpen_2.removeAttribute("hidden");
+          divClose_2.removeAttribute("hidden");
+          divStop_2.setAttribute("hidden", "hidden");
+          divStart_2.setAttribute("hidden", "hidden");
+        }
+  
+        bStart_2.disabled = false;
+        bStop_2.disabled = false;
+        bOpen_2.disabled = false;
+        bClose_2.disabled = false;
+  
+        bStart_2.style.backgroundColor = "#143a51";
+        bStop_2.style.backgroundColor = "#143a51";
+        bOpen_2.style.backgroundColor = "#143a51";
+        bClose_2.style.backgroundColor = "#143a51";
+  
+        bStart_2.style.fontSize = "14px";
+        bStop_2.style.fontSize = "14px";
+        bOpen_2.style.fontSize = "14px";
+        bClose_2.style.fontSize = "14px";
+    });
+  
+    function readToCoil_2() {
+            $.ajax({
+                url: '/show_read_coil_2/',
+                success: function (data) {
+                   var posCoil_2 = data.data1;
+                   var i_coil_close_2 = document.getElementById('img_coil_close_2');
+                   var i_coil_open_2 = document.getElementById('img_coil_open_2');
+  
+                   if (posCoil_2 == 'open')
+                   {
+                    i_coil_close_2.setAttribute("hidden", "hidden");
+                    i_coil_open_2.removeAttribute("hidden");
+                   }
+                   else if (posCoil_2 == 'close')
+                   {
+                    i_coil_open_2.setAttribute("hidden", "hidden");
+                    i_coil_close_2.removeAttribute("hidden"); 
+                   }
+                }
+            });
+      }
+  
+    function start_2() {
+          $.ajax({
+              url: '/show_start_coil_2/',
+              success: function (data) {
+              }
+          });
+          intervalId_2 = setInterval(readToCoil_2, 200);
+          bStart_2.disabled = true;
+          bStart_2.style.backgroundColor = "#6f6e6e";
+          bStart_2.style.fontSize = "12px";
+          bStop_2.disabled = false;
+          bStop_2.style.backgroundColor = "#143a51";
+          bStop_2.style.fontSize = "16px";
+      }
+  
+    function stop_2() {
+          $.ajax({
+              url: '/show_stop_coil_2/',
+              success: function (data) {
+              }
+          });
+          clearInterval(intervalId_2);
+          bStart_2.disabled = false;
+          bStart_2.style.backgroundColor = "#143a51";
+          bStart_2.style.fontSize = "16px";
+          bStop_2.disabled = true;
+          bStop_2.style.backgroundColor = "#6f6e6e";
+          bStop_2.style.fontSize = "12px";
+      }
+  
+    function openn_2() {
+          $.ajax({
+              url: '/show_open_coil_2/',
+              success: function (data) {
+              }
+          });
+          img_coil_open_2.removeAttribute("hidden");
+          img_coil_close_2.setAttribute("hidden", "hidden");
+          bOpen_2.disabled = true;
+          bOpen_2.style.backgroundColor = "#6f6e6e";
+          bOpen_2.style.fontSize = "12px";
+          bClose_2.disabled = false;
+          bClose_2.style.backgroundColor = "#143a51";
+          bClose_2.style.fontSize = "16px"; 
+      }
+  
+    function closee_2() {
+          $.ajax({
+              url: '/show_close_coil_2/',
+              success: function (data) {
+              }
+          });
+          img_coil_close_2.removeAttribute("hidden");
+          img_coil_open_2.setAttribute("hidden", "hidden");
+          bClose_2.disabled = true;
+          bClose_2.style.backgroundColor = "#6f6e6e";
+          bClose_2.style.fontSize = "12px";
+          bOpen_2.disabled = false;
+          bOpen_2.style.backgroundColor = "#143a51";
+          bOpen_2.style.fontSize = "16px"; 
+      }
+  
+  function showParams_2() {
+      divParamsCafe_2.removeAttribute("hidden");
+      divShowParamsCafe_2.setAttribute("hidden", "hidden");
+      divHideParamsCafe_2.removeAttribute("hidden");
+  }
+
+  function hideParams_2() {
+      divParamsCafe_2.setAttribute("hidden", "hidden");
+      divHideParamsCafe_2.setAttribute("hidden", "hidden");
+      divShowParamsCafe_2.removeAttribute("hidden");
+  }
+  </script>

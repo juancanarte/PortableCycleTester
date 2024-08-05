@@ -1,0 +1,88 @@
+{% extends 'Proyecto_PCT/templates/menu.html' %}
+
+{% load static %}
+
+{% block content %}
+<!-- Modal -->
+<dialog id="modalTurnOff_all" style="z-index: 9999;">
+  <h2>Turn OFF all devices?</h2>
+  <br>
+  <button class="css-button-eye" style="margin-right: 10px; border-radius: 0%; width:80px;" onclick="powerOff_all()">
+    Ok
+  </button>
+  <button class="css-button-eye" style="margin-right: 10px; border-radius: 0%; width:80px;" onclick="window.modalTurnOff_all.close();">
+    Cancel
+  </button>
+</dialog>
+
+  <div class="row" id="showView">
+    <div class="computers_section layout_padding">
+      <div class="container">
+         <h1 class="computers_taital">{{mode}}</h1>
+      </div>
+    </div>
+    
+    {% if cant_duts == 1 %}
+    <div class="container" style="margin-bottom: 30px;">
+      <div class="row">
+        <div class="col-sm">
+          {% include temp_alone_dut %}
+        </div>
+      </div>
+    </div>
+    {% elif cant_duts == 2 %}
+    <div class="container d-flex justify-content-center" style="margin-bottom: 30px;">
+      <div class="row">
+        <div class="col-sm">
+          {% include temp_dut_1 %}
+        </div>
+        <div class="col-sm">
+          {% include temp_dut_2 %}
+        </div>
+      </div>
+    </div>
+  
+    {% endif %}
+    <div class="col-md-6 d-flex justify-content-center align-items-center w-100">
+      <button type="submit" onclick="window.modalTurnOff_all.show()"; class="css-button-sharp--blue">Back</button>
+    </div>
+  </div>
+
+
+<script>
+function powerOff_all() {
+    window.modalTurnOff_all.close();
+    showFuncs();
+  }
+
+  function showFuncs() {
+        stopHilos();
+        backPage();
+        //turn_off_all();
+      }
+      
+  function stopHilos()
+  {
+    $.ajax({
+              url: '/stop/',
+              success: function (data) {
+              }
+          });
+  }
+  function turn_off_all()
+  {
+    $.ajax({
+              url: '/turn_off_all/',
+              success: function (data) {
+              }
+          });
+  }
+
+  function backPage()
+  {
+    history.back();
+  }
+</script>
+
+
+{% endblock %}

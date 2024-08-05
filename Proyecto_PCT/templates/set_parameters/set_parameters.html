@@ -1,0 +1,94 @@
+{% extends 'Proyecto_PCT/templates/menu.html' %}
+
+{% load static %}
+
+{% block content %}
+  <div class="col-md-6 d-flex justify-content-center align-items-center w-100">
+    <h1 class="computers_taital">SET PARAMETERS</h1>
+    <!-- truco -->
+    <h2 id="modo" hidden>{{mode}}</h2>
+  </div>
+  {% if cant_duts == 1 %}
+  <div class="col-md-12 d-flex justify-content-center align-items-center w-100">
+    <div class="row flex-column justify-content-center align-items-center" style="width:335px;">
+      <div class="d-flex justify-content-center align-items-center">
+        <h3 id="idDutAlone" hidden="hidden">DUT {{ id_dut }}</h3>
+        <h3 id="labelDutAlone" style="margin-left: 10px; opacity: 0.3;" hidden="hidden">{{ name_alone_dut }}</h3>
+
+        <div class="container computers_taital_2">
+          <div class="row justify-content-center align-items-center">
+            <div class="col-sm" style="width: auto; text-align: right;">
+              <h3 class="subtitulo" style="padding-top: 0px;">DUT {{ id_dut }} - {{ name_alone_dut }}</h3>
+            </div>
+          </div>
+        </div>
+
+      </div>
+  
+      <div class="col-md-12 d-flex justify-content-center align-items-center mx-0 px-0">
+        {% include temp_alone_dut %}
+      </div>
+    </div>
+  </div>
+  {% elif cant_duts == 2 %}
+  <div class="col-md-12 d-flex justify-content-center align-items-center w-100" style="padding: 0;">
+    <div class="container" style="padding: 0;max-width: 800px;">
+      <div class="row">
+        <div class="col-sm-6 d-flex justify-content-center align-items-center" style="padding: 0; height: fit-content;">
+          <div class="row flex-column justify-content-center align-items-center w-100">
+            <!-- truco -->
+            <h3 id="LabelDut1" style="margin-left: 10px; opacity: 0.3;" hidden="hidden">{{ dut1 }}</h3>
+
+            <div class="container computers_taital_2">
+              <div class="row justify-content-center align-items-center">
+                <div class="col-sm" style="width: auto; text-align: right;">
+                  <h3 class="subtitulo">DUT 1 - {{ dut1 }}</h3>
+                </div>
+              </div>
+            </div>
+
+
+            <div id="divParamsDut1" class="col-md-12 d-flex justify-content-center align-items-center mx-0 px-0">
+              {% include temp_dut_1 %}             
+            </div>
+
+          </div>
+        </div>
+        <div class="col-sm-6 d-flex justify-content-center align-items-center" style="padding: 0; height: fit-content;">
+          <div class="row flex-column justify-content-center align-items-center w-100">
+            <h3 id="LabelDut2" style="margin-left: 10px; opacity: 0.3;" hidden="hidden">{{ dut2 }}</h3>
+
+            <div class="container computers_taital_2">
+              <div class="row justify-content-center align-items-center">
+                <div class="col-sm" style="width: auto; text-align: right;">
+                  <h3 class="subtitulo">DUT 2 - {{ dut2 }}</h3>
+                </div>
+              </div>
+            </div>
+  
+            <div id="divParamsDut2" class="col-md-12 d-flex justify-content-center align-items-center mx-0" style="padding-left: 0;">
+              {% include temp_dut_2 %}           
+            </div>
+          </div>
+        </div>
+        </div>
+      </div>
+    </div>    
+  </div>
+  {% endif %}
+  <div class="container d-flex justify-content-center align-items-center" style="margin-top: 20px; max-width: 380px;">
+    <div class="d-flex" style="margin-top: 20px;">
+
+
+        <button type="submit" onclick="history.back()" class="css-button-sharp--blue" style="margin-right: 30px;">Back</button>
+
+        <form method="POST" action="{% url 'Set_parameter' mode=mode %}">
+        {% csrf_token %}
+            <button id="nextSetParameters" type="submit" class="css-button-sharp--blue" style="margin-left: 30px;" name="SetParameters" value="Show">Next</button>
+        </form>
+
+    </div>
+  </div>
+
+<script src="{% static 'scripts/set_parameters.js' %}"></script>
+{% endblock %}

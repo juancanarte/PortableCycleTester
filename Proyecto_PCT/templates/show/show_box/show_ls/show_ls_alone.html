@@ -1,0 +1,184 @@
+{% load static %}
+<div class="container">
+  <div class="row justify-content-center align-items-center">
+    <div class="col-sm">
+      <div class="computer_text_main" style="margin-top: 10px; margin-bottom: 10px;">
+        <h3 class="subtitulo" style="width: auto; padding: 0;">LIMIT SWITCH</h3>
+        <div id="divShowParamsCafe_a">
+            <button id="showParamsCafe_a" class="css-button-eye" onclick="showParams_a()">
+                <img src="{% static 'images/eye.svg' %}" alt="Icono">
+            </button>
+        </div>
+        <div id="divHideParamsCafe_a" hidden>
+            <button id="hideParamsCafe_a" class="css-button-eye" onclick="hideParams_a()">
+                <img src="{% static 'images/eye-off.svg' %}" alt="Icono">
+            </button>
+        </div>
+      </div>
+
+      <div id="divParamsCafe_a" class="computer_text_main flex-column" style="margin-top: 10px; margin-bottom: 10px; width: 210px;" hidden>
+        <table style="width: 100%;">
+            <tr>
+              <th>Config.</th>
+              <th>Option</th>
+            </tr>
+            <tr>
+              <td>Op. Voltage :</td>
+              <td class="tabla-parametros">{{params_ls_a}}</td>
+            </tr>
+            <!-- Agrega más filas según sea necesario -->
+          </table>
+      </div>
+    </div>
+  </div>
+</div> 
+
+<div class="computer_text_main">
+
+    <div class="row justify-content-center align-items-center">
+
+      <div class="imagen-grande-container">
+        <img id="On_ls_a" class="imagen-grande" style="max-height: 400px;" src="{% static 'images/LimitSwichL.png' %}">
+        <img id="Off_ls_a" class="imagen-grande" style="max-height: 400px;"  src="{% static 'images/LimitSwichR.png' %}" hidden>
+      </div>
+
+      <div class="computer_text_main" style="padding: 5px; max-width: 540px;">
+        <button id="powerOn_ls_a" class="css-button-eye" style="margin-right: 10px; border-radius: 0%; min-width:80px;" onclick="turnOnLs_a()">
+          ON
+          <img src="{% static 'images/on.svg' %}" alt="Icono">
+        </button> 
+  
+        <button id="powerOff_ls_a" class="css-button-eye" style="margin-right: 10px; border-radius: 0%; min-width:80px;" onclick="turnOffLs_a()" hidden>
+          OFF
+          <img src="{% static 'images/off.svg' %}" alt="Icono">
+        </button>
+      </div>
+
+    </div>
+  
+  </div>
+<script>
+var divParamsCafe_a = document.getElementById('divParamsCafe_a');
+var divShowParamsCafe_a = document.getElementById('divShowParamsCafe_a');
+var divHideParamsCafe_a = document.getElementById('divHideParamsCafe_a');
+
+var powerOn_ls_a = document.getElementById('powerOn_ls_a');
+var powerOff_ls_a = document.getElementById('powerOff_ls_a');
+
+var On_ls_a = document.getElementById('On_ls_a');
+var Off_ls_a = document.getElementById('Off_ls_a');
+
+function iniciarConexion()
+{
+  socket = new WebSocket("ws://" + window.location.host + "/ws/sh_read_lm_a/");
+  socket.onmessage = function(event){
+    var data = JSON.parse(event.data);
+    if (data.state == "open")
+    {
+      On_ls_a.removeAttribute("hidden");
+      Off_ls_a.setAttribute("hidden", "hidden");
+    }
+    else if (data.state == "close")
+    {
+      On_ls_a.setAttribute("hidden", "hidden");
+      Off_ls_a.removeAttribute("hidden");
+    }
+    /*
+    else if (data.state == "tran")
+    {
+      On_ls_a.setAttribute("hidden", "hidden");
+      Off_ls_a.setAttribute("hidden", "hidden");
+    }
+    */
+  }
+}
+
+function detenerConexion() {
+  socket.send(JSON.stringify({
+    'message':'stop'
+  }))
+}
+
+function leerSensor() {
+  socket.send(JSON.stringify({
+    'message':'start'
+  }))
+}
+
+function showParams_a() {
+    divParamsCafe_a.removeAttribute("hidden");
+    divShowParamsCafe_a.setAttribute("hidden", "hidden");
+    divHideParamsCafe_a.removeAttribute("hidden");
+}
+
+function hideParams_a() {
+    divParamsCafe_a.setAttribute("hidden", "hidden");
+    divHideParamsCafe_a.setAttribute("hidden", "hidden");
+    divShowParamsCafe_a.removeAttribute("hidden");
+}
+
+function turnOnLs_a(){
+        iniciarConexion();
+        setTimeout(leerSensor, 200);
+        powerOn_ls_a.setAttribute("hidden", "hidden");
+        powerOff_ls_a.removeAttribute("hidden");
+    }
+
+function turnOffLs_a(){
+    $.ajax({
+            url: '/turnOff_ls_alone/',
+            success: function (data) {
+                
+            }
+        });
+        detenerConexion();
+        powerOn_ls_a.removeAttribute("hidden");
+        powerOff_ls_a.setAttribute("hidden", "hidden");
+    }
+
+function readToLs() {
+          $.ajax({
+              url: '/show_read_ls_alone/',
+              success: function (data) {
+                 var ledG = data.status_G;
+                 var ledY = data.status_Y;
+                 var ledR = data.status_R;
+
+                 var show_ls_1_a = document.getElementById('show_ls_1_a');
+                 var show_ls_2_a = document.getElementById('show_ls_2_a');
+                 var show_ls_3_a = document.getElementById('show_ls_3_a');
+                 var show_ls_4_a = document.getElementById('show_ls_4_a');
+
+                 if (ledG == 1)
+                 {
+                    show_ls_1_a.style.backgroundColor = "#00ff00";
+                 }
+                 else
+                 {
+                    show_ls_1_a.style.backgroundColor = "#006c00";
+                 }
+
+                 if (ledY == 1)
+                 {
+                    show_ls_2_a.style.backgroundColor = "#ffff00";
+                    show_ls_3_a.style.backgroundColor = "#ffff00";
+                 }
+                 else
+                 {
+                    show_ls_2_a.style.backgroundColor = "#7e6f00";
+                    show_ls_3_a.style.backgroundColor = "#7e6f00";
+                 }
+
+                 if (ledR == 1)
+                 {
+                    show_ls_4_a.style.backgroundColor = "#ff0000";
+                 }
+                 else
+                 {
+                    show_ls_4_a.style.backgroundColor = "#7f0000";
+                 }
+              }
+          });
+    }
+
+</script>

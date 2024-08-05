@@ -1,0 +1,1 @@
+{"pctMode": "Show", "signalType_1": "sawSignal", "widthTime_1": "1Sec", "widthTime_coil_1": "1Sec", "opVoltage_ls_1": "24vdc", "signalType_2": "scaleSignal", "widthTime_2": "1Sec", "widthTime_coil_2": "1Sec", "opVoltage_ls_2": "24vdc"}

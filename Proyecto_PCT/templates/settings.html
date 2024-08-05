@@ -1,0 +1,409 @@
+{% extends 'Proyecto_PCT/templates/menu.html' %}\
+{% load static %}
+{% block content %}
+
+<div class="container">
+    <div class="row justify-content-center align-items-center">
+      <div class="col-sm">
+        <h3 class="computers_taital">SHOW DEFAULT SETTINGS</h3>
+      </div>
+    </div>
+</div>
+
+<div class="row justify-content-center align-items-flex-start">
+    <div class="row justify-content-center align-items-flex-start" style="max-width: 300px; padding: 0;">
+        <h3 class="subtitulo" style="font-size: 25px;">DUT 1</h3>
+
+        <div style="border-style: solid; width: auto;">
+            <div style="width: 226px;">
+                <h3 class="subtitulo" style="font-size: 18px;">CAFE</h3>
+                <table style="width: 100%;">
+                    <tr>
+                      <th>Config.</th>
+                      <th>Option</th>
+                    </tr>
+                    <tr>
+                        <td>Signal Type :</td>
+                        <td>{{cafe_1_signal_type}}</td>
+                    </tr>
+                    <tr>
+                        <td>Pulse width :</td>
+                        <td>{{cafe_1_width_time}}</td>
+                    </tr>
+                  </table>
+            </div>
+        
+            <div style="width: 226px;">
+                <h3 class="subtitulo" style="font-size: 18px;">COIL</h3>
+                <table style="width: 100%;">
+                    <tr>
+                      <th>Config.</th>
+                      <th>Option</th>
+                    </tr>
+                    <tr>
+                        <td>Width Time :</td>
+                        <td>{{coil_1_width_time}}</td>
+                    </tr>
+                  </table>
+            </div>
+    
+            <div style="width: 226px;">
+                <h3 class="subtitulo" style="font-size: 18px;">LIMIT SWITCH</h3>
+                <table style="width: 100%;">
+                    <tr>
+                        <th>Config.</th>
+                        <th>Option</th>
+                      </tr>
+                      <tr>
+                        <td>Oper. Volt :</td>
+                        <td>{{ls_1_op_voltage}}</td>
+                      </tr>
+                  </table>
+            </div>
+        </div>
+        
+    </div>
+
+    <div class="row justify-content-center align-items-flex-start" style="max-width: 300px; padding: 0;">
+        <h3 class="subtitulo" style="font-size: 25px;">DUT 2</h3>
+
+        <div style="border-style: solid; width: auto;">
+            <div style="max-width: 226px;">
+                <h3 class="subtitulo" style="font-size: 18px;">CAFE</h3>
+                <table style="width: 100%;">
+                    <tr>
+                      <th style="width: auto;">Config.</th>
+                      <th>Option</th>
+                    </tr>
+                    <tr>
+                        <td>Signal Type :</td>
+                        <td>{{cafe_2_signal_type}}</td>
+                    </tr>
+                    <tr>
+                        <td>Pulse width :</td>
+                        <td>{{cafe_2_width_time}}</td>
+                    </tr>
+                  </table>
+            </div>
+        
+            <div style="max-width: 226px;">
+                <h3 class="subtitulo" style="font-size: 18px;">COIL</h3>
+                <table style="width: 100%;">
+                    <tr>
+                      <th>Config.</th>
+                      <th>Option</th>
+                    </tr>
+                    <tr>
+                        <td>Width Time :</td>
+                        <td>{{coil_2_width_time}}</td>
+                    </tr>
+                  </table>
+            </div>
+    
+            <div style="max-width: 226px;">
+                <h3 class="subtitulo" style="font-size: 18px;">LIMIT SWITCH</h3>
+                <table style="width: 100%;">
+                    <tr>
+                        <th>Config.</th>
+                        <th>Option</th>
+                      </tr>
+                      <tr>
+                        <td>Oper. Volt :</td>
+                        <td>{{ls_2_op_voltage}}</td>
+                      </tr>
+                  </table>
+            </div>
+        </div>    
+
+    </div>
+
+</div>
+
+<div class="computer_text_main" style="margin-top: 10px;">
+    <h1 style="width: auto;">Password :</h1>
+    <input type="password" id="logIn_password" style="width: 100px; margin-left: 5px;">
+    <button id="logIn_defSet" class="css-button-eye" style="min-width: 40px; border-radius: 10%;">
+        <img src="{% static 'images/log-in.svg' %}" alt="Icono">
+    </button>
+</div>
+<div id="divDefaultTot" class="row flex-column computer_text_main" style="width: auto;" hidden>
+    <div class="computer_text_main" style="margin-top: 10px; width: auto;">
+        <h3 style="margin-right: 10px;">PCT Mode :</h3>
+        <div class="dropdown">
+            <select id="pctMode" class="form-select">
+              <option value="Show">Show</option>
+              <option value="Cycle test">Cycle Test</option>
+            </select>
+        </div>
+    </div>
+</div>
+<div class="container">
+    <div id="divDefaultSettings" class="row justify-content-center align-items-flex-center" hidden>
+        <div class="row justify-content-center align-items-flex-center" style="width: 390px; height: fit-content;">
+            <h3 class="subtitulo" style="font-size: 20px;">DUT 1</h3>
+            <div class="row flex-column computer_text_main" style="width: auto;">
+                <div class="computer_text_main" style="margin-top: 10px; margin-bottom: 10px; width: auto;">
+                    <h3>Cafe default settings</h3>
+                    <button id="showDefSetCafe" class="css-button-chevron" onclick="showSetCafe()">
+                        <img src="{% static 'images/chevron-down.svg' %}" alt="Icono">             
+                    </button>
+                    <button id="hideDefSetCafe" class="css-button-chevron" onclick="hideSetCafe()" hidden>
+                        <img src="{% static 'images/chevron-up.svg' %}" alt="Icono">
+                    </button>
+                </div>
+    
+                <div id="divDefCafe" class="flex-column" style="border-style: solid; width: 337px; padding: 10px;" hidden>
+                    {% include "Proyecto_PCT/templates/set_parameters/set_parameters_box/set_parameters_cafe/cafe_params_1_defSettings.html" %}
+                </div>
+            </div>
+    
+            <div class="row flex-column computer_text_main" style="width: auto;">
+                <div class="computer_text_main" style="margin-top: 10px; margin-bottom: 10px; width: auto;">
+                    <h3>Coil default settings</h3>
+                    <button id="showDefSetCoil" class="css-button-chevron" onclick="showSetCoil()">
+                        <img src="{% static 'images/chevron-down.svg' %}" alt="Icono">
+                    </button>
+                    <button id="hideDefSetCoil" class="css-button-chevron" onclick="hideSetCoil()" hidden>
+                        <img src="{% static 'images/chevron-up.svg' %}" alt="Icono">
+                    </button>
+                </div>
+    
+                <div id="divDefCoil" class="flex-column" style="border-style: solid; max-width: 390px; padding: 10px;" hidden>
+                    {% include "Proyecto_PCT/templates/set_parameters/set_parameters_box/set_parameters_coil/coil_params_1_defSettings.html" %}
+                </div>
+            </div>
+    
+            <div class="row flex-column computer_text_main" style="width: auto;">
+                <div class="computer_text_main" style="margin-top: 10px; margin-bottom: 10px; width: auto;">
+                    <h3 style="width: auto;">Limit Switch default settings</h3>
+                    <button id="showDefSetLs" class="css-button-chevron" onclick="showSetLs()">
+                        <img src="{% static 'images/chevron-down.svg' %}" alt="Icono">
+                    </button>
+                    <button id="hideDefSetLs" class="css-button-chevron" onclick="hideSetLs()" hidden>
+                        <img src="{% static 'images/chevron-up.svg' %}" alt="Icono">
+                    </button>
+                </div>
+    
+                <div id="divDefLs" class="flex-column" style="border-style: solid; max-width: 390px; padding: 10px;" hidden>
+                    {% include "Proyecto_PCT/templates/set_parameters/set_parameters_box/set_parameters_ls/ls_params_1.html" %}
+                </div>
+            </div>
+        </div>
+        <!-- dut 2 --> 
+        <div class="row justify-content-center align-items-flex-center" style="width: 385px; height: fit-content;">
+            <h3 class="subtitulo" style="font-size: 20px;">DUT 2</h3>
+            <div class="row flex-column computer_text_main" style="width: auto;">
+                <div class="computer_text_main" style="margin-top: 10px; margin-bottom: 10px; width: auto;">
+                    <h3>Cafe default settings</h3>
+                    <button id="showDefSetCafe_2" class="css-button-chevron" onclick="showSetCafe_2()">
+                        <img src="{% static 'images/chevron-down.svg' %}" alt="Icono">             
+                    </button>
+                    <button id="hideDefSetCafe_2" class="css-button-chevron" onclick="hideSetCafe_2()" hidden>
+                        <img src="{% static 'images/chevron-up.svg' %}" alt="Icono">
+                    </button>
+                </div>
+    
+                <div id="divDefCafe_2" class="flex-column" style="border-style: solid; width: 337px; padding: 10px;" hidden>
+                    {% include "Proyecto_PCT/templates/set_parameters/set_parameters_box/set_parameters_cafe/cafe_params_2_defSettings.html" %}
+                </div>
+            </div>
+    
+            <div class="row flex-column computer_text_main" style="width: auto;">
+                <div class="computer_text_main" style="margin-top: 10px; margin-bottom: 10px; width: auto;">
+                    <h3>Coil default settings</h3>
+                    <button id="showDefSetCoil_2" class="css-button-chevron" onclick="showSetCoil_2()">
+                        <img src="{% static 'images/chevron-down.svg' %}" alt="Icono">
+                    </button>
+                    <button id="hideDefSetCoil_2" class="css-button-chevron" onclick="hideSetCoil_2()" hidden>
+                        <img src="{% static 'images/chevron-up.svg' %}" alt="Icono">
+                    </button>
+                </div>
+    
+                <div id="divDefCoil_2" class="flex-column" style="border-style: solid; max-width: 390px; padding: 10px;" hidden>
+                    {% include "Proyecto_PCT/templates/set_parameters/set_parameters_box/set_parameters_coil/coil_params_2_defSettings.html" %}
+                </div>
+            </div>
+    
+            <div class="row flex-column computer_text_main" style="width: auto;">
+                <div class="computer_text_main" style="margin-top: 10px; margin-bottom: 10px; width: auto;">
+                    <h3 style="width: auto;">Limit Switch default settings</h3>
+                    <button id="showDefSetLs_2" class="css-button-chevron" onclick="showSetLs_2()">
+                        <img src="{% static 'images/chevron-down.svg' %}" alt="Icono">
+                    </button>
+                    <button id="hideDefSetLs_2" class="css-button-chevron" onclick="hideSetLs_2()" hidden>
+                        <img src="{% static 'images/chevron-up.svg' %}" alt="Icono">
+                    </button>
+                </div>
+    
+                <div id="divDefLs_2" class="flex-column" style="border-style: solid; max-width: 390px; padding: 10px;" hidden>
+                    {% include "Proyecto_PCT/templates/set_parameters/set_parameters_box/set_parameters_ls/ls_params_2.html" %}
+                </div>
+            </div>
+    
+        </div>
+    </div>
+    <div id="buttonSaveDefSettings" class="col-md-6 d-flex justify-content-center align-items-center" style="margin-top: 5px; width: auto;">
+        <form method="POST" action="{% url 'Def_settings' %}">
+          {% csrf_token %}
+          <button id="saveButton" class="css-button-sharp--blue" style="min-width: 70px;" type="submit" name="defSettings" value="defSet" hidden>Save</button>
+        </form>
+    </div>
+</div> 
+
+<div class="container" style="margin-top: 20px;">
+    <div class="row">
+      <div class="col-md-6 d-flex justify-content-center align-items-center" style="margin-top: 5px;">
+        <button id="bBackButtonLogIn" type="submit" class="css-button-sharp--blue">Exit</button>
+      </div>
+    </div>
+</div>
+
+<script>
+
+var ddpctMode = document.getElementById('pctMode');
+ddpctMode.addEventListener('change', function() 
+  {
+      const selectedOption = this.value;
+      if (selectedOption == 'Show')
+      {
+        divDefaultSettings.removeAttribute("hidden");
+      }
+      else if (selectedOption == 'Cycle test')
+      {
+        divDefaultSettings.setAttribute("hidden", "hidden");
+      }
+  });
+
+
+const backButton = document.getElementById('bBackButtonLogIn');
+backButton.addEventListener('click', function() {
+  // Cambia la URL a la vista específica que deseas
+  window.location.href = '/type_of_test/';
+});
+
+var buttonSaveDefSettings = document.getElementById('buttonSaveDefSettings');
+var saveButton = document.getElementById('saveButton');
+var logIn_defSet = document.getElementById('logIn_defSet');
+var divDefaultSettings = document.getElementById('divDefaultSettings');
+var divDefaultTot = document.getElementById('divDefaultTot');
+var logIn_password = document.getElementById('logIn_password');
+//------CAFE 1------//
+var showDefSetCafe = document.getElementById('showDefSetCafe');
+var hideDefSetCafe = document.getElementById('hideDefSetCafe');
+var divDefSetCafe = document.getElementById('divDefCafe');
+//------CAFE 2------//
+var showDefSetCafe_2 = document.getElementById('showDefSetCafe_2');
+var hideDefSetCafe_2 = document.getElementById('hideDefSetCafe_2');
+var divDefSetCafe_2 = document.getElementById('divDefCafe_2');
+//------COIL 1------//
+var showDefSetCoil = document.getElementById('showDefSetCoil');
+var hideDefSetCoil = document.getElementById('hideDefSetCoil');
+var divDefSetCoil = document.getElementById('divDefCoil');
+//------COIL 2------//
+var showDefSetCoil_2 = document.getElementById('showDefSetCoil_2');
+var hideDefSetCoil_2 = document.getElementById('hideDefSetCoil_2');
+var divDefSetCoil_2 = document.getElementById('divDefCoil_2');
+//------L.S. 1------//
+var showDefSetLs = document.getElementById('showDefSetLs');
+var hideDefSetLs = document.getElementById('hideDefSetLs');
+var divDefSetLs = document.getElementById('divDefLs');
+//------L.S. 2------//
+var showDefSetLs_2 = document.getElementById('showDefSetLs_2');
+var hideDefSetLs_2 = document.getElementById('hideDefSetLs_2');
+var divDefSetLs_2 = document.getElementById('divDefLs_2');
+
+//------CAFE 1------//
+function showSetCafe() {
+    showDefSetCafe.setAttribute("hidden", "hidden");
+    hideDefSetCafe.removeAttribute("hidden");
+    divDefSetCafe.removeAttribute("hidden");
+}
+function hideSetCafe() {
+    showDefSetCafe.removeAttribute("hidden");
+    hideDefSetCafe.setAttribute("hidden", "hidden");
+    divDefSetCafe.setAttribute("hidden", "hidden");
+}
+//------CAFE 2------//
+function showSetCafe_2() {
+    showDefSetCafe_2.setAttribute("hidden", "hidden");
+    hideDefSetCafe_2.removeAttribute("hidden");
+    divDefSetCafe_2.removeAttribute("hidden");
+}
+function hideSetCafe_2() {
+    showDefSetCafe_2.removeAttribute("hidden");
+    hideDefSetCafe_2.setAttribute("hidden", "hidden");
+    divDefSetCafe_2.setAttribute("hidden", "hidden");
+}
+//------COIL 1------//
+function showSetCoil() {
+    showDefSetCoil.setAttribute("hidden", "hidden");
+    hideDefSetCoil.removeAttribute("hidden");
+    divDefSetCoil.removeAttribute("hidden");
+}
+function hideSetCoil() {
+    showDefSetCoil.removeAttribute("hidden");
+    hideDefSetCoil.setAttribute("hidden", "hidden");
+    divDefSetCoil.setAttribute("hidden", "hidden");
+}
+//------COIL 2------//
+function showSetCoil_2() {
+    showDefSetCoil_2.setAttribute("hidden", "hidden");
+    hideDefSetCoil_2.removeAttribute("hidden");
+    divDefSetCoil_2.removeAttribute("hidden");
+}
+function hideSetCoil_2() {
+    showDefSetCoil_2.removeAttribute("hidden");
+    hideDefSetCoil_2.setAttribute("hidden", "hidden");
+    divDefSetCoil_2.setAttribute("hidden", "hidden");
+}
+//------L.S. 1------//
+function showSetLs() {
+    showDefSetLs.setAttribute("hidden", "hidden");
+    hideDefSetLs.removeAttribute("hidden");
+    divDefSetLs.removeAttribute("hidden");
+}
+function hideSetLs() {
+    showDefSetLs.removeAttribute("hidden");
+    hideDefSetLs.setAttribute("hidden", "hidden");
+    divDefSetLs.setAttribute("hidden", "hidden");
+}
+//------L.S. 2------//
+function showSetLs_2() {
+    showDefSetLs_2.setAttribute("hidden", "hidden");
+    hideDefSetLs_2.removeAttribute("hidden");
+    divDefSetLs_2.removeAttribute("hidden");
+}
+function hideSetLs_2() {
+    showDefSetLs_2.removeAttribute("hidden");
+    hideDefSetLs_2.setAttribute("hidden", "hidden");
+    divDefSetLs_2.setAttribute("hidden", "hidden");
+}
+
+  // Agregar un evento al hacer clic en el botón de enviar
+  saveButton.addEventListener('click', function() {
+    const dropdownsParams = document.querySelectorAll('.form-select');
+    const defSettings = Array(8);
+
+    for (let j = 0; j < dropdownsParams.length; j++)
+    {
+        var label = dropdownsParams[j].value;
+        var optionD = dropdownsParams[j].id;
+        defSettings[j] = label + '|' + optionD;                   //Asignado desde la posicion 4 en adelante
+    }
+
+    // Asignar el string al parámetro value del botón
+    saveButton.value = defSettings;
+  });
+    
+    logIn_defSet.addEventListener('click', function() {
+        if (logIn_password.value == 'pompct')
+        {
+            divDefaultSettings.removeAttribute("hidden");
+            divDefaultTot.removeAttribute("hidden");saveButton
+            saveButton.removeAttribute("hidden");
+        }
+    });
+
+</script>
+
+{% endblock %}

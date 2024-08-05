@@ -1,0 +1,30 @@
+{% load static %}
+<!-- base.html -->
+<head>
+  <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+  <script src="{% static 'js/bootstrap.min.js' %}"></script>
+  <script src="{% static 'js/code.jquery.com_jquery-3.7.0.min.js' %}"></script>
+  
+</head>
+
+<!-- base.html -->
+<body>
+
+  <h1>Ejemplo de jQuery</h1>
+
+  <button id="myButton">Haz clic</button>
+
+  <div id="message"></div>
+
+  <script>
+      // Esperar a que el documento esté listo
+      $(document).ready(function() {
+          // Asociar un evento de clic al botón
+          $("#myButton").click(function() {
+              // Actualizar el contenido del elemento 'message'
+              $("#message").text("¡Hiciste clic en el botón!");
+          });
+      });
+  </script>
+  </body>
+

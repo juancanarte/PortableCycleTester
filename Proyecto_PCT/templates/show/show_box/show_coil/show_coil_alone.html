@@ -1,0 +1,220 @@
+{% load static %}
+{% csrf_token %}
+<div class="container">
+  <div class="row justify-content-center align-items-center">
+    <div class="col-sm">
+      <div class="computer_text_main" style="margin-top: 10px; margin-bottom: 10px;">
+        <h3 class="subtitulo" style="width: auto; padding: 0;">COIL - {{opVoltage_coil_a}}</h3>
+        <div id="divShowParamsCafe_a">
+            <button id="showParamsCafe_a" class="css-button-eye" onclick="showParams_a()">
+                <img src="{% static 'images/eye.svg' %}" alt="Icono">
+            </button>
+        </div>
+        <div id="divHideParamsCafe_a" hidden>
+            <button id="hideParamsCafe_a" class="css-button-eye" onclick="hideParams_a()">
+                <img src="{% static 'images/eye-off.svg' %}" alt="Icono">
+            </button>
+        </div>
+      </div>
+
+      <div id="divParamsCafe_a" class="computer_text_main flex-column" style="margin-top: 10px; margin-bottom: 10px; width: 210px;" hidden>
+        <table style="width: 100%;">
+            <tr>
+              <th>Config.</th>
+              <th>Option</th>
+            </tr>
+            <tr>
+              <td>Op. Voltage :</td>
+              <td class="tabla-parametros">{{opVoltage_coil_a}}</td>
+            </tr>
+            <tr>
+              <td>Pulse Width :</td>
+              <td>{{def_widthTime_coil_a}}</td>
+            </tr>
+            <!-- Agrega más filas según sea necesario -->
+          </table>
+      </div>
+    </div>
+  </div>
+</div> 
+
+<div class="imagen-grande-container">
+  <img id="img_coil_close_a" class="imagen-grande" style="max-height: 400px;" src="{% static 'images/closeNew.png' %}">
+  <img id="img_coil_open_a" class="imagen-grande" style="max-height: 400px;"  src="{% static 'images/openNew.png' %}" hidden>
+</div>
+
+<div class="computer_text_main">
+
+  <div class="row justify-content-center align-items-center">
+    <div class="computer_text_main" style="padding: 5px; max-width: 540px;">
+      <div id="ddAuto_manual_coil_a" class="dropdown" style="width: 115px; margin-right: 5px;">
+        <select id="drive_a" class="form-select custom-bg-color" style="border-width: 3px; border-color: #143a51;">
+          <option value="auto">Auto</option>
+          <option value="manual">Manual</option>
+        </select>
+      </div> 
+    </div>
+
+    <div id="divButtons_coil_a" class="computer_text_main" style="width: auto; ">
+        <div id="divStart_a"><button id="bStart_a" class="css-button-show" onclick="start()">Start</button></div>
+        <div id="divStop_a"><button id="bStop_a" class="css-button-show" onclick="stop()">Stop</button></div>
+        <div id="divOpen_a" hidden="hidden"><button id="bOpen_a" class="css-button-show" onclick="openn()">Open</button></div>
+        <div id="divClose_a" hidden="hidden"><button id="bClose_a" class="css-button-show" onclick="closee()">Close</button></div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+  var divParamsCafe_a = document.getElementById('divParamsCafe_a');
+  var divShowParamsCafe_a = document.getElementById('divShowParamsCafe_a');
+  var divHideParamsCafe_a = document.getElementById('divHideParamsCafe_a');
+
+  var ddDrive_a = document.getElementById('drive_a');
+  var divStart_a = document.getElementById('divStart_a');
+  var divStop_a = document.getElementById('divStop_a');
+  var divOpen_a = document.getElementById('divOpen_a')
+  var divClose_a = document.getElementById('divClose_a')
+  var ddAuto_manual_coil_a = document.getElementById('ddAuto_manual_coil_a')
+  var divButtons_coil_a = document.getElementById('divButtons_coil_a')
+
+  var modo_coil_a = document.getElementById('modo_coil_a');
+
+  var bStart_a = document.getElementById('bStart_a');
+  var bStop_a = document.getElementById('bStop_a');
+  var bOpen_a = document.getElementById('bOpen_a');
+  var bClose_a = document.getElementById('bClose_a');
+
+  var img_coil_close_a = document.getElementById('img_coil_close_a');
+  var img_coil_open_a = document.getElementById('img_coil_open_a');
+
+ ddDrive_a.addEventListener('change', function() 
+  {
+      const selectedOption = this.value;
+      if (selectedOption == 'auto')
+      {
+        divStart_a.removeAttribute("hidden");
+        divStop_a.removeAttribute("hidden");
+        divOpen_a.setAttribute("hidden", "hidden");
+        divClose_a.setAttribute("hidden", "hidden");
+      }
+      else if (selectedOption == 'manual')
+      {
+        divOpen_a.removeAttribute("hidden");
+        divClose_a.removeAttribute("hidden");
+        divStop_a.setAttribute("hidden", "hidden");
+        divStart_a.setAttribute("hidden", "hidden");
+      }
+
+      bStart_a.disabled = false;
+      bStop_a.disabled = false;
+      bOpen_a.disabled = false;
+      bClose_a.disabled = false;
+
+      bStart_a.style.backgroundColor = "#143a51";
+      bStop_a.style.backgroundColor = "#143a51";
+      bOpen_a.style.backgroundColor = "#143a51";
+      bClose_a.style.backgroundColor = "#143a51";
+
+      bStart_a.style.fontSize = "14px";
+      bStop_a.style.fontSize = "14px";
+      bOpen_a.style.fontSize = "14px";
+      bClose_a.style.fontSize = "14px";
+  });
+
+  function readToCoil() {
+          $.ajax({
+              url: '/show_read_coil_alone/',
+              success: function (data) {
+                 var posCoil_a = data.data1;
+                 var i_coil_close_a = document.getElementById('img_coil_close_a');
+                 var i_coil_open_a = document.getElementById('img_coil_open_a');
+
+                 if (posCoil_a == 'open')
+                 {
+                  i_coil_close_a.setAttribute("hidden", "hidden");
+                  i_coil_open_a.removeAttribute("hidden");
+                 }
+                 else if (posCoil_a == 'close')
+                 {
+                  i_coil_open_a.setAttribute("hidden", "hidden");
+                  i_coil_close_a.removeAttribute("hidden"); 
+                 }
+              }
+          });
+    }
+
+  function start() {
+        $.ajax({
+            url: '/show_start_coil_alone/',
+            success: function (data) {
+            }
+        });
+        intervalId_a = setInterval(readToCoil, 200);
+        bStart_a.disabled = true;
+        bStart_a.style.backgroundColor = "#6f6e6e";
+        bStart_a.style.fontSize = "12px";
+        bStop_a.disabled = false;
+        bStop_a.style.backgroundColor = "#143a51";
+        bStop_a.style.fontSize = "16px";
+    }
+
+  function stop() {
+        $.ajax({
+            url: '/show_stop_coil_alone/',
+            success: function (data) {
+            }
+        });
+        clearInterval(intervalId_a);
+        bStart_a.disabled = false;
+        bStart_a.style.backgroundColor = "#143a51";
+        bStart_a.style.fontSize = "16px";
+        bStop_a.disabled = true;
+        bStop_a.style.backgroundColor = "#6f6e6e";
+        bStop_a.style.fontSize = "12px";
+    }
+
+  function openn() {
+        $.ajax({
+            url: '/show_open_coil_alone/',
+            success: function (data) {
+            }
+        });
+        img_coil_open_a.removeAttribute("hidden");
+        img_coil_close_a.setAttribute("hidden", "hidden");
+        bOpen_a.disabled = true;
+        bOpen_a.style.backgroundColor = "#6f6e6e";
+        bOpen_a.style.fontSize = "12px";
+        bClose_a.disabled = false;
+        bClose_a.style.backgroundColor = "#143a51";
+        bClose_a.style.fontSize = "16px"; 
+    }
+
+  function closee() {
+        $.ajax({
+            url: '/show_close_coil_alone/',
+            success: function (data) {
+            }
+        });
+        img_coil_close_a.removeAttribute("hidden");
+        img_coil_open_a.setAttribute("hidden", "hidden");
+        bClose_a.disabled = true;
+        bClose_a.style.backgroundColor = "#6f6e6e";
+        bClose_a.style.fontSize = "12px";
+        bOpen_a.disabled = false;
+        bOpen_a.style.backgroundColor = "#143a51";
+        bOpen_a.style.fontSize = "16px"; 
+    }
+
+  function showParams_a() {
+      divParamsCafe_a.removeAttribute("hidden");
+      divShowParamsCafe_a.setAttribute("hidden", "hidden");
+      divHideParamsCafe_a.removeAttribute("hidden");
+  }
+
+  function hideParams_a() {
+      divParamsCafe_a.setAttribute("hidden", "hidden");
+      divHideParamsCafe_a.setAttribute("hidden", "hidden");
+      divShowParamsCafe_a.removeAttribute("hidden");
+  }
+  </script>

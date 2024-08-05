@@ -1,0 +1,218 @@
+{% load static %}
+<!-- base.html -->
+<head>
+  <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+  <script src="{% static 'js/bootstrap.min.js' %}"></script>
+  <script src="{% static 'js/code.jquery.com_jquery-3.7.0.min.js' %}"></script>
+</head>
+
+<body>
+    <h1>Real-Time Sensor Data {{mode}}</h1>
+    <h5>{{params}}</h5>
+
+    <form>
+        <label for="number1">Number 1:</label>
+        <input type="number" id="number1" name="number1">
+
+        <br>
+
+        <label for="number2">Number 2:</label>
+        <input type="number" id="number2" name="number2">
+    </form>
+
+    <button onclick="startSensorData()">Output 1</button>
+    <button onclick="output2()">Output 2</button>
+    <button onclick="output3()">Output 3</button>
+    <button onclick="output4()">Output 4</button>
+
+    <button onclick="stopSensorData()">Detener</button>
+
+    <div id="sensor-data"></div>
+    <div id="send-data"></div>
+    <div>
+        <canvas id="myChart"></canvas> 
+      </div>
+
+</body>
+<script src="{% static 'js/chart.min.js' %}"></script>
+<script>
+
+    var intervalId1 = null;
+    var intervalId2 = null;
+
+    var numeros = []; // Declarar un arreglo vacío
+    var arreglo = Array(100).fill(0);
+    var arreglo2 = Array(100).fill(0);
+    for (var i = 0; i <= 100; i++) {
+    numeros.push(i.toString()); // Convertir el número a string y agregarlo al arreglo
+    }
+
+    var canvas = document.getElementById('myChart');
+    var data = {// www . ja  v a 2s.c  om
+    labels: numeros,
+    datasets: [
+    {
+      label: "My First dataset",
+      fill: false,
+      lineTension: 0.0,
+      backgroundColor: "rgba(75,192,192,0.4)",
+      borderColor: "rgba(75,192,192,1)",
+      borderCapStyle: 'butt',
+      borderDash: [],
+      borderDashOffset: 0.0,
+      borderJoinStyle: 'miter',
+      pointBorderColor: "rgba(75,192,192,1)",
+      pointBackgroundColor: "#fff",
+      pointBorderWidth: 1,
+      pointHoverRadius: 1,
+      pointHoverBackgroundColor: "rgba(75,192,192,1)",
+      pointHoverBorderColor: "rgba(220,220,220,1)",
+      pointHoverBorderWidth: 2,
+      pointRadius: 2,
+      pointHitRadius: 10,
+      data: arreglo,
+    },
+    {
+      label: "My First dataset 2",
+      fill: false,
+      lineTension: 0.0,
+      backgroundColor: "rgba(75,12,192,0.4)",
+      borderColor: "rgba(75,12,192,1)",
+      borderCapStyle: 'butt',
+      borderDash: [],
+      borderDashOffset: 0.0,
+      borderJoinStyle: 'miter',
+      pointBorderColor: "rgba(75,12,192,1)",
+      pointBackgroundColor: "#fff",
+      pointBorderWidth: 1,
+      pointHoverRadius: 1,
+      pointHoverBackgroundColor: "rgba(75,12,192,1)",
+      pointHoverBorderColor: "rgba(220,20,220,1)",
+      pointHoverBorderWidth: 2,
+      pointRadius: 2,
+      pointHitRadius: 10,
+      data: arreglo2,
+    }
+  ]
+};
+
+var zero = 7;
+/*function adddata(){
+  var value = Math.floor((Math.random() * 100) + 1);;
+  myLineChart.data.labels.push(zero);
+  myLineChart.data.labels.splice(0, 1);
+  myLineChart.data.datasets[0].data.splice(0, 1);
+  myLineChart.data.datasets[0].data.push(value);
+  myLineChart.update();
+  zero++;
+}*/
+
+function fetchDataAndRefreshChart() {
+        fetch("{% url 'send_to_sensor' %}")
+            .then(response => response.json())
+            .then(data => {
+                // Actualiza los datos de la gráfica
+                myLineChart.data.datasets[0].data.splice(0, 1);
+                myLineChart.data.datasets[0].data.push(data.data);
+                
+                myLineChart.data.datasets[1].data.splice(0, 1);
+                myLineChart.data.datasets[1].data.push(data.data2);
+                myLineChart.update();
+                });
+
+    }
+
+setInterval(function(){fetchDataAndRefreshChart();},300);
+
+var option = {
+    responsive: true,
+    scales: {
+            y: {
+                suggestedMin: -1,
+                suggestedMax: 1
+            },
+            x: {
+                suggestedMin: 0,
+                suggestedMax: 100,
+                ticks:{
+                    minTicksLimit: 1000,
+                    maxTicksLimit: 1000,
+                    sampleSize:500,
+                }
+            }
+        }
+};
+
+var myLineChart = new Chart(canvas, {
+    type: 'line',
+    data: data,
+    options: option
+  });
+
+    function startSensorData() {
+        //intervalId1 = setInterval(output1, 300);
+        intervalId2 = setInterval(sendToSensor, 300)
+    }
+
+    function getSensorData() {
+        $.ajax({
+            url: '/get_sensor_data/',
+            success: function (data) {
+                $('#sensor-data').text('digital_1');
+            }
+        });
+    }
+
+    function output1() {
+        $.ajax({
+            url: '/gpio1/',
+            success: function (data) {
+                $('#sensor-data').text(data.data);
+            }
+        });
+    }
+
+    function output2() {
+        $.ajax({
+            url: '/gpio2/',
+            success: function (data) {
+                $('#sensor-data').text(data.data);
+            }
+        });
+    }
+
+    function output3() {
+        $.ajax({
+            url: '/gpio3/',
+            success: function (data) {
+                $('#sensor-data').text(data.data);
+            }
+        });
+    }
+
+    function output4() {
+        $.ajax({
+            url: '/gpio4/',
+            success: function (data) {
+                $('#sensor-data').text(data.data);
+            }
+        });
+    }
+
+   function sendToSensor() {
+            $.ajax({
+                url: '/send_to_sensor/',
+                success: function (values) {
+                    $('#send-data').text('Sended Data: ' + values.values);
+                }
+            });
+        }
+    function stopSensorData() {
+        clearInterval(intervalId1);
+        clearInterval(intervalId2);
+        $('#sensor-data').text('Sensor Data: ' + '0');
+        $('#send-data').text('Sensor Data: ' + '0');
+    }
+
+</script>
+</html>

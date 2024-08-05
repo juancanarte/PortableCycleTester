@@ -1,0 +1,68 @@
+{% extends 'Proyecto_PCT/templates/menu.html' %}
+
+{% load static %}
+
+{% block content %}
+
+
+<div class="row" id="showView">
+  <div class="col-md-6 d-flex justify-content-center align-items-center w-100">
+    <h2>{{mode}}</h2>
+  </div>
+  
+  {% if cant_duts == 1 %}
+  <div class="col-md-6 d-flex justify-content-center align-items-center w-100">
+    <!-- Contenido de la primera división -->
+    <div class="row flex-column justify-content-center align-items-center">
+      <div class="d-flex justify-content-center align-items-center">
+        <h3 id="idDutAlone">DUT #{{ id_dut }}</h3>
+        <h3 id="labelDutAlone" style="margin-left: 10px; opacity: 0.3;">{{ name_alone_dut }}</h3>
+      </div>
+  
+      <div class="col-md-12 d-flex justify-content-center align-items-center">
+        {% include temp_alone_dut %}
+      </div>
+    </div>
+  </div>
+  {% elif cant_duts == 2 %}
+  <div class="col-md-12 d-flex justify-content-center align-items-center w-100" style="padding: 0;">
+    <div class="container" style="padding: 0;max-width: 800px;">
+      <div class="row">
+        <div class="col-sm-6 d-flex justify-content-center align-items-center" style="padding: 0;">
+          <div class="row flex-column justify-content-center align-items-center w-100">
+            <div class="d-flex justify-content-center align-items-center">
+              <h3>DUT #1</h3>
+              <h3 id="LabelDut1" style="margin-left: 10px; opacity: 0.3;">{{ dut1 }}</h3>
+            </div>
+  
+            <div class="col-md-12 d-flex justify-content-center align-items-center mx-0 px-0">
+              {% include temp_dut_1 %}             
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-6 d-flex justify-content-center align-items-center" style="padding: 0;">
+          <div class="row flex-column justify-content-center align-items-center w-100">
+            <div class="d-flex justify-content-center align-items-center">
+              <h3>DUT #2</h3>
+              <h3 id="LabelDut2" style="margin-left: 10px; opacity: 0.3;">{{ dut2 }}</h3>
+            </div>
+  
+            <div class="col-md-12 d-flex justify-content-center align-items-center mx-0" style="padding-left: 0;">
+              {% include temp_dut_2 %}           
+            </div>
+          </div>
+        </div>
+        </div>
+      </div>
+    </div>    
+  </div>
+  {% endif %}
+</div>
+<form method="POST" action="{% url 'Set_parameter' mode=mode %}">
+  {% csrf_token %}
+  <div class="col-md-6 d-flex justify-content-center align-items-center w-100">
+    <button id="nextSetParameters" type="submit" class="btn btn-primary m-1" style="white-space: nowrap;" name="SetParameters" value="Show">Next</button>
+  </div>
+</form>
+<script src="{% static 'scripts/set_parameters.js' %}"></script>
+{% endblock %}

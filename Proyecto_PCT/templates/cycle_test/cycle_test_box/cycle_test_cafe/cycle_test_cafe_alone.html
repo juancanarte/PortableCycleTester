@@ -1,0 +1,512 @@
+{% load static %}
+<div class="container">
+    <div class="row justify-content-center align-items-center">
+      <div class="col-sm">
+        <h3 class="subtitulo">CAFE - {{modo_cafe_a}}</h3>
+      </div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="row justify-content-center align-items-center">
+      <div class="col-sm">
+
+        <div class="computer_text_main" style="margin-top: 10px;">
+            <h2>Parameters</h2>
+            <div id="divShowParamsCafe_a">
+                <button id="showParamsCafe_a" class="css-button-eye" onclick="showParams_a()">
+                    <img src="{% static 'images/eye.svg' %}" alt="Icono">
+                </button>
+            </div>
+            <div id="divHideParamsCafe_a" hidden>
+                <button id="hideParamsCafe_a" class="css-button-eye" onclick="hideParams_a()">
+                    <img src="{% static 'images/eye-off.svg' %}" alt="Icono">
+                </button>
+            </div>
+        </div>
+
+        <div id="divParamsCafe_a" class="computer_text_main flex-column" style="margin-top: 10px; margin-bottom: 10px; width: 205px;" hidden>
+            <table style="width: 100%;">
+                <tr>
+                  <th>Config.</th>
+                  <th>Option</th>
+                </tr>
+                <tr>
+                  <td>Oper. Mode :</td>
+                  <td id="OpModeCafe_a">{{modo_cafe_a}}</td>
+                </tr>
+                <tr id="OpVoltCafe_a">
+                  <td>Op. Voltage :</td>
+                  <td>{{opVoltage_cafe_a}}</td>
+                </tr>
+                <tr id="InputCafe_a">
+                  <td>Input Type :</td>
+                  <td>{{inputSignal_cafe_a}}</td>
+                </tr>
+                <tr id="BaudCafe_a">
+                  <td>Baud :</td>
+                  <td>{{baud_cafe_a}}</td>
+                </tr>
+                <tr id="NodeCafe_a">
+                  <td>Node :</td>
+                  <td>{{node_cafe_a}}</td>
+                </tr>
+                <tr id="SignalCafe_a">
+                  <td>Signal Type :</td>
+                  <td>{{signalType_cafe_a}}</td>
+                </tr>
+                <tr id="WidthCafe_a">
+                  <td>Pulse width :</td>
+                  <td>{{widthTime_cafe_a}}</td>
+                </tr>
+              </table>
+        </div>
+
+        <div class="row justify-content-center align-items-center">
+            <div class="col-sm">
+              <div class="computer_text_main">
+                <canvas id="myChart"></canvas> 
+              </div>
+            </div>
+        </div>
+
+        <div class="row justify-content-center align-items-center">
+            <div class="computer_text_main" style="border: 2px dashed #000; padding: 5px; max-width: 540px;">
+            <div class="computer_text_main" style="padding: 5px;">
+                <h3>Time :&nbsp;</h3>
+                <h1 id="testTime"></h1>
+            </div>
+
+                <div class="computer_text_main">
+                    <h3 id="open_cafe_a">Open : </h3>
+                    
+                </div>
+
+                <div class="computer_text_main">
+                    <h3 id="close_cafe_a">Close : </h3>
+                    
+                </div>
+            </div>
+
+        </div>
+
+        <div class="computer_text_main" style="padding: 5px; max-width: 540px;">
+          <button id="powerOn_Cafe_a" class="css-button-eye" style="margin-right: 10px; border-radius: 0%; min-width:80px;" onclick="powerOn_Cafe_a()">
+            ON
+            <img src="{% static 'images/on.svg' %}" alt="Icono">
+          </button> 
+    
+          <button id="powerOff_Cafe_a" class="css-button-eye" style="margin-right: 10px; border-radius: 0%; min-width:80px;" onclick="window.modalTurnOff_cafe_a.showModal();" hidden>
+            OFF
+            <img src="{% static 'images/off.svg' %}" alt="Icono">
+          </button>
+        </div>
+
+        <div id="divButtons_cafe_a" class="computer_text_main" style="margin-top: 10px;" hidden>
+            <div id="divStart_a">
+                <button id="bStart_a" class="css-button-show" onclick="start()">Start</button>
+            </div>
+            <div id="divStop_a">
+                <button id="bStop_a" class="css-button-show" onclick="stop()" hidden>Stop</button>
+            </div>
+            <div id="divPause_a">
+                <button id="bPause_a" class="css-button-show" hidden>Pause</button>
+            </div>
+            <div id="divReset_a">
+                <button id="bResume_a" class="css-button-show" hidden>Resume</button>
+            </div>
+        </div>
+
+      </div>
+    </div>
+</div> 
+
+<!-- Modal turn off ?-->
+<dialog id="modalTurnOff_cafe_a">
+  <h2>Turn OFF device?</h2>
+  <br>
+  <button class="css-button-eye" style="margin-right: 10px; border-radius: 0%; width:80px;" onclick="powerOff_Cafe_a()">
+    Ok
+  </button>
+  <button class="css-button-eye" style="margin-right: 10px; border-radius: 0%; width:80px;" onclick="window.modalTurnOff_cafe_a.close();">
+    Cancel
+  </button>
+</dialog>
+
+<!-- Modal turn on waiting -->
+<dialog id="modalTurnON_waiting_cafe_a">
+  <h2>Turning ON CAFE ...</h2>
+  <progress style="width: 100%; height: 20px;" id="progressBarTurnOn_cafe_a" max="100" value="0"></progress>
+  <br>
+</dialog>
+
+<!-- Modal go to 0% -->
+<dialog id="modalGoTo_0_cafe_a">
+  <h2>Going to position 0% ...</h2>
+  <progress style="width: 100%; height: 20px;" id="progressBarGoTo0_cafe_a" max="100" value="0"></progress>
+  <br>
+</dialog>
+
+<script src="{% static 'js/chart.min.js' %}"></script>
+<script>
+  const bPowerOn_Cafe_a = document.getElementById('powerOn_Cafe_a');
+  const bPowerOff_Cafe_a = document.getElementById('powerOff_Cafe_a');
+
+  const modalTurnON_waiting_cafe_a = document.getElementById("modalTurnON_waiting_cafe_a");
+  const progressBarTurnOn_cafe_a = document.getElementById("progressBarTurnOn_cafe_a");
+
+  const modalGoTo_0_cafe_a = document.getElementById("modalGoTo_0_cafe_a");
+  const progressBarGoTo0_cafe_a = document.getElementById("progressBarGoTo0_cafe_a");
+
+    var divShowParamsCafe_a = document.getElementById('divShowParamsCafe_a');
+    var divHideParamsCafe_a = document.getElementById('divHideParamsCafe_a');
+    var divParamsCafe_a = document.getElementById('divParamsCafe_a');
+    var divButtons_cafe_a = document.getElementById('divButtons_cafe_a')
+    const bStart_a = document.getElementById('bStart_a');
+    const stopButton = document.getElementById('bStop_a');
+    const bPause_a = document.getElementById('bPause_a');
+    const bResume_a = document.getElementById('bResume_a');
+
+    var InputCafe_a = document.getElementById('InputCafe_a');
+    var OpModeCafe_a = document.getElementById('OpModeCafe_a');
+    var BaudCafe_a = document.getElementById('BaudCafe_a');
+    var NodeCafe_a = document.getElementById('NodeCafe_a');
+
+    if (OpModeCafe_a.textContent != "modbus")
+    {
+      BaudCafe_a.setAttribute("hidden", "hidden");
+      NodeCafe_a.setAttribute("hidden", "hidden");
+    }
+    else
+    {
+      BaudCafe_a.removeAttribute("hidden");
+      NodeCafe_a.removeAttribute("hidden");
+    }
+
+    if (OpModeCafe_a.textContent != "modulation")
+    {
+      InputCafe_a.setAttribute("hidden", "hidden");
+    }
+    else
+    {
+      InputCafe_a.removeAttribute("hidden");
+    }
+    
+   /* bStart_a.addEventListener('click', function() {
+            startWrite();
+            console.log('start');
+        });*/
+
+    stopButton.addEventListener('click', function() {
+            socket.close(); // Cierra la conexión WebSocket
+        });
+
+    bPause_a.addEventListener('click', function() {
+            pause();
+            pause_ws();
+        });
+
+    bResume_a.addEventListener('click', function() {
+            resume();
+            resume_ws();
+        });
+
+    var socket = null;
+
+function stop(){
+  $.ajax({
+            url: '/ct/cycleTest_stop_cafe_alone/',
+            success: function (data) {
+            }
+        });
+
+  socket.send(JSON.stringify({
+    'message':'stop'
+  }))
+}
+
+function iniciarConexion()
+{
+  socket = new WebSocket("ws://" + window.location.host + "/ws/ct_read_cafe_alone/");
+  socket.onmessage = function(event){
+    var data = JSON.parse(event.data);
+
+    document.querySelector('#open_cafe_a').innerText = "Open : " + data.relayCountA;
+    document.querySelector('#close_cafe_a').innerText = "Close : " + data.relayCountB;
+    document.querySelector('#testTime').innerText = data.hor + ":" + data.min + ":" + data.sec;
+
+    myLineChart.data.datasets[0].data.splice(0, 1);
+    myLineChart.data.datasets[0].data.push(data.pos);
+    
+    myLineChart.data.datasets[1].data.splice(0, 1);
+    myLineChart.data.datasets[1].data.push(data.setPos);
+
+    myLineChart.data.datasets[2].data.splice(0, 1);
+    myLineChart.data.datasets[2].data.push(data.relay_O);
+
+    myLineChart.data.datasets[3].data.splice(0, 1);
+    myLineChart.data.datasets[3].data.push(data.relay_C);
+    myLineChart.update();
+  }
+  socket.onclose = function(event) {
+    socket.close(); // Cierra la conexión WebSocket
+    detenerConexion();
+  };
+}
+
+function powerOn_Cafe_a() {
+  turnOn();
+  
+  window.modalTurnON_waiting_cafe_a.showModal();
+  let progress = 0;
+  const interval = setInterval(function() {
+  progress += 1;
+  progressBarTurnOn_cafe_a.value = progress;
+  if (progress >= 100) {
+    clearInterval(interval);
+    modalTurnON_waiting_cafe_a.close();
+  }
+  }, 70); // Actualizar la barra de progreso cada 20ms
+
+  bPowerOn_Cafe_a.setAttribute("hidden", "hidden");
+  bPowerOff_Cafe_a.removeAttribute("hidden");
+  divButtons_cafe_a.removeAttribute("hidden");
+  iniciarConexion();
+}
+
+function powerOff_Cafe_a() {
+  window.modalTurnOff_cafe_a.close();
+  socket.send(JSON.stringify({'message':'stop'}))
+  turnOff();
+  detenerConexion();
+  bPowerOff_Cafe_a.setAttribute("hidden", "hidden");
+  bPowerOn_Cafe_a.removeAttribute("hidden");
+  divButtons_cafe_a.setAttribute("hidden", "hidden");
+}
+
+function detenerConexion() {
+  socket.send(JSON.stringify({
+    'message':'stop'
+  }))
+}
+
+// Detener el consumidor
+function startWrite() {
+  socket.send(JSON.stringify({
+    'message':'start'
+  }))
+}
+
+function pause_ws() {
+  socket.send(JSON.stringify({
+    'message':'pause'
+  }))
+}
+
+function resume_ws() {
+  socket.send(JSON.stringify({
+    'message':'resume'
+  }))
+}
+
+function showParams_a() {
+    /*$.ajax({
+        url: '/show_start_cafe_alone/',
+        success: function (data) {
+        }
+    });*/
+    divParamsCafe_a.removeAttribute("hidden");
+    divShowParamsCafe_a.setAttribute("hidden", "hidden");
+    divHideParamsCafe_a.removeAttribute("hidden");
+}
+
+function hideParams_a() {
+    /*$.ajax({
+        url: '/show_start_cafe_alone/',
+        success: function (data) {
+        }
+    });*/
+    divParamsCafe_a.setAttribute("hidden", "hidden");
+    divHideParamsCafe_a.setAttribute("hidden", "hidden");
+    divShowParamsCafe_a.removeAttribute("hidden");
+}
+
+var intervalId1 = null;
+var intervalId2 = null;
+
+var numeros = []; // Declarar un arreglo vacío
+var arreglo = Array(100).fill(0);
+var arreglo2 = Array(100).fill(0);
+var arreglo3 = Array(100).fill(0);
+var arreglo4 = Array(100).fill(0);
+
+for (var i = 0; i <= 100; i++) {
+numeros.push(i.toString()); // Convertir el número a string y agregarlo al arreglo
+}
+
+var canvas = document.getElementById('myChart');
+var data = {// www . ja  v a 2s.c  om
+labels: numeros,
+datasets: [
+{
+  label: "Control Signal",
+  fill: false,
+  lineTension: 0.0,
+  backgroundColor: "rgba(255,166,0,1)",
+  borderColor: "rgba(255,166,0,1)",
+  borderCapStyle: 'butt',
+  borderDash: [],
+  borderDashOffset: 0.0,
+  borderJoinStyle: 'miter',
+  pointBorderColor: "rgba(75,192,192,1)",
+  pointBackgroundColor: "#fff",
+  pointBorderWidth: 1,
+  pointHoverRadius: 1,
+  pointHoverBackgroundColor: "rgba(75,192,192,1)",
+  pointHoverBorderColor: "rgba(220,220,220,1)",
+  pointHoverBorderWidth: 2,
+  pointRadius: 0,
+  pointHitRadius: 10,
+  data: arreglo,
+},
+{
+  label: "Feedback Signal",
+  fill: false,
+  lineTension: 0.0,
+  backgroundColor: "rgba(0,0,255,1)",
+  borderColor: "rgba(0,0,255,1)",
+  borderCapStyle: 'butt',
+  borderDash: [],
+  borderDashOffset: 0.0,
+  borderJoinStyle: 'miter',
+  pointBorderColor: "rgba(75,12,192,1)",
+  pointBackgroundColor: "#fff",
+  pointBorderWidth: 1,
+  pointHoverRadius: 1,
+  pointHoverBackgroundColor: "rgba(75,12,192,1)",
+  pointHoverBorderColor: "rgba(220,20,220,1)",
+  pointHoverBorderWidth: 2,
+  pointRadius: 0,
+  pointHitRadius: 10,
+  data: arreglo2,
+},
+{
+  label: "Relays 100%",
+  fill: false,
+  lineTension: 0.0,
+  backgroundColor: "rgba(0,255,0,1)",
+  borderColor: "rgba(0,255,0,1)",
+  borderCapStyle: 'butt',
+  borderDash: [],
+  borderDashOffset: 0.0,
+  borderJoinStyle: 'miter',
+  pointBorderColor: "rgba(75,12,192,1)",
+  pointBackgroundColor: "#fff",
+  pointBorderWidth: 1,
+  pointHoverRadius: 1,
+  pointHoverBackgroundColor: "rgba(75,12,192,1)",
+  pointHoverBorderColor: "rgba(220,20,220,1)",
+  pointHoverBorderWidth: 2,
+  pointRadius: 0,
+  pointHitRadius: 10,
+  data: arreglo3,
+},
+{
+  label: "Relays 0%",
+  fill: false,
+  lineTension: 0.0,
+  backgroundColor: "rgba(250,0,0,1)",
+  borderColor: "rgba(250,0,0,1)",
+  borderCapStyle: 'butt',
+  borderDash: [],
+  borderDashOffset: 0.0,
+  borderJoinStyle: 'miter',
+  pointBorderColor: "rgba(75,12,192,1)",
+  pointBackgroundColor: "#fff",
+  pointBorderWidth: 1,
+  pointHoverRadius: 1,
+  pointHoverBackgroundColor: "rgba(75,12,192,1)",
+  pointHoverBorderColor: "rgba(220,20,220,1)",
+  pointHoverBorderWidth: 2,
+  pointRadius: 0,
+  pointHitRadius: 10,
+  data: arreglo4,
+}
+]
+};
+
+var zero = 7;
+
+var option = {
+animation: true,
+responsive: true,
+scales: {
+        y: {
+            suggestedMin: 0,
+            suggestedMax: 100
+        },
+        x: {
+            suggestedMin: 0,
+            suggestedMax: 100,
+            ticks:{
+                minTicksLimit: 1000,
+                maxTicksLimit: 1000,
+                sampleSize:500,
+            }
+        }
+    }
+};
+
+var myLineChart = new Chart(canvas, {
+type: 'line',
+data: data,
+options: option
+});
+
+function turnOn() {
+        $.ajax({
+            url: '/ct/cycleTest_turnOn_cafe_alone/',
+            success: function (data) {
+            }
+        });
+    }
+
+function turnOff() {
+        $.ajax({
+            url: '/ct/cycleTest_turnOff_cafe_alone/',
+            success: function (data) {
+            }
+        });
+    }
+
+function start() {
+        $.ajax({
+            url: '/ct/cycleTest_start_cafe_alone/',
+            success: function (data) {
+            }
+        });
+        startWrite();
+        bStart_a.setAttribute("hidden", "hidden");
+        stopButton.removeAttribute("hidden");
+        bPause_a.removeAttribute("hidden");
+        bPowerOff_Cafe_a.setAttribute("hidden", "hidden");
+    }
+
+function pause() {
+        $.ajax({
+            url: '/ct/cycleTest_pause_cafe_alone/',
+            success: function (data) {
+            }
+        });
+        bPause_a.setAttribute("hidden", "hidden");
+        bResume_a.removeAttribute("hidden");
+    }
+
+function resume() {
+        $.ajax({
+            url: '/ct/cycleTest_resume_cafe_alone/',
+            success: function (data) {
+            }
+        });
+    }
+</script>

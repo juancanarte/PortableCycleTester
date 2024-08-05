@@ -1,0 +1,142 @@
+{% load static %}
+{% csrf_token %}
+<div class="container">
+    <div class="row justify-content-center align-items-center">
+      <div class="col-sm">
+        <div class="computer_text_main" style="margin-top: 10px; margin-bottom: 10px; width: 100%;">
+          <h3 class="subtitulo" style="width: auto; padding: 0;">LIMIT SWITCH</h3>
+          <div id="divShowParamsLS_1">
+              <button id="showParamsLS_1" class="css-button-eye" onclick="showParams_1()">
+                  <img src="{% static 'images/eye.svg' %}" alt="Icono">
+              </button>
+          </div>
+          <div id="divHideParamsLS_1" hidden>
+              <button id="hideParamsLS_1" class="css-button-eye" onclick="hideParams_1()">
+                  <img src="{% static 'images/eye-off.svg' %}" alt="Icono">
+              </button>
+          </div>
+        </div>
+  
+        <div id="divParamsLS_1" class="computer_text_main flex-column" style="margin-top: 10px; margin-bottom: 10px; width: 210px;" hidden>
+          <table style="width: 100%;">
+              <tr>
+                <th>Config.</th>
+                <th>Option</th>
+              </tr>
+              <tr>
+                <td>Op. Voltage :</td>
+                <td>{{params_ls_1}}</td>
+              </tr>
+              <!-- Agrega más filas según sea necesario -->
+            </table>
+        </div>
+      </div>
+    </div>
+</div> 
+
+<div class="imagen-grande-container">
+    <img id="On_ls_1" class="imagen-grande" style="max-height: 400px;" src="{% static 'images/LimitSwichL.png' %}">
+    <img id="Off_ls_1" class="imagen-grande" style="max-height: 400px;"  src="{% static 'images/LimitSwichR.png' %}" hidden>
+</div>
+
+<div class="computer_text_main" style="padding: 5px; max-width: 540px;">
+    <button id="powerOn_ls_1" class="css-button-eye" style="margin-right: 10px; border-radius: 0%; min-width:80px;" onclick="turnOnLs_1()">
+        ON
+        <img src="{% static 'images/on.svg' %}" alt="Icono">
+    </button> 
+
+    <button id="powerOff_ls_1" class="css-button-eye" style="margin-right: 10px; border-radius: 0%; min-width:80px;" onclick="turnOffLs_1()" hidden>
+        OFF
+        <img src="{% static 'images/off.svg' %}" alt="Icono">
+    </button>
+</div>
+
+<script>
+var divParamsLS_1 = document.getElementById('divParamsLS_1');
+var divShowParamsLS_1 = document.getElementById('divShowParamsLS_1');
+var divHideParamsLS_1 = document.getElementById('divHideParamsLS_1');
+
+var powerOn_ls_1 = document.getElementById('powerOn_ls_1');
+var powerOff_ls_1 = document.getElementById('powerOff_ls_1');
+
+var On_ls_1 = document.getElementById('On_ls_1');
+var Off_ls_1 = document.getElementById('Off_ls_1');
+
+function iniciarConexion()
+{
+    socket = new WebSocket("ws://" + window.location.host + "/ws/sh_read_lm_1/");
+    socket.onmessage = function(event){
+    var data = JSON.parse(event.data);
+
+    if (data.state == "open")
+    {
+        On_ls_1.removeAttribute("hidden");
+        Off_ls_1.setAttribute("hidden", "hidden");
+    }
+    else if (data.state == "close")
+    {
+        On_ls_1.setAttribute("hidden", "hidden");
+        Off_ls_1.removeAttribute("hidden");
+    }
+    /*
+    else if (data.state == "tran")
+    {
+        On_ls_1.setAttribute("hidden", "hidden");
+        Off_ls_1.setAttribute("hidden", "hidden");
+    }
+    */
+    }
+}
+
+function detenerConexion() {
+    socket.send(JSON.stringify({
+    'message':'stop'
+    }))
+}
+
+function leerSensor() {
+    socket.send(JSON.stringify({
+    'message':'start'
+    }))
+}
+
+function showParams_1() {
+    divParamsLS_1.removeAttribute("hidden");
+    divShowParamsLS_1.setAttribute("hidden", "hidden");
+    divHideParamsLS_1.removeAttribute("hidden");
+}
+
+function hideParams_1() {
+    divParamsLS_1.setAttribute("hidden", "hidden");
+    divHideParamsLS_1.setAttribute("hidden", "hidden");
+    divShowParamsLS_1.removeAttribute("hidden");
+}
+
+function turnOnLs_1(){
+    /*
+    $.ajax({
+            url: '/turnOn_ls_alone/',
+            success: function (data) {
+                
+            }
+        });
+    */
+        iniciarConexion();
+        setTimeout(leerSensor, 200);
+        powerOn_ls_1.setAttribute("hidden", "hidden");
+        powerOff_ls_1.removeAttribute("hidden");
+    }
+
+function turnOffLs_1(){
+    $.ajax({
+            url: '/turnOff_ls_alone/',
+            success: function (data) {
+                
+            }
+        });
+        detenerConexion();
+        powerOn_ls_1.removeAttribute("hidden");
+        powerOff_ls_1.setAttribute("hidden", "hidden");
+    }
+
+</script>

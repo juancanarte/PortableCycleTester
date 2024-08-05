@@ -1,0 +1,512 @@
+{% load static %}
+<div class="container">
+    <div class="row justify-content-center align-items-center">
+      <div class="col-sm">
+        <h3 class="subtitulo">CAFE - {{modo_cafe_2}}</h3>
+      </div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="row justify-content-center align-items-center">
+      <div class="col-sm">
+
+        <div class="computer_text_main" style="margin-top: 10px;">
+            <h2>Parameters</h2>
+            <div id="divShowParamsCafe_2">
+                <button id="showParamsCafe_2" class="css-button-eye" onclick="showParams_2()">
+                    <img src="{% static 'images/eye.svg' %}" alt="Icono">
+                </button>
+            </div>
+            <div id="divHideParamsCafe_2" hidden>
+                <button id="hideParamsCafe_2" class="css-button-eye" onclick="hideParams_2()">
+                    <img src="{% static 'images/eye-off.svg' %}" alt="Icono">
+                </button>
+            </div>
+        </div>
+
+        <div id="divParamsCafe_2" class="computer_text_main flex-column" style="margin-top: 10px; margin-bottom: 10px; width: 205px;" hidden>
+          <table style="width: 100%;">
+            <tr>
+              <th>Config.</th>
+              <th>Option</th>
+            </tr>
+            <tr>
+              <td>Oper. Mode :</td>
+              <td id="OpModeCafe_2">{{modo_cafe_2}}</td>
+            </tr>
+            <tr id="OpVoltCafe_2">
+              <td>Op. Voltage :</td>
+              <td>{{opVoltage_cafe_2}}</td>
+            </tr>
+            <tr id="InputCafe_2">
+              <td>Input Type :</td>
+              <td>{{inputSignal_cafe_2}}</td>
+            </tr>
+            <tr id="BaudCafe_2">
+              <td>Baud :</td>
+              <td>{{baud_cafe_2}}</td>
+            </tr>
+            <tr id="NodeCafe_2">
+              <td>Node :</td>
+              <td>{{node_cafe_2}}</td>
+            </tr>
+            <tr id="SignalCafe_2">
+              <td>Signal Type :</td>
+              <td>{{signalType_cafe_2}}</td>
+            </tr>
+            <tr id="WidthCafe_2">
+              <td>Pulse width :</td>
+              <td>{{widthTime_cafe_2}}</td>
+            </tr>
+          </table>
+        </div>
+
+        <div class="computer_text_main" style="width: 100%;">
+          <canvas id="myChart_2" style="width: 100%;"></canvas>
+        </div>
+
+        <div class="row justify-content-center align-items-center">
+            <div class="computer_text_main" style="border: 2px dashed #000; padding: 5px; max-width: 540px;">
+                <div class="computer_text_main">
+                    <h3>Test of time :</h3>
+                </div>
+
+                <div class="computer_text_main">
+                    <h3 id="open_cafe_2">Open : </h3>
+                    
+                </div>
+
+                <div class="computer_text_main">
+                    <h3 id="close_cafe_2">Close : </h3>
+                    
+                </div>
+            </div>
+
+            <div class="computer_text_main" style="padding: 5px;">
+                <h3>Total Test Time :</h3>
+                <h1 id="testTime_2"></h1>
+            </div>
+        </div>
+
+        <div class="computer_text_main" style="padding: 5px; max-width: 540px;">
+          <button id="powerOn_Cafe_2" class="css-button-eye" style="margin-right: 10px; border-radius: 0%; min-width:80px;" onclick="powerOn_Cafe_2()">
+            ON
+            <img src="{% static 'images/on.svg' %}" alt="Icono">
+          </button>
+    
+          <button id="powerOff_Cafe_2" class="css-button-eye" style="margin-right: 10px; border-radius: 0%; min-width:80px;" onclick="window.modalTurnOff_cafe_2.showModal();" hidden>
+            OFF
+            <img src="{% static 'images/off.svg' %}" alt="Icono">
+          </button>
+        </div>
+
+        <div id="divButtons_cafe_2" class="computer_text_main" style="margin-top: 10px;" hidden>
+            <div id="divStart_2">
+                <button id="bStart_2" class="css-button-show" onclick="start_2()">Start</button>
+            </div>
+            <div id="divStop_2">
+                <button id="bStop_2" class="css-button-show">Stop</button>
+            </div>
+            <div id="divPause_2">
+                <button id="bPause_2" class="css-button-show">Pause</button>
+            </div>
+            <div id="divReset_2">
+                <button id="bResume_2" class="css-button-show">Resume</button>
+            </div>
+        </div>
+
+      </div>
+    </div>
+</div> 
+
+<!-- Modal -->
+<dialog id="modalTurnOff_cafe_2">
+  <h2>Turn OFF device?</h2>
+  <br>
+  <button class="css-button-eye" style="margin-right: 10px; border-radius: 0%; width:80px;" onclick="powerOff_Cafe_2()">
+    Ok
+  </button>
+  <button class="css-button-eye" style="margin-right: 10px; border-radius: 0%; width:80px;" onclick="window.modalTurnOff_cafe_2.close();">
+    Cancel
+  </button>
+</dialog>
+
+<!-- Modal turn on waiting -->
+<dialog id="modalTurnON_waiting_cafe_2">
+  <h2>Turning ON CAFE ...</h2>
+  <progress style="width: 100%; height: 20px;" id="progressBarTurnOn_cafe_2" max="100" value="0"></progress>
+  <br>
+</dialog>
+
+<!-- Modal go to 0% -->
+<dialog id="modalGoTo_0_cafe_2">
+  <h2>Going to position 0% ...</h2>
+  <progress style="width: 100%; height: 20px;" id="progressBarGoTo0_cafe_2" max="100" value="0"></progress>
+  <br>
+</dialog>
+
+<script src="{% static 'js/chart.min.js' %}"></script>
+<script>
+const modalTurnON_waiting_cafe_2 = document.getElementById("modalTurnON_waiting_cafe_2");
+const progressBarTurnOn_cafe_2 = document.getElementById("progressBarTurnOn_cafe_2");
+
+const modalGoTo_0_cafe_2 = document.getElementById("modalGoTo_0_cafe_2");
+const progressBarGoTo0_cafe_2 = document.getElementById("progressBarGoTo0_cafe_2");
+
+    var divShowParamsCafe_2 = document.getElementById('divShowParamsCafe_2');
+    var divHideParamsCafe_2 = document.getElementById('divHideParamsCafe_2');
+    var divParamsCafe_2 = document.getElementById('divParamsCafe_2');
+    var divButtons_cafe_2 = document.getElementById('divButtons_cafe_2')
+
+    //const bStart_a = document.getElementById('bStart_a');
+    const stopButton_2 = document.getElementById('bStop_2');
+    const bPause_2 = document.getElementById('bPause_2');
+    const bResume_2 = document.getElementById('bResume_2');
+    var bPowerOn_Cafe_2 = document.getElementById('powerOn_Cafe_2');
+    var bPowerOff_Cafe_2 = document.getElementById('powerOff_Cafe_2');
+
+    var InputCafe_2 = document.getElementById('InputCafe_2');
+    var OpModeCafe_2 = document.getElementById('OpModeCafe_2');
+    var BaudCafe_2 = document.getElementById('BaudCafe_2');
+    var NodeCafe_2 = document.getElementById('NodeCafe_2');
+
+    if (OpModeCafe_2.textContent != "modbus")
+    {
+      BaudCafe_2.setAttribute("hidden", "hidden");
+      NodeCafe_2.setAttribute("hidden", "hidden");
+    }
+    else
+    {
+      BaudCafe_2.removeAttribute("hidden");
+      NodeCafe_2.removeAttribute("hidden");
+    }
+
+    if (OpModeCafe_2.textContent != "modulation")
+    {
+      InputCafe_2.setAttribute("hidden", "hidden");
+    }
+    else
+    {
+      InputCafe_2.removeAttribute("hidden");
+    }
+    
+   /* bStart_a.addEventListener('click', function() {
+            startWrite();
+            console.log('start');
+        });*/
+
+    stopButton_2.addEventListener('click', function() {
+            socket_2.close(); // Cierra la conexión WebSocket
+        });
+
+    bPause_2.addEventListener('click', function() {
+            pause_2();
+            pause_ws_2();
+        });
+
+    bResume_2.addEventListener('click', function() {
+            resume_2();
+            resume_ws_2();
+        });
+
+    var socket_2 = null;
+
+  socket_2 = new WebSocket("ws://" + window.location.host + "/ws/ct_read_cafe_2/");
+  socket_2.onmessage = function(event){
+    var data2 = JSON.parse(event.data);
+
+    document.querySelector('#open_cafe_2').innerText = "Open : " + data2.relayCountA;
+    document.querySelector('#close_cafe_2').innerText = "Close : " + data2.relayCountB;
+    document.querySelector('#testTime_2').innerText = data2.min + ":" + data2.sec;
+
+    myLineChart_2.data.datasets[0].data.splice(0, 1);
+    myLineChart_2.data.datasets[0].data.push(data2.pos);
+    
+    myLineChart_2.data.datasets[1].data.splice(0, 1);
+    myLineChart_2.data.datasets[1].data.push(data2.setPos);
+
+    myLineChart_2.data.datasets[2].data.splice(0, 1);
+    myLineChart_2.data.datasets[2].data.push(data2.relay_O);
+
+    myLineChart_2.data.datasets[3].data.splice(0, 1);
+    myLineChart_2.data.datasets[3].data.push(data2.relay_C);
+    myLineChart_2.update();
+  }
+
+
+  function powerOn_Cafe_2() {
+    turnOn_2();
+
+    window.modalTurnON_waiting_cafe_2.showModal();
+    let progress = 0;
+    const interval = setInterval(function() {
+    progress += 1;
+    progressBarTurnOn_cafe_2.value = progress;
+    if (progress >= 100) {
+      clearInterval(interval);
+      setTimeout(function() {
+        modalTurnON_waiting_cafe_2.close();
+        progressBarTurnOn_cafe_2.value = 0;
+        modalGoTo_0_cafe_2.showModal();
+
+        let progressSecond = 0;
+        const intervalSecond = setInterval(function() {
+          progressSecond += 0.35;
+          progressBarGoTo0_cafe_2.value = progressSecond;
+          if (progressSecond >= 100) {
+            clearInterval(intervalSecond);
+            setTimeout(function() {
+              modalGoTo_0_cafe_2.close(); // Cerrar el segundo modal después de 2 segundos
+              progressBarGoTo0_cafe_2.value = 0;
+            }, 50); // Cerrar el segundo modal después de 2 segundos
+          }
+        }, 20);
+
+      }, 10); // Cerrar el modal después de 2 segundos
+    }
+    }, 20); // Actualizar la barra de progreso cada 20ms
+
+    bPowerOn_Cafe_2.setAttribute("hidden", "hidden");
+    bPowerOff_Cafe_2.removeAttribute("hidden");
+    divButtons_cafe_2.removeAttribute("hidden");
+  }
+
+  function powerOff_Cafe_2() {
+    window.modalTurnOff_cafe_2.close();
+    window.modalGoTo_0_cafe_2.showModal();
+
+    socket_2.send(JSON.stringify({'message':'stop'}))
+
+    let progress = 0;
+    const interval = setInterval(function() {
+    progress += 0.35;
+    progressBarGoTo0_cafe_2.value = progress;
+    if (progress >= 100) {
+      clearInterval(interval);
+      setTimeout(function() {
+        modalGoTo_0_cafe_2.close();
+        progressBarGoTo0_cafe_2.value = 0;
+
+      }, 10); // Cerrar el modal después de 2 segundos
+    }
+    }, 20); // Actualizar la barra de progreso cada 20ms
+
+    turnOff_2();
+    bPowerOff_Cafe_2.setAttribute("hidden", "hidden");
+    bPowerOn_Cafe_2.removeAttribute("hidden");
+    divButtons_cafe_2.setAttribute("hidden", "hidden");
+  }
+  // Detener el consumidor
+function startWrite_2() {
+  socket_2.send(JSON.stringify({
+    'message':'start'
+  }))
+}
+
+function pause_ws_2() {
+  socket_2.send(JSON.stringify({
+    'message':'pause'
+  }))
+}
+
+function resume_ws_2() {
+  socket_2.send(JSON.stringify({
+    'message':'resume'
+  }))
+}
+
+function showParams_2() {
+    /*$.ajax({
+        url: '/show_start_cafe_alone/',
+        success: function (data) {
+        }
+    });*/
+    divParamsCafe_2.removeAttribute("hidden");
+    divShowParamsCafe_2.setAttribute("hidden", "hidden");
+    divHideParamsCafe_2.removeAttribute("hidden");
+}
+
+    function hideParams_2() {
+        /*$.ajax({
+            url: '/show_start_cafe_alone/',
+            success: function (data) {
+            }
+        });*/
+        divParamsCafe_2.setAttribute("hidden", "hidden");
+        divHideParamsCafe_2.setAttribute("hidden", "hidden");
+        divShowParamsCafe_2.removeAttribute("hidden");
+    }
+
+var numeros_2 = []; // Declarar un arreglo vacío
+var arreglo_2 = Array(100).fill(0);
+var arreglo2_2 = Array(100).fill(0);
+var arreglo3_2 = Array(100).fill(0);
+var arreglo4_2 = Array(100).fill(0);
+
+for (var i = 0; i <= 100; i++) {
+    numeros_2.push(i.toString()); // Convertir el número a string y agregarlo al arreglo
+}
+
+var canvas_2 = document.getElementById('myChart_2');
+var data_2 = {
+labels: numeros_2,
+datasets: [
+{
+  label: "Control Signal",
+  fill: false,
+  lineTension: 0.0,
+  backgroundColor: "rgba(255,166,0,1)",
+  borderColor: "rgba(255,166,0,1)",
+  borderCapStyle: 'butt',
+  borderDash: [],
+  borderDashOffset: 0.0,
+  borderJoinStyle: 'miter',
+  pointBorderColor: "rgba(75,192,192,1)",
+  pointBackgroundColor: "#fff",
+  pointBorderWidth: 1,
+  pointHoverRadius: 1,
+  pointHoverBackgroundColor: "rgba(75,192,192,1)",
+  pointHoverBorderColor: "rgba(220,220,220,1)",
+  pointHoverBorderWidth: 2,
+  pointRadius: 0,
+  pointHitRadius: 10,
+  data: arreglo_2,
+},
+{
+  label: "Feedback Signal",
+  fill: false,
+  lineTension: 0.0,
+  backgroundColor: "rgba(0,0,255,1)",
+  borderColor: "rgba(0,0,255,1)",
+  borderCapStyle: 'butt',
+  borderDash: [],
+  borderDashOffset: 0.0,
+  borderJoinStyle: 'miter',
+  pointBorderColor: "rgba(75,12,192,1)",
+  pointBackgroundColor: "#fff",
+  pointBorderWidth: 1,
+  pointHoverRadius: 1,
+  pointHoverBackgroundColor: "rgba(75,12,192,1)",
+  pointHoverBorderColor: "rgba(220,20,220,1)",
+  pointHoverBorderWidth: 2,
+  pointRadius: 0,
+  pointHitRadius: 10,
+  data: arreglo2_2,
+},
+{
+  label: "Relays 100%",
+  fill: false,
+  lineTension: 0.0,
+  backgroundColor: "rgba(0,255,0,1)",
+  borderColor: "rgba(0,255,0,1)",
+  borderCapStyle: 'butt',
+  borderDash: [],
+  borderDashOffset: 0.0,
+  borderJoinStyle: 'miter',
+  pointBorderColor: "rgba(75,12,192,1)",
+  pointBackgroundColor: "#fff",
+  pointBorderWidth: 1,
+  pointHoverRadius: 1,
+  pointHoverBackgroundColor: "rgba(75,12,192,1)",
+  pointHoverBorderColor: "rgba(220,20,220,1)",
+  pointHoverBorderWidth: 2,
+  pointRadius: 0,
+  pointHitRadius: 10,
+  data: arreglo3_2,
+},
+{
+  label: "Relays 0%",
+  fill: false,
+  lineTension: 0.0,
+  backgroundColor: "rgba(250,0,0,1)",
+  borderColor: "rgba(250,0,0,1)",
+  borderCapStyle: 'butt',
+  borderDash: [],
+  borderDashOffset: 0.0,
+  borderJoinStyle: 'miter',
+  pointBorderColor: "rgba(75,12,192,1)",
+  pointBackgroundColor: "#fff",
+  pointBorderWidth: 1,
+  pointHoverRadius: 1,
+  pointHoverBackgroundColor: "rgba(75,12,192,1)",
+  pointHoverBorderColor: "rgba(220,20,220,1)",
+  pointHoverBorderWidth: 2,
+  pointRadius: 0,
+  pointHitRadius: 10,
+  data: arreglo4_2,
+}
+]
+};
+
+var option_2 = {
+animation: true,
+responsive: true,
+scales: {
+        y: {
+            suggestedMin: 0,
+            suggestedMax: 100
+        },
+        x: {
+            suggestedMin: 0,
+            suggestedMax: 100,
+            ticks:{
+                minTicksLimit: 1000,
+                maxTicksLimit: 1000,
+                sampleSize:500,
+            }
+        }
+    }
+};
+
+var myLineChart_2 = new Chart(canvas_2, {
+type: 'line',
+data: data_2,
+options: option_2
+});
+
+function turnOn_2() {
+        $.ajax({
+            url: '/ct/cycleTest_turnOn_cafe_2/',
+            success: function (data) {
+            }
+        });
+    }
+
+  function turnOff_2() {
+        $.ajax({
+            url: '/ct/cycleTest_turnOff_cafe_2/',
+            success: function (data) {
+            }
+        });
+    }
+
+function start_2() {
+        $.ajax({
+            url: '/ct/cycleTest_start_cafe_2/',
+            success: function (data) {
+            }
+        });
+        startWrite_2();
+    }
+function stop_2() {
+    detenerConexion_2();
+    //socket.close();
+    }
+
+function pause_2() {
+        $.ajax({
+            url: '/ct/cycleTest_pause_cafe_2/',
+            success: function (data) {
+            }
+        });
+    }
+
+function resume_2() {
+        $.ajax({
+            url: '/ct/cycleTest_resume_cafe_2/',
+            success: function (data) {
+            }
+        });
+    }
+</script>

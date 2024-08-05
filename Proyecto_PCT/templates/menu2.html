@@ -1,0 +1,107 @@
+{% load static %}
+<html lang="es">
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+  <link rel="stylesheet" href="{% static 'css/bootstrap-grid.min.css' %}">
+  <script src="{% static 'js/bootstrap.min.js' %}"></script>
+  <script src="{% static 'js/code.jquery.com_jquery-3.7.0.min.js' %}"></script>
+  <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
+
+  <style>
+    /* Estilo personalizado para ocultar el menú hamburguesa a la izquierda en dispositivos móviles */
+    @media (max-width: 992px) {
+      .navbar-collapse.collapsing,
+      .navbar-collapse.show {
+        position: fixed;
+        top: 0;
+        left: -100%;
+        width: 30%;
+        margin-left: 20px;
+        height: 100vh;
+        background-color: #f8f9fa;
+        transition: left 0.1s ease;
+        z-index: 2;
+      }
+      .navbar-collapse.show {
+        left: 0;
+      }
+    }
+    .cont_contenido {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 80vh;;
+    }
+
+  </style>
+</head>
+<body>
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-lg-3">
+          <!-- Barra de navegación vertical -->
+          <nav class="navbar navbar-expand-lg navbar-light bg-light flex-column">
+            <div class="container-fluid contenedor_navbar">
+              <!-- Botón para colapsar la barra de navegación en dispositivos móviles -->
+              <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+              </button>
+
+              <div class="row">
+                <!-- Logo o nombre de la página -->
+                <a class="navbar-brand" href="#">Portable Cycle Tester</a>
+                              
+                <!-- Contenido de la barra de navegación -->
+                <div class="collapse navbar-collapse" id="navbarNav">
+                  <ul class="navbar-nav flex-column">
+                    <li class="nav-item">
+                      <a class="nav-link" href="/type_of_test/">Type of Test</a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link" href="#">Enlace 3</a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+              
+
+            </div>
+          </nav>
+        </div>
+        <div class="col-lg-9 cont_contenido">
+        
+          <div class="container" style="width: 100%; max-width: 100%;">
+            <div class="row">
+              <div class="col-sm-12" style="padding: 0;">
+                <!-- Contenido principal -->
+                {% block content %}
+                {% endblock %}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <script>
+      // Capturar evento de clic en los elementos de enlace del menú
+      $('.navbar-nav a').on('click', function() {
+        // Cerrar la barra de navegación en dispositivos móviles
+        $('.navbar-collapse').collapse('hide');
+      });
+      
+      // Capturar evento de clic en el documento
+      $(document).on('click', function(event) {
+        // Obtener el elemento clicado
+        var target = $(event.target);
+        
+        // Comprobar si el elemento clicado no está dentro de la barra de navegación
+        if (!target.closest('.navbar-collapse').length && $('.navbar-collapse').hasClass('show')) {
+          // Cerrar la barra de navegación en dispositivos móviles
+          $('.navbar-collapse').collapse('hide');
+        }
+      });
+    </script>
+</body>
+</html>
