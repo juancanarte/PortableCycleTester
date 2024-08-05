@@ -1,4 +1,4 @@
-#prueba git 3
+#prueba git 3 raspberry pi
 from pymodbus.client import ModbusSerialClient
 #import minimalmodbus
 import threading
