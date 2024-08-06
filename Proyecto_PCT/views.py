@@ -1,4 +1,4 @@
-#test 5
+#test 6
 from django.views.decorators.csrf import csrf_exempt
 from django.shortcuts import render, HttpResponse, redirect
 from django.http import JsonResponse
