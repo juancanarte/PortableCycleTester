@@ -193,6 +193,11 @@ def turn_off_all(request):
     data = ''
     return JsonResponse({'data': data})
 
+def updateSoftware(request):
+    print("actualizar software")
+    data = ''
+    return JsonResponse({'data': data})
+
 #Funcioes SHOW para CAFE alone
 def show_start_cafe_alone(request):
     funciones_show.show_start_cafe_alone()

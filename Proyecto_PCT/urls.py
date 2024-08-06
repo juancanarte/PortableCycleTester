@@ -38,6 +38,7 @@ urlpatterns = [
     path('def_settings/', views.def_settings, name='Def_settings'),
     path('black/', views.black, name='Black'),
     path('turn_off_all/', views.turn_off_all, name='Turn_off_all'),
+    path('updateSoftware/', views.updateSoftware, name='UpdateSoftware'),
     #----------------------------------------URL's SHOW----------------------------------------#
     #Funciones SHOW para CAFE alone
     path('show_start_cafe_alone/', views.show_start_cafe_alone, name='Show_start_cafe_alone'),
