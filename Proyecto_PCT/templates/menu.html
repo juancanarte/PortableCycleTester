@@ -170,7 +170,7 @@
 
       document.getElementById('update-button').addEventListener('click', function() {
             if (confirm('¿Está seguro de que desea actualizar el código?')) {
-                fetch('updateSoftware', {
+                fetch('/updateSoftware/', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
