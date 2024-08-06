@@ -194,9 +194,18 @@ def turn_off_all(request):
     return JsonResponse({'data': data})
 
 def updateSoftware(request):
-    print("actualizar software")
-    data = ''
-    return JsonResponse({'data': data})
+    if request.method == 'POST':
+        try:
+            result = subprocess.run(['/home/pct/Desktop/PCT/update_code.sh'], capture_output=True, text=True)
+            if result.returncode == 0:
+                return JsonResponse({'success': True})
+            else:
+                return JsonResponse({'success': False, 'error': result.stderr})
+        except Exception as e:
+            return JsonResponse({'success': False, 'error': str(e)})
+        
+    print("Actualizando software")
+    return JsonResponse({'success': False, 'error': 'Invalid request method'})
 
 #Funcioes SHOW para CAFE alone
 def show_start_cafe_alone(request):

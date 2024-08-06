@@ -109,9 +109,8 @@
             <button type="submit" class="css-button-eye" style="margin-right: 10px; border-radius: 0%; width:80px;" name="opcion_turnOff" value="shut_down">Shut down</button>
             <button type="submit" class="css-button-eye" style="margin-right: 10px; border-radius: 0%; width:80px;" name="opcion_turnOff" value="reboot">Reboot</button>
           </form>
-          <button class="css-button-eye" style="margin-right: 10px; border-radius: 0%; width:80px;" onclick="window.modalTurnOff_pct.close();">
-         Cancel
-         </button>
+          <button id="update-button" type="submit" class="css-button-eye" style="margin-right: 10px; border-radius: 0%; width:80px;" name="opcion_update" value="update">Update</button>
+          <button class="css-button-eye" style="margin-right: 10px; border-radius: 0%; width:80px;" onclick="window.modalTurnOff_pct.close();">Cancel</button>
 
       </dialog>
       <!-- copyright section end -->
@@ -119,140 +118,53 @@
       </div>
       <!-- footer section end -->
       <!-- Javascript files-->
-      <script>
-
-      var cafe_up = document.getElementById('cafe_up');
-      var cafe_down = document.getElementById('cafe_down');
-      var alert_light = document.getElementById('alert_light');
-      var agua = document.getElementById('agua');
-      var levelSensor = document.getElementById('levelSensor');
-      
-      //Elementos para abrir CAFE
-      var coloresOpen = ['blue', 'yellow']; // Lista de colores para el borde
-      var indexOpen = 0; // Índice actual de color
-      var intervaloOpen;
-
-      //Elementos para cerrar CAFE
-      var coloresClose = ['green', 'yellow']; // Lista de colores para el borde
-      var indexClose = 0; // Índice actual de color
-      var intervaloClose;
-
-      //Elementos para Alerta
-      var coloresAlert = ['red', 'yellow']; // Lista de colores para el borde
-      var indexAlert = 0; // Índice actual de color
-      var intervaloAlert;
-
-      var valor = 0; // Inicializa el valor en 0
-      var incrementando = true; 
-
-      toggleCambioDeColorOpen();
-      toggleCambioDeColorAlert();
-      setTimeout(toggleCambioDeColorClose,600);
-      setInterval(cambiarAlturaAleatoria, 600);
-
-      //Funciones para abrir CAFE
-      function cambiarColorOpen() {
-         cafe_up.style.borderColor = coloresOpen[indexOpen];
-         indexOpen = (indexOpen + 1) % coloresOpen.length; // Avanzar al siguiente color
-      }
-
-      function toggleCambioDeColorOpen() {
-         if (intervaloOpen) {
-         clearInterval(intervaloOpen); // Detener el cambio de color
-         intervaloOpen = null;
-         } else {
-         cambiarColorOpen(); // Cambiar el color de inmediato
-         intervaloOpen = setInterval(cambiarColorOpen, 600); // Cambiar cada 600 ms
+   <script>
+      function shut_down_pct() {
+         $.ajax({
+                  type: "POST",
+                  url: '/shut_down/',
+                  data: {csrfmiddlewaretoken: '{{ csrf_token }}'},
+                  success: function (data) {
+                  }
+               });
          }
+
+      function reboot_pct() {
+         $.ajax({
+                  type: "POST",
+                  url: '/reboot/',
+                  data: {csrfmiddlewaretoken: '{{ csrf_token }}'},
+                  success: function (data) {
+                  }
+               });
       }
 
-      //Funciones para cerrar CAFE
-      function cambiarColorClose() {
-         cafe_down.style.borderColor = coloresClose[indexClose];
-         indexClose = (indexClose + 1) % coloresClose.length; // Avanzar al siguiente color
-      }
-
-      function toggleCambioDeColorClose() {
-         if (intervaloClose) {
-         clearInterval(intervaloClose); // Detener el cambio de color
-         intervaloClose = null;
-         } else {
-         cambiarColorClose(); // Cambiar el color de inmediato
-         intervaloClose = setInterval(cambiarColorClose, 600); // Cambiar cada 600 ms
-         }
-      }
-
-      //Funciones para Alerta
-      function cambiarColorAlerta() {
-         alert_light.style.backgroundColor = coloresAlert[indexAlert];
-         indexAlert = (indexAlert + 1) % coloresAlert.length; // Avanzar al siguiente color
-      }
-
-      function toggleCambioDeColorAlert() {
-         if (intervaloAlert) {
-         clearInterval(intervaloAlert); // Detener el cambio de color
-         intervaloAlert = null;
-         } else {
-            cambiarColorAlerta(); // Cambiar el color de inmediato
-         intervaloAlert = setInterval(cambiarColorAlerta, 600); // Cambiar cada 600 ms
-         }
+      function openNav() {
+         document.getElementById("mySidenav").style.width = "100%";
       }
       
-      //Funcion nivel de agua
-      function cambiarAlturaAleatoria() {
-         var alturaAleatoria = Math.floor(Math.random() * 101); // Genera un número aleatorio entre 0 y 100
-         var posicion = 71 - valor/2 + 'px';
-         if (incrementando) {
-            valor += 5;
-            if (valor > 100) {
-               incrementando = false;
-               valor = 100;
-            }
+      function closeNav() {
+         document.getElementById("mySidenav").style.width = "0";
+      }
+
+      //Actualizar software PCT
+      document.getElementById('update-button').addEventListener('click', function() {
+         fetch('/updateSoftware/', {
+            method: 'POST',
+            headers: {
+                  'Content-Type': 'application/json',
+                  'X-CSRFToken': '{{ csrf_token }}'
+            },
+         })
+         .then(response => response.json())
+         .then(data => {
+            if(data.success) {
+                  alert('Código actualizado con éxito');
             } else {
-            valor -= 5;
-            if (valor < 0) {
-               incrementando = true;
-               valor = 0;
+                  alert('Error al actualizar el código');
             }
-         }
-
-         agua.style.height = valor + 'px'; // Establece la altura con el número generado
-         agua.style.transform = `translate(${'-8%'}, ${posicion})`; // Establece la posición con el número generado
-         levelSensor.innerHTML = valor + "%";
-      }
-
-
-
-
-
-
-         function shut_down_pct() {
-            $.ajax({
-                     type: "POST",
-                     url: '/shut_down/',
-                     data: {csrfmiddlewaretoken: '{{ csrf_token }}'},
-                     success: function (data) {
-                     }
-                  });
-            }
-
-         function reboot_pct() {
-            $.ajax({
-                     type: "POST",
-                     url: '/reboot/',
-                     data: {csrfmiddlewaretoken: '{{ csrf_token }}'},
-                     success: function (data) {
-                     }
-                  });
-         }
-
-         function openNav() {
-           document.getElementById("mySidenav").style.width = "100%";
-         }
-         
-         function closeNav() {
-           document.getElementById("mySidenav").style.width = "0";
-         }
-      </script> 
+         });
+      });
+   </script> 
    </body>
 </html>
