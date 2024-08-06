@@ -148,6 +148,7 @@
       }
 
       //Actualizar software PCT
+      /*
       document.getElementById('update-button').addEventListener('click', function() {
          fetch('/updateSoftware/', {
             method: 'POST',
@@ -165,6 +166,27 @@
             }
          });
       });
+      */
+
+      document.getElementById('update-button').addEventListener('click', function() {
+            if (confirm('¿Está seguro de que desea actualizar el código?')) {
+                fetch('updateSoftware', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRFToken': '{{ csrf_token }}'
+                    },
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        alert('Código actualizado con éxito');
+                    } else {
+                        alert('Error al actualizar el código: ' + data.error);
+                    }
+                });
+            }
+        });
    </script> 
    </body>
 </html>
