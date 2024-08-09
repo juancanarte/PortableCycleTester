@@ -2437,13 +2437,20 @@ def saveInDB_a():
 
 def joinTemporalDB_a():
     registros = tDataCt_a.objects.all()
-    lista_de_blobs = []
+    lista_concatenada = []
 
     for registro in registros:
-        lista_de_blobs.append(registro.feedback)
+        # Decodificar el BLOB de bytes a string
+        json_string = registro.feedback.decode('utf-8')
+        
+        # Convertir el string JSON a una lista
+        lista_temp = json.loads(json_string)
+        
+        # Concatenar las listas
+        lista_concatenada.extend(lista_temp)
 
-    print(lista_de_blobs[0])
-    print(len(lista_de_blobs[0]))
+    print(lista_concatenada)
+    #print(len(lista_concatenada[0]))
 
 def newCycleTestRegister(_dut, _actuatorRef, _load, _loadDetails, _testerName, _observations,
                          _operationVoltage, _inputType, _signalType, _pulseTime, _highValue,
