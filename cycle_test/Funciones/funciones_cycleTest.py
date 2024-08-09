@@ -695,6 +695,7 @@ def cycleTest_stop_cafe_alone():
     detener()
     reiniciar()
     stop_saveInDB_a()
+    joinTemporalDB_a()
 
     if modoG == 3:
         if thread_readMod_a is not None and thread_readMod_a.is_alive():
@@ -2434,6 +2435,10 @@ def saveInDB_a():
         
         print(indexDB_a)
         time.sleep(0.06)
+
+def joinTemporalDB_a():
+    registers = tDataCt_a.objects.all()
+    print(registers)
 
 def newCycleTestRegister(_dut, _actuatorRef, _load, _loadDetails, _testerName, _observations,
                          _operationVoltage, _inputType, _signalType, _pulseTime, _highValue,
