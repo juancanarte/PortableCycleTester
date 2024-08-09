@@ -10,6 +10,7 @@ import random
 import math
 import json
 import subprocess
+from django.conf import settings
 
 from cycle_test.models import defSettings as defSet
 #from pymodbus.client import ModbusSerialClient
@@ -69,13 +70,13 @@ def menu(request):
 def type_of_test(request):
     registro = defSet.objects.get(id=1)
     pct_mode = (registro.pctMode)
-
+    version = settings.VERSION
     if request.method == 'POST':
         opcion_presionada = request.POST.get('opcion_tot')
         if opcion_presionada == 'Cycle_test':
             opcion_presionada = 'Cycle test'
         return redirect('Dut', mode=opcion_presionada)
-    return render(request, "Proyecto_PCT/templates/type_of_test/type_of_test.html",{'pct_mode':pct_mode})
+    return render(request, "Proyecto_PCT/templates/type_of_test/type_of_test.html",{'pct_mode':pct_mode, 'version':version})
 
 def black(request):
     if request.method == 'POST':
