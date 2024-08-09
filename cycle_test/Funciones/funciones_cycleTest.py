@@ -2449,8 +2449,8 @@ def joinTemporalDB_a():
         # Concatenar las listas
         lista_concatenada.extend(lista_temp)
 
-    print(lista_concatenada)
-    #print(len(lista_concatenada[0]))
+    print(lista_concatenada[0])
+    print(len(lista_concatenada))
 
 def newCycleTestRegister(_dut, _actuatorRef, _load, _loadDetails, _testerName, _observations,
                          _operationVoltage, _inputType, _signalType, _pulseTime, _highValue,
