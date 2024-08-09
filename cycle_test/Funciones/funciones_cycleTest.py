@@ -2442,7 +2442,8 @@ def joinTemporalDB_a():
     for registro in registros:
         lista_de_blobs.append(registro.feedback)
 
-    print(lista_de_blobs)
+    print(lista_de_blobs[0][0])
+    print(len(lista_de_blobs[0]))
 
 def newCycleTestRegister(_dut, _actuatorRef, _load, _loadDetails, _testerName, _observations,
                          _operationVoltage, _inputType, _signalType, _pulseTime, _highValue,
