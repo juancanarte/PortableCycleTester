@@ -2440,7 +2440,7 @@ def joinTemporalDB_a():
     lista_de_blobs = []
 
     for registro in registros:
-        lista_de_blobs.append(registro.setPoint)
+        lista_de_blobs.append(registro.feedback)
 
     print(lista_de_blobs)
 
