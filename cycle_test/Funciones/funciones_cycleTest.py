@@ -2432,13 +2432,17 @@ def saveInDB_a():
             temp_data.save() #Guardar json en base de datos
             indexDB_a = 0
             print("Van mil datos")
-        
-        print(indexDB_a)
+
         time.sleep(0.06)
 
 def joinTemporalDB_a():
-    registers = tDataCt_a.objects.all()
-    print(registers)
+    registros = tDataCt_a.objects.all()
+    lista_de_blobs = []
+
+    for registro in registros:
+        lista_de_blobs.append(registro.setPoint)
+
+    print(lista_de_blobs)
 
 def newCycleTestRegister(_dut, _actuatorRef, _load, _loadDetails, _testerName, _observations,
                          _operationVoltage, _inputType, _signalType, _pulseTime, _highValue,
