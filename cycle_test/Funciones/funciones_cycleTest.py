@@ -346,7 +346,7 @@ def extraer_parametros(parametrosR, modo):
 def show_params(params, modo):
     global client,modoG,nodo,client_1,modoG_1,nodo_1,client_2,modoG_2,nodo_2,modulation_read_a,modulation_write_a,inputType_modulation_a,\
     modulation_read_1,modulation_write_1,inputType_modulation_1,modulation_read_2,modulation_write_2,inputType_modulation_2,port_gpio_alone,\
-    op_voltage_a,op_voltage_1,op_voltage_2,puerto_dut_alone
+    op_voltage_a,op_voltage_1,op_voltage_2,puerto_dut_alone, dut_alone
 
     parametros = params.split(',')
 
@@ -2475,22 +2475,57 @@ def joinTemporalDB_a():
         relayC_conca.extend(lista_relayC)
         timeStamp_conca.extend(lista_timeStamp)
 
-    print(setPoint_conca)
-    print(feedBack_conca)
-    print(relayO_conca)
-    print(relayC_conca)
+    newCycleTestRegister(dut_alone, 'cafe', False, [''], 'Juan david canarte',
+                         'ninguna observacion', '24vdc', 'digital',
+                         'pulseSignal', '2Sec', 100, 0, '12', '08', '2024',
+                         '20240812', '20240812', '1506', '1500',
+                         temp_conca, current_conca, setPoint_conca,
+                         feedBack_conca, relayO_conca, relayC_conca,
+                         timeStamp_conca, ['100','99'], ['99','88'])
 
 def newCycleTestRegister(_dut, _actuatorRef, _load, _loadDetails, _testerName, _observations,
                          _operationVoltage, _inputType, _signalType, _pulseTime, _highValue,
                          _lowValue, _day, _month, _year, _fullDate, _dateEnd, _plannedTimeTest,
-                         _finalTimeTest, _temp, _current, _setPoint, _feedBack, _relaysCounter,
-                         _feedBackCounter):
+                         _finalTimeTest, _temp, _current, _setPoint, _feedBack, _relayO, _relayC,
+                         _timeStamp, _relaysCounter, _feedBackCounter):
+    
+    #Convertir listas a json
+    jsonLoadDetailsA = json.dumps(_loadDetails)
+    jsonBytes_LoadDetailsA = jsonLoadDetailsA.encode('utf-8')
+
+    jsonTempA = json.dumps(_temp)
+    jsonBytes_TempA = jsonTempA.encode('utf-8')
+    
+    jsonCurrentA = json.dumps(_current)
+    jsonBytes_CurrentA = jsonCurrentA.encode('utf-8')
+    
+    jsonSetPointA = json.dumps(_setPoint)
+    jsonBytes_SetPointA = jsonSetPointA.encode('utf-8')
+    
+    jsonFeedbackA = json.dumps(_feedBack)
+    jsonBytes_FeedbackA = jsonFeedbackA.encode('utf-8')
+    
+    jsonRelaysFeOA = json.dumps(_relayO)
+    jsonBytes_RelaysFeOA = jsonRelaysFeOA.encode('utf-8')
+    
+    jsonRelaysFeCA = json.dumps(_relayC)
+    jsonBytes_RelaysFeCA = jsonRelaysFeCA.encode('utf-8')
+    
+    jsonTimeStampA = json.dumps(_timeStamp)
+    jsonBytes_TimeStampA = jsonTimeStampA.encode('utf-8')
+    
+    jsonRelaysCounterA = json.dumps(_relaysCounter)
+    jsonBytes_RelaysCounterA = jsonRelaysCounterA.encode('utf-8')
+
+    jsonFeedBackCounterA = json.dumps(_feedBackCounter)
+    jsonBytes_FeedBackCounterA = jsonFeedBackCounterA.encode('utf-8')
+
     #Pasar de tabla temporal a tabla final
     temp_data = ctd(    #Instancia de base de datos final
         dut = _dut,
         actuatorRef = _actuatorRef,
         load = _load,
-        loadDetails = _loadDetails,
+        loadDetails = jsonBytes_LoadDetailsA,
         testerName = _testerName,
         observations = _observations,
         operationVoltage = _operationVoltage,
@@ -2506,11 +2541,14 @@ def newCycleTestRegister(_dut, _actuatorRef, _load, _loadDetails, _testerName, _
         dateEnd = _dateEnd,
         plannedTimeTest = _plannedTimeTest,
         finalTimeTest = _finalTimeTest,
-        temp = _temp,
-        current = _current,
-        setPoint = _setPoint,
-        feedback = _feedBack,
-        relaysCounter = _relaysCounter,
-        feedBackCounter = _feedBackCounter
+        temp = jsonBytes_TempA,
+        current = jsonBytes_CurrentA,
+        setPoint = jsonBytes_SetPointA,
+        feedback = jsonBytes_FeedbackA,
+        relayO = jsonBytes_RelaysFeOA,
+        relayC = jsonBytes_RelaysFeCA,
+        timeStamp = jsonBytes_TimeStampA,
+        relaysCounter = jsonBytes_RelaysCounterA,
+        feedBackCounter = jsonBytes_FeedBackCounterA
         )
     temp_data.save() #Guardar json en base de datos
