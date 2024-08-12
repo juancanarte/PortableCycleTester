@@ -2436,21 +2436,49 @@ def saveInDB_a():
         time.sleep(0.06)
 
 def joinTemporalDB_a():
-    registros = tDataCt_a.objects.all()
-    lista_concatenada = []
+    registros = tDataCt_a.objects.all() #Conncecion al modelo de DB
+
+    #Creacion de listas para concatenar registros temporales
+    temp_conca = []
+    current_conca = []
+    setPoint_conca = []
+    feedBack_conca = []
+    relayO_conca = []
+    relayC_conca = []
+    timeStamp_conca = []
 
     for registro in registros:
         # Decodificar el BLOB de bytes a string
-        json_string = registro.feedback.decode('utf-8')
+        tempConca_json = registro.temp.decode('utf-8')
+        currentConca_json = registro.current.decode('utf-8')
+        setPointConca_json = registro.setPoint.decode('utf-8')
+        feedbackConca_json = registro.feedback.decode('utf-8')
+        relayOConca_json = registro.relayO.decode('utf-8')
+        relayCConca_json = registro.relayC.decode('utf-8')
+        timeStampConca_json = registro.timeStamp.decode('utf-8')
         
         # Convertir el string JSON a una lista
-        lista_temp = json.loads(json_string)
-        
-        # Concatenar las listas
-        lista_concatenada.extend(lista_temp)
+        lista_temp = json.loads(tempConca_json)
+        lista_current = json.loads(currentConca_json)
+        lista_setPoint = json.loads(setPointConca_json)
+        lista_feedBack = json.loads(feedbackConca_json)
+        lista_relayO = json.loads(relayOConca_json)
+        lista_relayC = json.loads(relayCConca_json)
+        lista_timeStamp = json.loads(timeStampConca_json)
 
-    print(lista_concatenada[0])
-    print(len(lista_concatenada))
+        # Concatenar las listas
+        temp_conca.extend(lista_temp)
+        current_conca.extend(lista_current)
+        setPoint_conca.extend(lista_setPoint)
+        feedBack_conca.extend(lista_feedBack)
+        relayO_conca.extend(lista_relayO)
+        relayC_conca.extend(lista_relayC)
+        timeStamp_conca.extend(lista_timeStamp)
+
+    print(setPoint_conca)
+    print(feedBack_conca)
+    print(relayO_conca)
+    print(relayC_conca)
 
 def newCycleTestRegister(_dut, _actuatorRef, _load, _loadDetails, _testerName, _observations,
                          _operationVoltage, _inputType, _signalType, _pulseTime, _highValue,
