@@ -119,7 +119,32 @@
 
       </div>
     </div>
-</div> 
+</div>
+
+<!-- Modal formulario cycle test-->
+<dialog id="formCreateCycleTest">
+  <form method="dialog">
+    <label for="requiredInput">Campo Obligatorio:</label>
+    <input type="text" id="requiredInput" name="requiredInput" required>
+
+    <label for="optionalInput1">Campo Opcional (Texto/Números):</label>
+    <input type="text" id="optionalInput1" name="optionalInput1" pattern="[A-Za-z0-9\s]*">
+
+    <label for="checkbox">Mostrar Campo Adicional:</label>
+    <input type="checkbox" id="checkbox" name="checkbox" onchange="">
+
+    <div id="conditionalField" style="display: none;">
+      <label for="optionalInput2">Campo Adicional (Texto/Números):</label>
+      <input type="text" id="optionalInput2" name="optionalInput2" pattern="[A-Za-z0-9\s]*">
+    </div>
+
+    <!-- Botones al final del formulario -->
+    <div style="margin-top: 20px;">
+      <button type="button" id="cancelBtn" onclick="window.formCreateCycleTest.close()">Cancelar</button>
+      <button type="submit">Enviar</button>
+    </div>
+  </form>
+</dialog>
 
 <!-- Modal turn off ?-->
 <dialog id="modalTurnOff_cafe_a">
@@ -149,28 +174,33 @@
 
 <script src="{% static 'js/chart.min.js' %}"></script>
 <script>
+  const dialogCycleTest = document.getElementById('formCreateCycleTest');
+  const cancelBtn = document.getElementById('cancelBtn');
+  const checkbox = document.getElementById('checkbox');
+  const conditionalField = document.getElementById('conditionalField');
+
   const bPowerOn_Cafe_a = document.getElementById('powerOn_Cafe_a');
   const bPowerOff_Cafe_a = document.getElementById('powerOff_Cafe_a');
 
   const modalTurnON_waiting_cafe_a = document.getElementById("modalTurnON_waiting_cafe_a");
   const progressBarTurnOn_cafe_a = document.getElementById("progressBarTurnOn_cafe_a");
-
+ 
   const modalGoTo_0_cafe_a = document.getElementById("modalGoTo_0_cafe_a");
   const progressBarGoTo0_cafe_a = document.getElementById("progressBarGoTo0_cafe_a");
 
-    var divShowParamsCafe_a = document.getElementById('divShowParamsCafe_a');
-    var divHideParamsCafe_a = document.getElementById('divHideParamsCafe_a');
-    var divParamsCafe_a = document.getElementById('divParamsCafe_a');
-    var divButtons_cafe_a = document.getElementById('divButtons_cafe_a')
-    const bStart_a = document.getElementById('bStart_a');
-    const stopButton = document.getElementById('bStop_a');
-    const bPause_a = document.getElementById('bPause_a');
-    const bResume_a = document.getElementById('bResume_a');
+  var divShowParamsCafe_a = document.getElementById('divShowParamsCafe_a');
+  var divHideParamsCafe_a = document.getElementById('divHideParamsCafe_a');
+  var divParamsCafe_a = document.getElementById('divParamsCafe_a');
+  var divButtons_cafe_a = document.getElementById('divButtons_cafe_a')
+  const bStart_a = document.getElementById('bStart_a');
+  const stopButton = document.getElementById('bStop_a');
+  const bPause_a = document.getElementById('bPause_a');
+  const bResume_a = document.getElementById('bResume_a');
 
-    var InputCafe_a = document.getElementById('InputCafe_a');
-    var OpModeCafe_a = document.getElementById('OpModeCafe_a');
-    var BaudCafe_a = document.getElementById('BaudCafe_a');
-    var NodeCafe_a = document.getElementById('NodeCafe_a');
+  var InputCafe_a = document.getElementById('InputCafe_a');
+  var OpModeCafe_a = document.getElementById('OpModeCafe_a');
+  var BaudCafe_a = document.getElementById('BaudCafe_a');
+  var NodeCafe_a = document.getElementById('NodeCafe_a');
 
     if (OpModeCafe_a.textContent != "modbus")
     {
@@ -223,6 +253,8 @@ function stop(){
   socket.send(JSON.stringify({
     'message':'stop'
   }))
+
+  dialogCycleTest.showModal();
 }
 
 function iniciarConexion()
@@ -509,4 +541,18 @@ function resume() {
             }
         });
     }
+
+function cancel() {
+  dialogCycleTest.close();
+}
+
+function hideLoadDetails() {
+  if (checkbox.checked) {
+      conditionalField.style.display = 'block';
+    } else {
+      conditionalField.style.display = 'none';
+    }
+}
+
+
 </script>
