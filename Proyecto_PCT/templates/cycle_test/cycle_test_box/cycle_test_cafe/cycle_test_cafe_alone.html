@@ -125,24 +125,30 @@
 <dialog id="formCreateCycleTest">
   <h3>CYCLE TEST FINISHED</h3>
   <form method="dialog">
-    <label for="requiredInput">Tester name :</label>
-    <input type="text" id="requiredInput" name="requiredInput" required>
+    <div class="form-group">
+      <label for="requiredInput">Tester name:</label>
+      <input type="text" id="requiredInput" name="requiredInput" required>
+    </div>
 
-    <h4>Hardware data/h4>
-    <label for="optionalInput1">Campo Opcional (Texto/Números):</label>
-    <input type="text" id="optionalInput1" name="optionalInput1" pattern="[A-Za-z0-9\s]*">
+    <h4>Hardware data</h4>
+    <div class="form-group">
+      <label for="optionalInput1">Campo Opcional (Texto/Números):</label>
+      <input type="text" id="optionalInput1" name="optionalInput1" pattern="[A-Za-z0-9\s]*">
+    </div>
 
-    <label for="checkbox">Mostrar Campo Adicional:</label>
-    <input type="checkbox" id="checkbox" name="checkbox" onchange="">
+    <div class="form-group">
+      <label for="checkbox">Mostrar Campo Adicional:</label>
+      <input type="checkbox" id="checkbox" name="checkbox">
+    </div>
 
-    <div id="conditionalField" style="display: none;">
+    <div id="conditionalField" class="form-group" style="display: none;">
       <label for="optionalInput2">Campo Adicional (Texto/Números):</label>
       <input type="text" id="optionalInput2" name="optionalInput2" pattern="[A-Za-z0-9\s]*">
     </div>
 
     <!-- Botones al final del formulario -->
-    <div style="margin-top: 20px;">
-      <button type="button" id="cancelBtn" onclick="window.formCreateCycleTest.close()">Cancelar</button>
+    <div class="form-actions">
+      <button type="button" id="cancelBtn">Cancelar</button>
       <button type="submit">Enviar</button>
     </div>
   </form>
@@ -558,3 +564,50 @@ function hideLoadDetails() {
 
 
 </script>
+
+<style>
+  /* Estilo básico para el modal */
+  dialog {
+    padding: 20px;
+    border-radius: 10px;
+    max-width: 500px;
+    width: 100%;
+  }
+
+  /* Estilo para los grupos de labels e inputs */
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 15px;
+  }
+
+  .form-group label {
+    margin-bottom: 5px;
+  }
+
+  /* Estilo para apilar horizontalmente en pantallas grandes */
+  @media (min-width: 600px) {
+    .form-group {
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .form-group label {
+      margin-bottom: 0;
+      margin-right: 10px;
+    }
+
+    .form-group input[type="text"],
+    .form-group input[type="checkbox"] {
+      flex: 1;
+    }
+  }
+
+  /* Estilo para los botones */
+  .form-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+  }
+</style>
