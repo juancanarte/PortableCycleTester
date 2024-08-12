@@ -2544,7 +2544,7 @@ def newCycleTestRegister(_dut, _actuatorRef, _load, _loadDetails, _testerName, _
         temp = jsonBytes_TempA,
         current = jsonBytes_CurrentA,
         setPoint = jsonBytes_SetPointA,
-        feedback = jsonBytes_FeedbackA,
+        feedBack = jsonBytes_FeedbackA,
         relayO = jsonBytes_RelaysFeOA,
         relayC = jsonBytes_RelaysFeCA,
         timeStamp = jsonBytes_TimeStampA,
