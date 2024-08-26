@@ -151,10 +151,13 @@ modulation_write_a = None
 modulation_read_a = None
 inputType_modulation_a = 0
 setPoint_modulation_a = 0
+widthTimePulse_a = None
+signalType_a = None
 position_a = 0
 #parametros modbus ALONE
 client = None
 nodo = 1
+baud = 19200
 flag_a = threading.Event()
 # Bandera para controlar la pausa del cronómetro
 pausa_flag_a = threading.Event()
@@ -220,6 +223,7 @@ setPoint_modulation_1 = 0
 #parametros modbus 1
 client_1 = None
 nodo_1 = 1
+baud_1 = 19200
 flag_1 = threading.Event()
 flag_c_1 = threading.Event()
 
@@ -258,6 +262,7 @@ setPoint_modulation_2 = 0
 #parametros modbus 2
 client_2 = None
 nodo_2 = 1
+baud_2 = 19200
 flag_2 = threading.Event()
 flag_c_2 = threading.Event()
 
@@ -359,7 +364,7 @@ def extraer_parametros(parametrosR, modo):
     return respuesta_2
 
 def show_params(params, modo):
-    global client,modoG,nodo,client_1,modoG_1,nodo_1,client_2,modoG_2,nodo_2,modulation_read_a,modulation_write_a,inputType_modulation_a,\
+    global client,modoG,nodo,baud,client_1,modoG_1,nodo_1,client_2,modoG_2,nodo_2,modulation_read_a,modulation_write_a,inputType_modulation_a,\
     modulation_read_1,modulation_write_1,inputType_modulation_1,modulation_read_2,modulation_write_2,inputType_modulation_2,port_gpio_alone,\
     op_voltage_a,op_voltage_1,op_voltage_2,puerto_dut_alone, dut_alone
 
@@ -574,13 +579,13 @@ def show_params(params, modo):
 
                 modoG_1 = 3
                 nodo_1 = int(parametros[20])
-                baud = int(parametros[17].split('|')[0])
+                baud_1 = int(parametros[17].split('|')[0])
                 puerto_1 = '/dev/ttyUSB0'
 
                 client_1 = ModbusSerialClient(
                 method = 'rtu'
                 ,port = puerto_1
-                ,baudrate = baud
+                ,baudrate = baud_1
                 ,parity = 'N'
                 ,timeout = tOutModbus
                 )
@@ -649,12 +654,12 @@ def show_params(params, modo):
                 pcfRPI.write("p5", "LOW")
                 modoG_2 = 3
                 nodo_2 = int(parametros[27])
-                baud = int(parametros[24].split('|')[0])
+                baud_2 = int(parametros[24].split('|')[0])
                 puerto_2 = '/dev/ttyUSB1'
                 client_2 = ModbusSerialClient(
                 method = 'rtu'
                 ,port=puerto_2
-                ,baudrate=baud
+                ,baudrate=baud_2
                 ,parity = 'N'
                 ,timeout=tOutModbus
                 )
@@ -726,7 +731,9 @@ def cycleTest_write_start():
 
     setPoint_modulation_a = 0
     widthTimePulse_show = int(listaP[5][0])
+    widthTimePulse_a = widthTimePulse_show
     signalType = listaP[4]
+    signalType_a = signalType
     
     if modoG == 1:
         print("open_digital_cafe_alone")
@@ -2495,12 +2502,12 @@ def joinTemporalDB_a():
         timeStamp_conca.extend(lista_timeStamp)
 
     newCycleTestRegister(dut_alone, actuatorRef_g, load_g, loadDetails_g, testerName_g,
-                         'ninguna observacion', 'Modulation', 19200, 1, '24vdc', '0mA-20mA',
-                         'pulseSignal', '2Sec', 100, 0, '12', '08', '2024', '20240812',
+                         'ninguna observacion', modo_dut_alone, baud, nodo, op_voltage_a, inputType_modulation_a,
+                         signalType_a, widthTimePulse_a, 100, 0, '12', '08', '2024', '20240812',
                          dateStart_a, dateEnd_a, '1506', '1500',
                          temp_conca, current_conca, setPoint_conca,
                          feedBack_conca, relayO_conca, relayC_conca,
-                         timeStamp_conca, ['100','99'], ['99','88'])
+                         timeStamp_conca, ['100','99'], ['99','88']) 
 
 def saveCtData(testerName_l, actuatorRef_l, load_l, loadDetails_l):
     global testerName_g, actuatorRef_g, load_g, loadDetails_g
