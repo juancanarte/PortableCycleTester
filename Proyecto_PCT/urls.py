@@ -36,6 +36,7 @@ urlpatterns = [
     path('control/', views.control_led, name='control_led'),
     path('get_sensor_data/', views.get_sensor_data, name='get_sensor_data'),
     path('def_settings/', views.def_settings, name='Def_settings'),
+    path('new_user/', views.new_user, name='New_user'),
     path('black/', views.black, name='Black'),
     path('turn_off_all/', views.turn_off_all, name='Turn_off_all'),
     path('updateSoftware/', views.updateSoftware, name='UpdateSoftware'),

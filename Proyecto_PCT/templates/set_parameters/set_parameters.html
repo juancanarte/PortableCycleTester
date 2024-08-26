@@ -76,17 +76,42 @@
     </div>    
   </div>
   {% endif %}
+<!--formulario cycle test-->
+<div id="divCycleTestDataForm" style="display: none; flex-direction: column; flex-wrap: wrap; align-items: center; margin-top: 10px;">
+  <h3 class="modal-title">CYCLE TEST DATA</h3>
+  <form id="formAux" method="POST">
+    <div class="form-group">
+      <label for="testerName">Tester name:</label>
+      <input type="text" id="testerName" name="testerName" style="max-width: 180px;" pattern="[A-Za-z0-9\s]*" required>
+    </div>
+
+    <h4 class="modal-title" style="margin-top: 10px;">Hardware data</h4>
+    <div class="form-group" style="display: flex; justify-content: center; flex-direction: row;">
+      <label for="actuatorRef">Actuator Ref:</label>
+      <input type="text" id="actuatorRef" name="actuatorRef" style="max-width: 80px;" pattern="[A-Za-z0-9\s]*">
+    </div>
+
+    <div class="form-group" style="display: flex; justify-content: center; flex-direction: row;">
+      <label for="load">Load:</label>
+      <input type="checkbox" id="load" name="load" style="max-width: 30px;" onchange="hideLoadDetails()">
+    </div>
+
+    <div id="conditionalField" class="form-group" style="display: none; justify-content: center; flex-direction: row; align-items: flex-start; margin-bottom: 10px;">
+      <label for="loadDetails">Load details:</label>
+      <textarea id="loadDetails" name="loadDetails" style="max-width: 177px;" rows="5" pattern="[A-Za-z0-9\s]*"></textarea>
+    </div>
+
+</div>
+
   <div class="container d-flex justify-content-center align-items-center" style="margin-top: 20px; max-width: 380px;">
-    <div class="d-flex" style="margin-top: 20px;">
+    <div class="d-flex" style="margin-top: 20px; flex-direction: row-reverse;">
 
-
-        <button type="submit" onclick="history.back()" class="css-button-sharp--blue" style="margin-right: 30px;">Back</button>
-
-        <form method="POST" action="{% url 'Set_parameter' mode=mode %}">
+        <form id="formMain" method="POST" action="{% url 'Set_parameter' mode=mode %}">
         {% csrf_token %}
             <button id="nextSetParameters" type="submit" class="css-button-sharp--blue" style="margin-left: 30px;" name="SetParameters" value="Show">Next</button>
         </form>
 
+        <button type="submit" onclick="history.back()" class="css-button-sharp--blue" style="margin-right: 30px;">Back</button>
     </div>
   </div>
 

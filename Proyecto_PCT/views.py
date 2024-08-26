@@ -5,14 +5,18 @@ from django.template import Template, Context
 from django.urls import reverse
 from Proyecto_PCT.Funciones.show import funciones_show
 from Proyecto_PCT.Funciones.dut import funciones_dut
-from Proyecto_PCT.Funciones.cycle_test import funciones_cycleTest
+from cycle_test.Funciones import funciones_cycleTest
+
 import random
 import math
 import json
 import subprocess
 from django.conf import settings
+from django.contrib import messages
+from django.db import IntegrityError
 
 from cycle_test.models import defSettings as defSet
+from cycle_test.models import users
 #from pymodbus.client import ModbusSerialClient
 """
 client = ModbusSerialClient(
@@ -63,6 +67,24 @@ def def_settings(request):
                                                                  'ls_1_op_voltage':aDefSet[4], 'cafe_2_signal_type':aDefSet[5],
                                                                  'cafe_2_width_time':aDefSet[6], 'coil_2_width_time':aDefSet[7],
                                                                  'ls_2_op_voltage':aDefSet[8]})
+
+def new_user(request):
+    if request.method == 'POST':
+        # Leer el valor del input
+        user_name = request.POST.get('nameNewUser', '').strip()
+        # Validar que el nombre no esté vacío
+        if user_name:
+            try: #Intentar guardar nuevo usuarion en db
+                new_user = users.objects.create(fullName=user_name)
+                new_user.save()
+                messages.success(request, f"Usuario '{user_name}' creado exitosamente.")
+            #return redirect('Def_settings')
+            except IntegrityError:
+                messages.error(request, f"El usuario '{user_name}' ya existe. Por favor, elige otro nombre.")
+        else:
+            messages.error(request, "El nombre del usuario no puede estar vacío.")
+        # Crear el nuevo usuario en la base de datos
+    return redirect('Def_settings')
 
 def menu(request):
     return render(request, "Proyecto_PCT/templates/menu.html")
@@ -116,6 +138,8 @@ def dut(request, mode):
 def set_parameter(request, mode):
     global list_parameters, cambio
 
+    _users = users.objects.all() #Instancia a la tabla usuarios
+
     _data_dut_1 = request.session.get('data_dut_1')
     _data_dut_2 = request.session.get('data_dut_2')
     _cant_duts = request.session.get('cant_duts')
@@ -139,8 +163,17 @@ def set_parameter(request, mode):
         _name_alone_dut = _data_dut_2[2]
 
     if request.method == 'POST':
-        opcion_presionada = request.POST.get('SetParameters')
+        opcion_presionada = request.POST.get('SetParameters') #opciones de configuracion seleccionadas para los DTUS
+        testerName = request.POST.get('testerName')
+        actuatorRef = request.POST.get('actuatorRef')
+        load = request.POST.get('load')
+        loadDetails = request.POST.get('loadDetails')
         request.session['set_parameters'] = opcion_presionada
+        request.session['cycleTestData'] = [testerName, actuatorRef, load, loadDetails]
+
+        #print(testerName, actuatorRef, load, loadDetails)
+
+        funciones_cycleTest.saveCtData(testerName, actuatorRef, load, loadDetails)
 
         if mode == 'Show':
             nextVista = 'Show'
@@ -154,7 +187,7 @@ def set_parameter(request, mode):
     return render(request, "Proyecto_PCT/templates/set_parameters/set_parameters.html",
                         {'mode': mode, 'dut1': _name_dut_1, 'dut2': _name_dut_2, 'cant_duts': _cant_duts,
                         'temp_dut_1': _temp_dut_1, 'temp_dut_2': _temp_dut_2, 'id_dut': _id_dut,
-                        'temp_alone_dut':_temp_alone_dut, 'name_alone_dut': _name_alone_dut})
+                        'temp_alone_dut':_temp_alone_dut, 'name_alone_dut': _name_alone_dut, 'users':_users})
 
 @csrf_exempt
 def show(request):

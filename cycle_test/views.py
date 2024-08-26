@@ -5,6 +5,9 @@ from django.urls import reverse
 from Proyecto_PCT.Funciones.show import funciones_show
 from cycle_test.Funciones import funciones_cycleTest
 from cycle_test.models import tempDataCt_a
+from cycle_test.models import users
+from cycle_test.models import cycleTestData
+from django.views.decorators.csrf import csrf_exempt
 
 import random
 import math
@@ -20,6 +23,9 @@ def cycle_test(request):
     _cant_duts = request.session.get('cant_duts')
     _mode = request.session.get('mode')
     _paramsR = request.session.get('set_parameters')
+    _cycleTestData = request.session.get('cycleTestData')
+
+    _users = users.objects.all()
 
     _params = funciones_cycleTest.extraer_parametros(_paramsR, _mode)
     list_context = {'mode':_mode, 'cant_duts':_cant_duts, 'id_dut':_params[0], 'name_alone_dut':_params[1],
@@ -37,7 +43,8 @@ def cycle_test(request):
                     'widthTime_cafe_2':_params[29], 'node_cafe_2':_params[30],
                     'opVoltage_coil_1':_params[31], 'widthTime_coil_1':_params[32],
                     'opVoltage_coil_2':_params[33], 'widthTime_coil_2':_params[34], 'params_ls_1':_params[35],
-                    'params_ls_2':_params[36]}
+                    'params_ls_2':_params[36], 'users':_users, 'testerName':_cycleTestData[0], 'actuatorRef':_cycleTestData[1],
+                    'load':_cycleTestData[2], 'loadDetails':_cycleTestData[3]}
     funciones_cycleTest.show_params(_paramsR,_mode)
     print(_params)
 
@@ -48,6 +55,7 @@ def cycle_test(request):
 def cycleTest_start_cafe_alone(request):
     funciones_cycleTest.cycleTest_start_cafe_alone()
     tempDataCt_a.objects.all().delete()
+
     data = ''
     return JsonResponse({'data': data})
 

@@ -1221,6 +1221,55 @@ button {
   text-align: right;
   cursor: pointer;
 }
+  /* Estilo básico para el modal */
+  .formCreateCycleTest {
+    padding: 20px;
+    border-radius: 10px;
+    max-width: 500px;
+    width: 100%;
+  }
+
+  /* Centrar el título */
+  .modal-title {
+    text-align: center;
+    font-weight: bold;
+  }
+
+  /* Estilo para los grupos de labels e inputs */
+  .form-group {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .form-group label {
+    margin-bottom: 0px;
+  }
+
+  /* Estilo para apilar horizontalmente en pantallas grandes */
+  @media (min-width: 600px) {
+    .form-group {
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .form-group label {
+      margin-bottom: 0;
+      margin-right: 10px;
+    }
+
+    .form-group input[type="text"],
+    .form-group input[type="checkbox"] {
+      flex: 1;
+    }
+  }
+
+  /* Estilo para los botones */
+  .form-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+  }
 
 /* Animation */
 @-webkit-keyframes modalbox {

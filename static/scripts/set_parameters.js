@@ -9,7 +9,45 @@ var LabelDut2 = document.getElementById('LabelDut2');
 var arrayParams = Array(34);
 var node_1 = document.getElementById('node_1');
 var node_2 = document.getElementById('node_2');
+const load = document.getElementById('load');
+const conditionalField = document.getElementById('conditionalField');
+const modoPCT = document.getElementById('modo');
+const divCycleTestDataForm = document.getElementById('divCycleTestDataForm');
+var formAux = document.getElementById('formAux');
+var formMain = document.getElementById('formMain');
+
 var arrayLabels = [idDutAlone,LabelDutAlone,LabelDut1,LabelDut2];
+
+function hideLoadDetails() {
+  if (load.checked) {
+      conditionalField.style.display = 'flex';
+    } else {
+      conditionalField.style.display = 'none';
+    }
+}
+
+//Solo mostrar el formulario de datos cuando sea Cycle test
+if (modoPCT.innerHTML != 'Show')
+{
+  divCycleTestDataForm.style.display = 'flex';
+}
+
+function saveData() {
+  const quantityInput = document.getElementById('manual_porcent_cafe_a');
+  $.ajax({
+      type: "POST",
+      url: '/show_open_cafe_alone/',
+      data: {csrfmiddlewaretoken: '{{ csrf_token }}',"porcPos": quantityInput.value},
+      success: function (data) {
+      }
+  });
+  bOpen_a.disabled = true;
+  bOpen_a.style.backgroundColor = "#6f6e6e";
+  bOpen_a.style.fontSize = "12px";
+  bClose_a.disabled = false;
+  bClose_a.style.backgroundColor = "#143a51";
+  bClose_a.style.fontSize = "16px"; 
+}
 
 //Identificar cuantos DUT hay conectados y en que puerto (PCT DUT's)
 for (let m = 0; m < arrayLabels.length; m++)
@@ -28,25 +66,8 @@ var arrayParamsTest = arrayParams;
 //------------------------------------------------------------------------------------------------------------//
 buttonSetParameters.addEventListener('click', function() 
 {
-  /*
-  for (let j = 0; j < dropdownsParams.length; j++)
-  {
-    var label = dropdownsParams[j].value;
-    var optionD = dropdownsParams[j].id;
-    arrayParams[j+4] = label + '|' + optionD;
-  }
-  //Asignar los parametros selecionados en los dropdown al valor del boton NEXT
+  //document.getElementById('formAux').submit();
 
-  if (node_1 != null)
-  {
-    arrayParams[14] = node_1.value;
-  }
-
-  if (node_2 != null)
-  {
-    arrayParams[15] = node_2.value;
-  }
-  */
 
   //------------------------------------Asignar al Array parametros de los DUT Alone------------------------------------//
 

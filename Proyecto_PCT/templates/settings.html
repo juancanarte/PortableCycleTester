@@ -242,6 +242,26 @@
     
         </div>
     </div>
+
+    <div class=" d-flex justify-content-center align-items-center" style="margin-top: 5px; width: auto;">
+        <form id="divInputUsers" class="justify-content-center align-items-center" method="POST" action="{% url 'New_user' %}" hidden>
+          {% csrf_token %}
+          <h3 class="" style="font-size: 20px;">Create new user</h3>
+          <div class="align-items-center" style="display: flex;">
+            <input type="text" id="nameUser" name="nameNewUser" style="width: 200px;" required>
+            <button id="newUser" class="css-button-sharp--blue" style="width: 70px; margin-left: 10px;" type="submit" name="defSettings" value="defSet">Add</button>
+          </div>
+        </form>
+    </div>
+
+    {% if messages %}
+  <div class="alert alert-danger" style="display: flex; justify-content: center;">
+    {% for message in messages %}
+      <p>{{ message }}</p>
+    {% endfor %}
+  </div>
+{% endif %}
+
     <div id="buttonSaveDefSettings" class="col-md-6 d-flex justify-content-center align-items-center" style="margin-top: 5px; width: auto;">
         <form method="POST" action="{% url 'Def_settings' %}">
           {% csrf_token %}
@@ -285,6 +305,7 @@ var buttonSaveDefSettings = document.getElementById('buttonSaveDefSettings');
 var saveButton = document.getElementById('saveButton');
 var logIn_defSet = document.getElementById('logIn_defSet');
 var divDefaultSettings = document.getElementById('divDefaultSettings');
+var divInputUsers = document.getElementById('divInputUsers');//
 var divDefaultTot = document.getElementById('divDefaultTot');
 var logIn_password = document.getElementById('logIn_password');
 //------CAFE 1------//
@@ -399,7 +420,8 @@ function hideSetLs_2() {
         if (logIn_password.value == 'pompct')
         {
             divDefaultSettings.removeAttribute("hidden");
-            divDefaultTot.removeAttribute("hidden");saveButton
+            divDefaultTot.removeAttribute("hidden");
+            divInputUsers.removeAttribute("hidden");
             saveButton.removeAttribute("hidden");
         }
     });

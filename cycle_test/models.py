@@ -1,6 +1,9 @@
 from django.db import models
 
 # Create your models here.
+class users(models.Model):
+    fullName = models.CharField(max_length=50, unique=True)
+
 class defSettings(models.Model):
     pctMode = models.CharField(max_length=10)
     signalType_1 = models.CharField(max_length=12)
@@ -28,6 +31,9 @@ class cycleTestData(models.Model):
     loadDetails = models.BinaryField()
     testerName = models.CharField(max_length=30)
     observations = models.CharField(max_length=30)
+    operationMode = models.CharField(max_length=30, default='Digital')
+    bauds = models.IntegerField(default=19200)
+    node = models.IntegerField(default=1)
     operationVoltage = models.CharField(max_length=30)
     inputType = models.CharField(max_length=30)
     signalType = models.CharField(max_length=30)
@@ -38,6 +44,7 @@ class cycleTestData(models.Model):
     month = models.CharField(max_length=30)
     year = models.CharField(max_length=30)
     fullDate = models.CharField(max_length=30)
+    dateStart = models.CharField(max_length=30, default='')
     dateEnd = models.CharField(max_length=30)
     plannedTimeTest = models.CharField(max_length=30)
     finalTimeTest = models.CharField(max_length=30)

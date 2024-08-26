@@ -1,4 +1,5 @@
 #prueba git 3 raspberry pi
+import datetime
 from pymodbus.client import ModbusSerialClient
 #import minimalmodbus
 import threading
@@ -112,6 +113,12 @@ scale_porcent = 10
 saw_porcent = 1
 width_time_saw = 0.1
 tOutModbus = 0.5
+
+#--------------------------------- Cycle Test Data-----------------------------------------#
+testerName_g = ''
+actuatorRef_g = ''
+load_g = False
+loadDetails_g = ''
 #--------------------------------------------CAFE ALONE--------------------------------------------#
 modo_dut_alone = ''
 dut_alone = ''
@@ -177,6 +184,9 @@ _detener_hilo = threading.Event()
 minutos_cafe_a = 0
 segundos_cafe_a = 0
 horas_cafe_a = 0
+
+dateStart_a = None
+dateEnd_a = None
 
 #----------------------------------------------CAFE 1----------------------------------------------#
 name_dut_1 = ''
@@ -695,7 +705,7 @@ def cycleTest_stop_cafe_alone():
     detener()
     reiniciar()
     stop_saveInDB_a()
-    joinTemporalDB_a()
+    #joinTemporalDB_a()
 
     if modoG == 3:
         if thread_readMod_a is not None and thread_readMod_a.is_alive():
@@ -1132,9 +1142,11 @@ def _actualizar_tiempo():
         time.sleep(0.1)
 
 def iniciar():
-    global inicio, tiempo_pausado, en_progreso, tiempo_total_a, hilo, _detener_hilo
+    global inicio, tiempo_pausado, en_progreso, tiempo_total_a, hilo, _detener_hilo, dateStart_a
 
     if not en_progreso:
+        dateStart_a = datetime.datetime.now() #Capturar fecha inicial completa
+
         inicio = time.time() - tiempo_total_a
         en_progreso = True
         if hilo is None:
@@ -2475,7 +2487,7 @@ def joinTemporalDB_a():
         relayC_conca.extend(lista_relayC)
         timeStamp_conca.extend(lista_timeStamp)
 
-    newCycleTestRegister(dut_alone, 'cafe', False, [''], 'Juan david canarte',
+    newCycleTestRegister(dut_alone, actuatorRef_g, load_g, [''], 'Juan david canarte',
                          'ninguna observacion', '24vdc', 'digital',
                          'pulseSignal', '2Sec', 100, 0, '12', '08', '2024',
                          '20240812', '20240812', '1506', '1500',
@@ -2483,9 +2495,20 @@ def joinTemporalDB_a():
                          feedBack_conca, relayO_conca, relayC_conca,
                          timeStamp_conca, ['100','99'], ['99','88'])
 
+def saveCtData(testerName_l, actuatorRef_l, load_l, loadDetails_l):
+    global testerName_g, actuatorRef_g, load_g, loadDetails_g
+
+    #Traer datos del cycle test desde el front
+    testerName_g = testerName_l
+    actuatorRef_g = actuatorRef_l
+    load_g = load_l == 'on'
+    loadDetails_g = loadDetails_l
+    
 def newCycleTestRegister(_dut, _actuatorRef, _load, _loadDetails, _testerName, _observations,
-                         _operationVoltage, _inputType, _signalType, _pulseTime, _highValue,
-                         _lowValue, _day, _month, _year, _fullDate, _dateEnd, _plannedTimeTest,
+                         _operationMode, _bauds, _node, _operationVoltage, _inputType, _signalType,
+                         _pulseTime, _highValue,
+                         _lowValue, _day, _month, _year, _fullDate, _dateStart, _dateEnd,
+                         _plannedTimeTest,
                          _finalTimeTest, _temp, _current, _setPoint, _feedBack, _relayO, _relayC,
                          _timeStamp, _relaysCounter, _feedBackCounter):
     
@@ -2528,6 +2551,9 @@ def newCycleTestRegister(_dut, _actuatorRef, _load, _loadDetails, _testerName, _
         loadDetails = jsonBytes_LoadDetailsA,
         testerName = _testerName,
         observations = _observations,
+        operationMode = _operationMode,
+        bauds = _bauds,
+        node = _node,
         operationVoltage = _operationVoltage,
         inputType = _inputType,
         signalType = _signalType,
@@ -2538,6 +2564,7 @@ def newCycleTestRegister(_dut, _actuatorRef, _load, _loadDetails, _testerName, _
         month = _month,
         year = _year,
         fullDate = _fullDate,
+        dateStart = _dateStart,
         dateEnd = _dateEnd,
         plannedTimeTest = _plannedTimeTest,
         finalTimeTest = _finalTimeTest,
