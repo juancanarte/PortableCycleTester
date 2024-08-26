@@ -727,13 +727,14 @@ def cycleTest_stop_cafe_alone():
 
 def cycleTest_write_start():
     global client, nodo, modoG, flag_a, inputType_modulation_a, modulation_read_a, modulation_write_a, setPoint_modulation_a, port_gpio_alone,\
-    listaP, pausa_hilo
+    listaP, pausa_hilo, signalType_a
 
     setPoint_modulation_a = 0
     widthTimePulse_show = int(listaP[5][0])
     widthTimePulse_a = widthTimePulse_show
     signalType = listaP[4]
-    signalType_a = signalType
+    signalType_a = listaP[4]
+    print("Este es el signal type 1:",signalType_a)
     
     if modoG == 1:
         print("open_digital_cafe_alone")
