@@ -727,14 +727,13 @@ def cycleTest_stop_cafe_alone():
 
 def cycleTest_write_start():
     global client, nodo, modoG, flag_a, inputType_modulation_a, modulation_read_a, modulation_write_a, setPoint_modulation_a, port_gpio_alone,\
-    listaP, pausa_hilo, signalType_a
+    listaP, pausa_hilo, signalType_a, widthTimePulse_a
 
     setPoint_modulation_a = 0
     widthTimePulse_show = int(listaP[5][0])
-    widthTimePulse_a = widthTimePulse_show
+    widthTimePulse_a = int(listaP[5][0])
     signalType = listaP[4]
     signalType_a = listaP[4]
-    print("Este es el signal type 1:",signalType_a)
     
     if modoG == 1:
         print("open_digital_cafe_alone")
@@ -2501,8 +2500,6 @@ def joinTemporalDB_a():
         relayO_conca.extend(lista_relayO)
         relayC_conca.extend(lista_relayC)
         timeStamp_conca.extend(lista_timeStamp)
-
-        print("Este es el signal type :",signalType_a)
 
     newCycleTestRegister(dut_alone, actuatorRef_g, load_g, loadDetails_g, testerName_g,
                          'ninguna observacion', modo_dut_alone, baud, nodo, op_voltage_a, inputType_modulation_a,
