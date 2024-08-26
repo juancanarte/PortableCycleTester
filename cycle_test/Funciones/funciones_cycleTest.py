@@ -2487,10 +2487,10 @@ def joinTemporalDB_a():
         relayC_conca.extend(lista_relayC)
         timeStamp_conca.extend(lista_timeStamp)
 
-    newCycleTestRegister(dut_alone, actuatorRef_g, load_g, [''], 'Juan david canarte',
-                         'ninguna observacion', '24vdc', 'digital',
-                         'pulseSignal', '2Sec', 100, 0, '12', '08', '2024',
-                         '20240812', '20240812', '1506', '1500',
+    newCycleTestRegister(dut_alone, actuatorRef_g, load_g, loadDetails_g, testerName_g,
+                         'ninguna observacion', 'Modulation', 19200, 1, '24vdc', '0mA-20mA'
+                         'pulseSignal', '2Sec', 100, 0, '12', '08', '2024', '20240812',
+                         dateStart_a, dateEnd_a, '1506', '1500',
                          temp_conca, current_conca, setPoint_conca,
                          feedBack_conca, relayO_conca, relayC_conca,
                          timeStamp_conca, ['100','99'], ['99','88'])
