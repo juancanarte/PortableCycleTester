@@ -705,7 +705,7 @@ def cycleTest_stop_cafe_alone():
     detener()
     reiniciar()
     stop_saveInDB_a()
-    #joinTemporalDB_a()
+    joinTemporalDB_a()
 
     if modoG == 3:
         if thread_readMod_a is not None and thread_readMod_a.is_alive():
