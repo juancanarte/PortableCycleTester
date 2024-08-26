@@ -1146,6 +1146,7 @@ def iniciar():
 
     if not en_progreso:
         dateStart_a = datetime.datetime.now() #Capturar fecha inicial completa
+        print(dateStart_a)
 
         inicio = time.time() - tiempo_total_a
         en_progreso = True
