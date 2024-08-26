@@ -67,8 +67,6 @@ var arrayParamsTest = arrayParams;
 buttonSetParameters.addEventListener('click', function() 
 {
   //document.getElementById('formAux').submit();
-
-
   //------------------------------------Asignar al Array parametros de los DUT Alone------------------------------------//
 
 if (arrayParamsTest[1] == 'CAFE')                                   //Si el DUT Alone es CAFE

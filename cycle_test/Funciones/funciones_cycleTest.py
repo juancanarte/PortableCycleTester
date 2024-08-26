@@ -9,6 +9,7 @@ import json
 import numpy as np
 from cycle_test.models import tempDataCt_a as tDataCt_a
 from cycle_test.models import cycleTestData as ctd
+import pytz
 
 """"""
 try:
@@ -93,6 +94,10 @@ tDataCt_a.objects.all().delete
 widthTimePulse_show = 6
 
 #modo global
+
+# Especificar la zona horaria deseada (ejemplo: 'America/Mexico_City')
+zona_horaria = pytz.timezone('America/Mexico_City')
+
 modoG = 0
 modoG_1 = 0
 modoG_2 = 0
@@ -1194,8 +1199,10 @@ def detener():
     global inicio, tiempo_pausado, en_progreso, tiempo_total_a, hilo, _detener_hilo, dateEnd_a
 
     if hilo is not None:
-        dateEnd_a = datetime.datetime.now() #Capturar fecha inicial completa
+        dateEnd_a = datetime.now(zona_horaria)
         dateEnd_a = dateEnd_a.strftime("%Y-%m-%d %H:%M:%S")
+
+        print("fecha final :" ,dateEnd_a)
 
         _detener_hilo.set()
         hilo.join()
