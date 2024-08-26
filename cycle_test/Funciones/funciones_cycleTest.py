@@ -1190,9 +1190,10 @@ def mostrar_tiempo():
     horas_cafe_a = int(horas)
 
 def detener():
-    global inicio, tiempo_pausado, en_progreso, tiempo_total_a, hilo, _detener_hilo
+    global inicio, tiempo_pausado, en_progreso, tiempo_total_a, hilo, _detener_hilo, dateEnd_a
 
     if hilo is not None:
+        dateEnd_a = datetime.datetime.now() #Capturar fecha inicial completa
         _detener_hilo.set()
         hilo.join()
         hilo = None
