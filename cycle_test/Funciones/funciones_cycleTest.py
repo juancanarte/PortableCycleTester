@@ -1,5 +1,5 @@
 #prueba git 3 raspberry pi
-import datetime
+from datetime import datetime
 from pymodbus.client import ModbusSerialClient
 #import minimalmodbus
 import threading
@@ -1147,10 +1147,10 @@ def _actualizar_tiempo():
         time.sleep(0.1)
 
 def iniciar():
-    global inicio, tiempo_pausado, en_progreso, tiempo_total_a, hilo, _detener_hilo, dateStart_a
+    global inicio, tiempo_pausado, en_progreso, tiempo_total_a, hilo, _detener_hilo, dateStart_a, zona_horaria
 
     if not en_progreso:
-        dateStart_a = datetime.datetime.now() #Capturar fecha inicial completa
+        dateStart_a = datetime.now(zona_horaria) #Capturar fecha inicial completa
         print(dateStart_a)
 
         inicio = time.time() - tiempo_total_a
@@ -1196,7 +1196,7 @@ def mostrar_tiempo():
     horas_cafe_a = int(horas)
 
 def detener():
-    global inicio, tiempo_pausado, en_progreso, tiempo_total_a, hilo, _detener_hilo, dateEnd_a
+    global inicio, tiempo_pausado, en_progreso, tiempo_total_a, hilo, _detener_hilo, dateEnd_a, zona_horaria
 
     if hilo is not None:
         dateEnd_a = datetime.now(zona_horaria)
