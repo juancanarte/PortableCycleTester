@@ -1195,6 +1195,8 @@ def detener():
 
     if hilo is not None:
         dateEnd_a = datetime.datetime.now() #Capturar fecha inicial completa
+        dateEnd_a = dateEnd_a.strftime("%Y-%m-%d %H:%M:%S")
+
         _detener_hilo.set()
         hilo.join()
         hilo = None
