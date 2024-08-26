@@ -96,7 +96,7 @@ widthTimePulse_show = 6
 #modo global
 
 # Especificar la zona horaria deseada (ejemplo: 'America/Mexico_City')
-zona_horaria = pytz.timezone('America/Mexico_City')
+zona_horaria = pytz.timezone('America/New_York')
 
 modoG = 0
 modoG_1 = 0
