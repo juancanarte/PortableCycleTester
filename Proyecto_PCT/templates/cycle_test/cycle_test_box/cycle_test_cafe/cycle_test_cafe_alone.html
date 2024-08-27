@@ -216,11 +216,24 @@
 
     <!-- Botones al final del formulario -->
     <div class="form-actions">
-      <button type="button" id="cancelBtn">Cancelar</button>
-      <button type="submit">Save</button>
+      <button class="css-button-show" type="button" id="cancelBtn" onclick="window.dialogCancelar.open();">Cancelar</button>
+      <button class="css-button-show" type="submit">Save</button>
     </div>
   </form>
 </dialog>
+
+<!-- Modal sure ?-->
+<dialog id="dialogCancelar">
+  <h2>Remove Data?</h2>
+  <br>
+  <button class="css-button-eye" style="margin-right: 10px; border-radius: 0%; width:80px;" onclick="window.dialogCancelar.close();window.formCreateCycleTest.close();">
+    Ok
+  </button>
+  <button class="css-button-eye" style="margin-right: 10px; border-radius: 0%; width:80px;" onclick="window.dialogCancelar.close();">
+    Cancel
+  </button>
+</dialog>
+
 
 <!-- Modal turn off ?-->
 <dialog id="modalTurnOff_cafe_a">
@@ -572,6 +585,7 @@ function receiveData_a() {
         // Mostrar el valor en el contenedor
         console.log(data);
         document.getElementById('dateStart_dialog').innerText = data.dateStart_a;
+        document.getElementById('dateEnd_dialog').innerText = data.dateEnd_a;
     })
     .catch(error => console.error('Error:', error));
 }
