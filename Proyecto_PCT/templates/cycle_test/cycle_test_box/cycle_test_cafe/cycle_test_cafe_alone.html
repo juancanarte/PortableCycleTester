@@ -570,7 +570,7 @@ function receiveData_a() {
     .then(response => response.json())
     .then(data => {
         // Mostrar el valor en el contenedor
-        console.log(data);
+        console.log(data.dateStart_a);
         document.getElementById('dateStart_dialog').innerText = data.dateStart_a;
     })
     .catch(error => console.error('Error:', error));
