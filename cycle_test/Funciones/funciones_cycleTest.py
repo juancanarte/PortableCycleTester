@@ -1158,6 +1158,7 @@ def iniciar():
 
     if not en_progreso:
         dateStart_a = datetime.now(zona_horaria) #Capturar fecha inicial completa
+        dateStart_a = dateStart_a.strftime("%m/%d/%Y %M:%S")
 
         inicio = time.time() - tiempo_total_a
         en_progreso = True
