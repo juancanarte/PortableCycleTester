@@ -179,13 +179,13 @@
     <h4 class="modal-title" style="margin-top: 10px;">Cycle test data</h4>
     <div class="computer_text_main flex-column" style="margin-bottom: 10px; width: 332px;">
       <table style="width: 88%;">
-        <tr id="dateStart_dialog">
+        <tr>
           <td>Date start :</td>
-          <td>07/16/2024 15:30</td>
+          <td id="dateStart_dialog">07/16/2024 15:30</td>
         </tr>
-        <tr id="dateEnd_dialog">
+        <tr>
           <td>Date end :</td>
-          <td>07/16/2024 15:30</td>
+          <td id="dateEnd_dialog">07/16/2024 15:30</td>
         </tr>
         <tr id="plannedTimeTest_dialog">
           <td>Planned time test (hh):</td>
@@ -295,11 +295,6 @@
     {
       InputCafe_dialog.removeAttribute("hidden");
     }
-    
-   /* bStart_a.addEventListener('click', function() {
-            startWrite();
-            console.log('start');
-        });*/
 
     stopButton.addEventListener('click', function() {
             socket.close(); // Cierra la conexión WebSocket
@@ -569,22 +564,16 @@ data: data,
 options: option
 });
 
-function saveDataTest() {
-        const quantityInput = document.getElementById('manual_porcent_cafe_a');
-        $.ajax({
-            type: "POST",
-            url: '/show_open_cafe_alone/',
-            data: {csrfmiddlewaretoken: '{{ csrf_token }}',"porcPos": quantityInput.value},
-            success: function (data) {
-            }
-        });
-        bOpen_a.disabled = true;
-        bOpen_a.style.backgroundColor = "#6f6e6e";
-        bOpen_a.style.fontSize = "12px";
-        bClose_a.disabled = false;
-        bClose_a.style.backgroundColor = "#143a51";
-        bClose_a.style.fontSize = "16px"; 
-    }
+function receiveData_a() {
+    fetch('/cycleTest_sendData_alone/')
+    .then(response => response.json())
+    .then(data => {
+        // Mostrar el valor en el contenedor
+        document.getElementById('dateStart_dialog').innerText = data.dateStart_a;
+    })
+    .catch(error => console.error('Error:', error));
+}
+
 
 function turnOn() {
         $.ajax({

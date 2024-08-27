@@ -1329,9 +1329,13 @@ def turnOff_cafe_alone():
     if (client != None):
         client.close()
 
-def saveInDB_cafe_alone():
-    global relayO_a, relayC_a, controlSignal_a, feedbackSignal_a
-    print("guardar en db")
+def sendData_cafe_alone():
+    global dateStart_a, dateEnd_a, counter_open_cafe_a, counter_close_cafe_a
+
+    dataList = {'dateStart_a':dateStart_a, 'dateEnd_a':dateEnd_a, 'counter_open_cafe_a':counter_open_cafe_a,
+                'counter_close_cafe_a':counter_close_cafe_a} 
+
+    return dataList
 
 #Funciones CYCLE TEST para CAFE #1
 def cycleTest_start_cafe_1():
