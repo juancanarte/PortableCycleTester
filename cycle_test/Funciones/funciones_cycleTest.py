@@ -2505,8 +2505,6 @@ def joinTemporalDB_a():
         relayC_conca.extend(lista_relayC)
         timeStamp_conca.extend(lista_timeStamp)
 
-    print("Este es operation mode :", modo_dut_alone)
-
     newCycleTestRegister(dut_alone, actuatorRef_g, load_g, loadDetails_g, testerName_g,
                          'ninguna observacion', modo_dut_alone, baud, nodo, op_voltage_a, inputType_modulation_a,
                          signalType_a, widthTimePulse_a, 100, 0, '12', '08', '2024', '20240812',
