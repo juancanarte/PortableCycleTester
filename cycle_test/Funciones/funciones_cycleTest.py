@@ -1207,6 +1207,7 @@ def detener():
 
     if hilo is not None:
         dateEnd_a = datetime.now(zona_horaria)
+        dateEnd_a = dateEnd_a.strftime("%m/%d/%Y %M:%S")
 
         _detener_hilo.set()
         hilo.join()
