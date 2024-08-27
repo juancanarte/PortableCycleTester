@@ -93,9 +93,7 @@ def turnOff_cafe_alone(request):
 def sendData_cafe_alone(request):
     data = funciones_cycleTest.sendData_cafe_alone()
 
-    print("Este es la lectura :",data['dateStart_a'])
-
-    return JsonResponse({'dateStart_a ': data['dateStart_a'], 'dateEnd_a': data['dateEnd_a'], 'counter_open_cafe_a':data['counter_open_cafe_a'],
+    return JsonResponse({'dateStart_a': data['dateStart_a'], 'dateEnd_a': data['dateEnd_a'], 'counter_open_cafe_a':data['counter_open_cafe_a'],
                          'counter_close_cafe_a':data['counter_close_cafe_a']})
 
 #Funcioes CYCLE TEST para CAFE 1
