@@ -148,7 +148,7 @@
 <!-- Modal formulario cycle test-->
 <dialog id="formCreateCycleTest">
   <h3 class="modal-title">CYCLE TEST FINISHED</h3>
-  <form id="cycleTestForm" action="{% url 'SaveData_cafe_alone' %}" method="post">
+  <form id="cycleTestForm" action="{% url 'SaveData_cafe_alone' %}">
     <div id="conditionalField" class="form-group" style="display: flex; justify-content: center; flex-direction: row; align-items: flex-start; margin-bottom: 10px;">
       <label for="observations">Observations:</label>
       <textarea id="observations" name="observations" style="max-width: 177px;" rows="5" pattern="[A-Za-z0-9\s]*"></textarea>
@@ -237,7 +237,7 @@
     <!-- Botones al final del formulario -->
     <div class="form-actions">
       <button class="css-button-show" type="button" id="cancelBtn" onclick="window.dialogCancelar.showModal();">Cancelar</button>
-      <button class="css-button-show" type="submit" onclick="saveData_a();">Save</button>
+      <button class="css-button-show" type="button" onclick="saveData_a();">Save</button>
     </div>
   </form>
 </dialog>
