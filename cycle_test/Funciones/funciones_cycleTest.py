@@ -1158,7 +1158,7 @@ def iniciar():
 
     if not en_progreso:
         dateStart_a = datetime.now(zona_horaria) #Capturar fecha inicial completa
-        dateStart_a = dateStart_a.strftime("%m/%d/%Y %M:%S")
+        dateStart_a = dateStart_a.strftime("%m/%d/%Y %H:%M")
 
         inicio = time.time() - tiempo_total_a
         en_progreso = True
@@ -1207,7 +1207,7 @@ def detener():
 
     if hilo is not None:
         dateEnd_a = datetime.now(zona_horaria)
-        dateEnd_a = dateEnd_a.strftime("%m/%d/%Y %M:%S")
+        dateEnd_a = dateEnd_a.strftime("%m/%d/%Y %H:%M")
 
         _detener_hilo.set()
         hilo.join()
