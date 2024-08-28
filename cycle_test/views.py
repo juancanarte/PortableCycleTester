@@ -99,6 +99,7 @@ def sendData_cafe_alone(request):
     return JsonResponse({'dateStart_a': data['dateStart_a'], 'dateEnd_a': data['dateEnd_a'], 'counter_open_cafe_a':data['counter_open_cafe_a'],
                          'counter_close_cafe_a':data['counter_close_cafe_a']})
 
+@csrf_exempt
 def saveData_cafe_alone(request):
     if request.method == 'POST':
         # Realiza tus validaciones y guarda los datos
