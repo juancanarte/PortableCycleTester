@@ -349,8 +349,10 @@ function stop(){
   //receiveData_a();
   dialogCycleTest.showModal();
   document.getElementById('botonesForm').removeAttribute("hidden");
-  document.getElementById('bStart_a').setAttribute("hidden", "hidden");
+  document.getElementById('bStart_a').removeAttribute("hidden");
   document.getElementById('powerOff_Cafe_a').removeAttribute("hidden");
+  document.getElementById('bStop_a').setAttribute("hidden", "hidden");
+  document.getElementById('bPause_a').setAttribute("hidden", "hidden");
 }
 
 function iniciarConexion()
