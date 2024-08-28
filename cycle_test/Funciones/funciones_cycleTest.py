@@ -712,11 +712,6 @@ def cycleTest_stop_cafe_alone():
         thread_modbus_a.join()
         flag_a.clear()
 
-    detener()
-    reiniciar()
-    stop_saveInDB_a()
-    joinTemporalDB_a()
-
     if modoG == 3:
         if thread_readMod_a is not None and thread_readMod_a.is_alive():
             flag_read_a.set()
@@ -724,6 +719,11 @@ def cycleTest_stop_cafe_alone():
             flag_read_a.clear()
     else:
         pass
+
+    detener()
+    reiniciar()
+    stop_saveInDB_a()
+    joinTemporalDB_a()
 
 def cycleTest_write_start():
     global client, nodo, modoG, flag_a, inputType_modulation_a, modulation_read_a, modulation_write_a, setPoint_modulation_a, port_gpio_alone,\
