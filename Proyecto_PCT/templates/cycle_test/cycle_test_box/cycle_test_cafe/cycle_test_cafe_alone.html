@@ -322,7 +322,7 @@
             socket.close(); // Cierra la conexión WebSocket
         });
     */
-   
+
     bPause_a.addEventListener('click', function() {
             pause();
             pause_ws();
@@ -668,6 +668,7 @@ function start() {
         stopButton.removeAttribute("hidden");
         bPause_a.removeAttribute("hidden");
         bPowerOff_Cafe_a.setAttribute("hidden", "hidden");
+        document.getElementById('botonesForm').setAttribute("hidden", "hidden");
     }
 
 function pause() {
