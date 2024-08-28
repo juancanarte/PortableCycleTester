@@ -148,7 +148,7 @@
 <!-- Modal formulario cycle test-->
 <dialog id="formCreateCycleTest">
   <h3 class="modal-title">CYCLE TEST FINISHED</h3>
-  <form method="dialog">
+  <form id="cycleTestForm" action="{% url 'SaveData_cafe_alone' %}" method="post">
     <div id="conditionalField" class="form-group" style="display: flex; justify-content: center; flex-direction: row; align-items: flex-start; margin-bottom: 10px;">
       <label for="observations">Observations:</label>
       <textarea id="observations" name="observations" style="max-width: 177px;" rows="5" pattern="[A-Za-z0-9\s]*"></textarea>
@@ -587,9 +587,41 @@ data: data,
 options: option
 });
 
-function saveData_a(){
-  
+function saveData_a() {
+    const form = document.getElementById('cycleTestForm');
+    const formData = new FormData(form);
+
+    // Validaciones personalizadas (ejemplo)
+    const observations = document.getElementById('observations').value;
+    if (!observations.match(/^[A-Za-z0-9\s]*$/)) {
+        alert('The observations contain illegal characters.');
+        return;
+    }
+
+    // Envío del formulario usando AJAX
+    fetch(form.action, {
+        method: 'POST',
+        body: formData,
+        headers: {
+            'X-CSRFToken': '{{ csrf_token }}' // Incluye el token CSRF para Django
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            alert('Form submitted successfully.');
+            form.reset(); // Resetea el formulario si es necesario
+            document.getElementById('formCreateCycleTest').close(); // Cierra el diálogo
+        } else {
+            alert('There was an error submitting the form.');
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert('An unexpected error occurred.');
+    });
 }
+
 
 function receiveData_a() {
     fetch('/ct/cycleTest_sendData_alone/')

@@ -99,6 +99,19 @@ def sendData_cafe_alone(request):
     return JsonResponse({'dateStart_a': data['dateStart_a'], 'dateEnd_a': data['dateEnd_a'], 'counter_open_cafe_a':data['counter_open_cafe_a'],
                          'counter_close_cafe_a':data['counter_close_cafe_a']})
 
+def saveData_cafe_alone(request):
+    if request.method == 'POST':
+        # Realiza tus validaciones y guarda los datos
+        # Si todo está bien
+        observations = request.POST.get('observations')
+        print(observations)
+
+        return JsonResponse({'success': True})
+        
+        # Si hubo un error
+        # return JsonResponse({'success': False, 'error': 'Mensaje de error'})
+    return JsonResponse({'success': False, 'error': 'Método no permitido'}, status=405)
+
 #Funcioes CYCLE TEST para CAFE 1
 def cycleTest_start_cafe_1(request):
     funciones_cycleTest.cycleTest_start_cafe_1()
