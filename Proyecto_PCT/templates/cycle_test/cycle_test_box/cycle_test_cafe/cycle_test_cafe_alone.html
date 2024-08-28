@@ -235,7 +235,7 @@
     </div>
 
     <!-- Botones al final del formulario -->
-    <div class="form-actions">
+    <div id="botonesForm" class="form-actions" hidden>
       <button class="css-button-show" type="button" id="cancelBtn" onclick="window.dialogCancelar.showModal();">Cancelar</button>
       <button class="css-button-show" type="button" onclick="saveData_a();">Save</button>
     </div>
@@ -338,6 +338,7 @@ function stop(){
             url: '/ct/cycleTest_stop_cafe_alone/',
             success: function (data) {
               receiveData_a();
+              document.getElementById('botonesForm').removeAttribute("hidden");
             }
         });
 
@@ -622,13 +623,11 @@ function saveData_a() {
     });
 }
 
-
 function receiveData_a() {
     fetch('/ct/cycleTest_sendData_alone/')
     .then(response => response.json())
     .then(data => {
         // Mostrar el valor en el contenedor
-        console.log(data);
         document.getElementById('dateStart_dialog').innerText = data.dateStart_a;
         document.getElementById('dateEnd_dialog').innerText = data.dateEnd_a;
     })
