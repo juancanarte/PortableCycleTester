@@ -136,6 +136,15 @@
   </button>
 </dialog>
 
+<!-- Modal sure ?-->
+<dialog id="dialogNext">
+  <h2>Data stored</h2>
+  <br>
+  <button class="css-button-eye" style="margin-right: 10px; border-radius: 0%; width:80px;" onclick="window.dialogNext.close();">
+    Next
+  </button>
+</dialog>
+
 <!-- Modal formulario cycle test-->
 <dialog id="formCreateCycleTest">
   <h3 class="modal-title">CYCLE TEST FINISHED</h3>
@@ -228,7 +237,7 @@
     <!-- Botones al final del formulario -->
     <div class="form-actions">
       <button class="css-button-show" type="button" id="cancelBtn" onclick="window.dialogCancelar.showModal();">Cancelar</button>
-      <button class="css-button-show" type="submit">Save</button>
+      <button class="css-button-show" type="submit" onclick="saveData_a();">Save</button>
     </div>
   </form>
 </dialog>
@@ -578,6 +587,10 @@ data: data,
 options: option
 });
 
+function saveData_a(){
+  
+}
+
 function receiveData_a() {
     fetch('/ct/cycleTest_sendData_alone/')
     .then(response => response.json())
@@ -589,7 +602,6 @@ function receiveData_a() {
     })
     .catch(error => console.error('Error:', error));
 }
-
 
 function turnOn() {
         $.ajax({

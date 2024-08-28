@@ -46,7 +46,9 @@ def cycle_test(request):
                     'params_ls_2':_params[36], 'users':_users, 'testerName':_cycleTestData[0], 'actuatorRef':_cycleTestData[1],
                     'load':_cycleTestData[2], 'loadDetails':_cycleTestData[3]}
     funciones_cycleTest.show_params(_paramsR,_mode)
-    print(_params)
+    
+    if request.method == 'POST':
+        print("Hacer algo")
 
     #Extructura respuesta [id_dut, label_dut, temp_dut_alone, label_dut_1, label_dut_2, temp_dut_1, temp_dut_2, modo_dut_1, modo_dut_2, modo_dut_a]
     return render(request, "Proyecto_PCT/templates/cycle_test/cycle_test.html",list_context)
