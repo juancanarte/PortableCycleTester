@@ -192,11 +192,11 @@
       <table style="width: 88%;">
         <tr>
           <td>Date start :</td>
-          <td id="dateStart_dialog">07/16/2024 15:30</td>
+          <td id="dateStart_dialog">mm/dd/yyyy HH:MM</td>
         </tr>
         <tr>
           <td>Date end :</td>
-          <td id="dateEnd_dialog">07/16/2024 15:30</td>
+          <td id="dateEnd_dialog">mm/dd/yyyy HH:MM</td>
         </tr>
         <tr id="plannedTimeTest_dialog">
           <td>Planned time test (hh):</td>
@@ -227,7 +227,7 @@
 
     <!-- Botones al final del formulario -->
     <div class="form-actions">
-      <button class="css-button-show" type="button" id="cancelBtn" onclick="window.dialogCancelar.open();">Cancelar</button>
+      <button class="css-button-show" type="button" id="cancelBtn" onclick="window.dialogCancelar.showModal();">Cancelar</button>
       <button class="css-button-show" type="submit">Save</button>
     </div>
   </form>
