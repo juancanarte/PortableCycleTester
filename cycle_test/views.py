@@ -105,7 +105,7 @@ def saveData_cafe_alone(request):
         # Realiza tus validaciones y guarda los datos
         # Si todo está bien
         observations = request.POST.get('observations')
-        print(observations)
+        print("observations :", observations)
 
         return JsonResponse({'success': True})
         
