@@ -684,6 +684,8 @@ function resume() {
             success: function (data) {
             }
         });
+        bPause_a.removeAttribute("hidden");
+        bResume_a.setAttribute("hidden", "hidden");
     }
 
 function cancel() {
@@ -697,7 +699,6 @@ function hideLoadDetails() {
       conditionalField.style.display = 'none';
     }
 }
-
 
 </script>
 
