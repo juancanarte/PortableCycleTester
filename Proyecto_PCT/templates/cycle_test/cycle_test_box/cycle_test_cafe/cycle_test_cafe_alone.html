@@ -72,23 +72,77 @@
         </div>
 
         <div class="row justify-content-center align-items-center">
-            <div class="computer_text_main" style="border: 2px dashed #000; padding: 5px; max-width: 540px;">
+          <div class="computer_text_main" style="max-width: 560px;">
+            <div class="computer_text_main" style="margin: 0px; width: auto;">
+              <label class="switch">
+                <input type="checkbox">
+                <span class="slider"></span>
+            </label>
+            </div>
+
+            <div class="computer_text_main" style="margin: 0px 6px 0px 6px; width: auto;">
+                  <h3>Custom test time (hours) : </h3> 
+            </div>
+
+            <div class="computer_text_main" style="margin: 0px; width: auto;">
+              <label for="hoursCafe_a"></label>
+              <input type="text" id="hoursCafe_a" name="hoursCafe_a" style="max-width: 40px;" pattern="[A-Za-z0-9\s]*" required>
+            </div>
+          </div>
+        </div>
+
+        <div class="row justify-content-center align-items-center">
+          <div class="computer_text_main" style="max-width: 540px;">
             <div class="computer_text_main" style="padding: 5px;">
-                <h3>Time :&nbsp;</h3>
+                <h3>Time Test (hh/mm/ss) =>&nbsp;</h3>
                 <h1 id="testTime"></h1>
             </div>
+          </div>
+      </div>
 
-                <div class="computer_text_main">
-                    <h3 id="open_cafe_a">Open : </h3>
-                    
-                </div>
-
-                <div class="computer_text_main">
-                    <h3 id="close_cafe_a">Close : </h3>
-                    
-                </div>
+        <div class="row justify-content-center align-items-center">
+            <div class="computer_text_main" style="max-width: 540px; margin-bottom: 4px;">
+            <div class="computer_text_main" style="margin: 0px; width: 156px;">
+                <h3>Relays counter =>&nbsp;</h3>
             </div>
 
+                <div class="computer_text_main" style="justify-content: left; width: 125px; margin: 0px;">
+                    <h3 id="open_cafe_a">Open : 0000</h3>
+                </div>
+
+                <div class="computer_text_main"  style="justify-content: left; width: 125px; margin: 0px;">
+                    <h3 id="close_cafe_a">Close : 0000</h3>
+                </div>
+            </div>
+        </div>
+
+        <div class="row justify-content-center align-items-center">
+          <div class="computer_text_main" style="max-width: 540px; margin-bottom: 4px;">
+          <div class="computer_text_main" style="margin: 0px; width: 183px;">
+              <h3>FeedBack counter =>&nbsp;</h3>
+          </div>
+
+              <div class="computer_text_main" style="justify-content: left; width: 125px; margin: 0px;">
+                  <h3 id="openFe_cafe_a">Open : 0000</h3>
+              </div>
+
+              <div class="computer_text_main"  style="justify-content: left; width: 125px; margin: 0px;">
+                  <h3 id="closeFe_cafe_a">Close : 0000</h3>
+              </div>
+          </div>
+        </div>
+
+        <div class="row justify-content-center align-items-center">
+          <div class="computer_text_main" style="max-width: 540px;">
+            <div class="computer_text_main" style="margin: 0px; width: 139px;">
+                <h3>Current = 0.3A&nbsp;</h3>
+            </div>
+
+            <div class="computer_text_main" style="justify-content: left; width: 226px; margin: 0px;">
+                <h3 id="openFe_cafe_a">Temperature = 55°C / 131°F</h3>
+            </div>
+
+          </div>
         </div>
 
         <div class="computer_text_main" style="padding: 5px; max-width: 540px;">
@@ -241,7 +295,6 @@
     </div>
   </form>
 </dialog>
-
 
 <!-- Modal turn off ?-->
 <dialog id="modalTurnOff_cafe_a">
