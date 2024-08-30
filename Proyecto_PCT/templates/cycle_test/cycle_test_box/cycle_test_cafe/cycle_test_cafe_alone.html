@@ -71,77 +71,79 @@
             </div>
         </div>
 
-        <div class="row justify-content-center align-items-center">
-          <div class="computer_text_main" style="max-width: 560px;">
-            <div class="computer_text_main" style="margin: 0px; width: auto;">
-              <label class="switch">
-                <input type="checkbox">
-                <span class="slider"></span>
-            </label>
-            </div>
-
-            <div class="computer_text_main" style="margin: 0px 6px 0px 6px; width: auto;">
-                  <h3>Custom test time (hours) : </h3> 
-            </div>
-
-            <div class="computer_text_main" style="margin: 0px; width: auto;">
-              <label for="hoursCafe_a"></label>
-              <input type="text" id="hoursCafe_a" name="hoursCafe_a" style="max-width: 40px;" pattern="[A-Za-z0-9\s]*" required>
-            </div>
-          </div>
-        </div>
-
-        <div class="row justify-content-center align-items-center">
-          <div class="computer_text_main" style="max-width: 540px;">
-            <div class="computer_text_main" style="padding: 5px;">
-                <h3>Time Test (hh/mm/ss) =>&nbsp;</h3>
-                <h1 id="testTime"></h1>
+        <div id="divCycleTestInfo_cafe_a" hidden>
+          <div class="row justify-content-center align-items-center">
+            <div class="computer_text_main" style="max-width: 560px;">
+              <div class="computer_text_main" style="margin: 0px; width: auto;">
+                <label class="switch">
+                  <input type="checkbox" id="toggleSwitch" onchange="toggleBlock()">
+                  <span class="slider"></span>
+              </label>
+              </div>
+  
+              <div id="divCustomTime" class="computer_text_main" style="margin: 0px 6px 0px 6px; width: auto;">
+                <h3>Custom test time (hours) : </h3> 
+              </div>
+  
+              <div id="divCustomTimeInput" class="computer_text_main" style="margin: 0px; width: auto;">
+                <label for="hoursCafe_a"></label>
+                <input type="text" id="hoursCafe_a" name="hoursCafe_a" style="max-width: 40px;" pattern="[A-Za-z0-9\s]*" required>
+              </div>
             </div>
           </div>
-      </div>
-
-        <div class="row justify-content-center align-items-center">
+  
+          <div class="row justify-content-center align-items-center">
+            <div class="computer_text_main" style="max-width: 540px;">
+              <div class="computer_text_main" style="padding: 5px;">
+                  <h3>Time Test (hh/mm/ss) =>&nbsp;</h3>
+                  <h1 id="testTime"></h1>
+              </div>
+            </div>
+          </div>
+  
+          <div class="row justify-content-center align-items-center">
+              <div class="computer_text_main" style="max-width: 540px; margin-bottom: 4px;">
+              <div class="computer_text_main" style="margin: 0px; width: 156px;">
+                  <h3>Relays counter =>&nbsp;</h3>
+              </div>
+  
+                  <div class="computer_text_main" style="justify-content: left; width: 125px; margin: 0px;">
+                      <h3 id="open_cafe_a">Open : 0000</h3>
+                  </div>
+  
+                  <div class="computer_text_main"  style="justify-content: left; width: 125px; margin: 0px;">
+                      <h3 id="close_cafe_a">Close : 0000</h3>
+                  </div>
+              </div>
+          </div>
+  
+          <div class="row justify-content-center align-items-center">
             <div class="computer_text_main" style="max-width: 540px; margin-bottom: 4px;">
-            <div class="computer_text_main" style="margin: 0px; width: 156px;">
-                <h3>Relays counter =>&nbsp;</h3>
+            <div class="computer_text_main" style="margin: 0px; width: 183px;">
+                <h3>FeedBack counter =>&nbsp;</h3>
             </div>
-
+  
                 <div class="computer_text_main" style="justify-content: left; width: 125px; margin: 0px;">
-                    <h3 id="open_cafe_a">Open : 0000</h3>
+                    <h3 id="openFe_cafe_a">Open : 0000</h3>
                 </div>
-
+  
                 <div class="computer_text_main"  style="justify-content: left; width: 125px; margin: 0px;">
-                    <h3 id="close_cafe_a">Close : 0000</h3>
+                    <h3 id="closeFe_cafe_a">Close : 0000</h3>
                 </div>
             </div>
-        </div>
-
-        <div class="row justify-content-center align-items-center">
-          <div class="computer_text_main" style="max-width: 540px; margin-bottom: 4px;">
-          <div class="computer_text_main" style="margin: 0px; width: 183px;">
-              <h3>FeedBack counter =>&nbsp;</h3>
           </div>
-
-              <div class="computer_text_main" style="justify-content: left; width: 125px; margin: 0px;">
-                  <h3 id="openFe_cafe_a">Open : 0000</h3>
+  
+          <div class="row justify-content-center align-items-center">
+            <div class="computer_text_main" style="max-width: 540px;">
+              <div class="computer_text_main" style="margin: 0px; width: 139px;">
+                  <h3>Current = 0.3A&nbsp;</h3>
               </div>
-
-              <div class="computer_text_main"  style="justify-content: left; width: 125px; margin: 0px;">
-                  <h3 id="closeFe_cafe_a">Close : 0000</h3>
+  
+              <div class="computer_text_main" style="justify-content: left; width: 226px; margin: 0px;">
+                  <h3 id="openFe_cafe_a">Temperature = 55°C / 131°F</h3>
               </div>
-          </div>
-        </div>
-
-        <div class="row justify-content-center align-items-center">
-          <div class="computer_text_main" style="max-width: 540px;">
-            <div class="computer_text_main" style="margin: 0px; width: 139px;">
-                <h3>Current = 0.3A&nbsp;</h3>
+  
             </div>
-
-            <div class="computer_text_main" style="justify-content: left; width: 226px; margin: 0px;">
-                <h3 id="openFe_cafe_a">Temperature = 55°C / 131°F</h3>
-            </div>
-
           </div>
         </div>
 
@@ -462,6 +464,7 @@ function powerOn_Cafe_a() {
   bPowerOn_Cafe_a.setAttribute("hidden", "hidden");
   bPowerOff_Cafe_a.removeAttribute("hidden");
   divButtons_cafe_a.removeAttribute("hidden");
+  document.getElementById('divCycleTestInfo_cafe_a').removeAttribute("hidden");
   iniciarConexion();
 }
 
@@ -760,6 +763,24 @@ function hideLoadDetails() {
     } else {
       conditionalField.style.display = 'none';
     }
+}
+
+function toggleBlock() {
+        const blockable1 = document.getElementById('divCustomTime');
+        const blockable2 = document.getElementById('divCustomTimeInput');
+        const toggleSwitch = document.getElementById('toggleSwitch');
+
+        if (toggleSwitch.checked) {
+          blockable1.classList.remove('disabled');
+          blockable2.classList.remove('disabled');
+        } else {
+            blockable1.classList.add('disabled');
+            blockable2.classList.add('disabled');
+        }
+    }
+
+function check_customTestTime(){
+  
 }
 
 </script>

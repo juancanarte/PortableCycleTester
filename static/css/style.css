@@ -1362,3 +1362,10 @@ input:checked + .slider {
 input:checked + .slider:before {
     transform: translateX(26px);
 }
+
+/* Estilos de los elementos bloqueados */
+.disabled {
+    pointer-events: none;
+    opacity: 0.5;
+    background-color: #e0e0e0;
+}
