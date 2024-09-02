@@ -799,6 +799,16 @@ function check_customTestTime(){
             }
            });   
   }
+  else
+  {
+    $.ajax({
+            type: "POST",
+            url: '/ct/cycleTest_customTime_alone/',
+            data: {csrfmiddlewaretoken: '{{ csrf_token }}',"customTime": 9999},
+            success: function (data) {
+            }
+           });   
+  }
 }
 
 </script>

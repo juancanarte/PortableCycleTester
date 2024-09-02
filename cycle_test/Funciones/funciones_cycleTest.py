@@ -2543,7 +2543,7 @@ def saveCtData(testerName_l, actuatorRef_l, load_l, loadDetails_l):
     
 def setCustomTime_a(_customTime_a):
     global customTime_a
-    print(_customTime_a)
+
     customTime_a = _customTime_a
 
 def newCycleTestRegister(_dut, _actuatorRef, _load, _loadDetails, _testerName, _observations,
