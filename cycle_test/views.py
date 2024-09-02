@@ -113,6 +113,13 @@ def saveData_cafe_alone(request):
         # return JsonResponse({'success': False, 'error': 'Mensaje de error'})
     return JsonResponse({'success': False, 'error': 'Método no permitido'}, status=405)
 
+def customTime_cafe_alone(request):
+    data = ''
+    if request.method == 'POST':
+        input_data = request.POST.get('customTime', '')
+        funciones_cycleTest.setCustomTime_a(input_data)
+    return JsonResponse({'data': data})
+
 #Funcioes CYCLE TEST para CAFE 1
 def cycleTest_start_cafe_1(request):
     funciones_cycleTest.cycleTest_start_cafe_1()

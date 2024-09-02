@@ -787,26 +787,19 @@ function toggleBlock() {
 
 function check_customTestTime(){
   var statusSwich = document.getElementById('toggleSwitch').checked;
+  const hoursCafe_a = document.getElementById('hoursCafe_a');
   
-  console.log(statusSwich);
-}
-
-function openn() {
-        const quantityInput = document.getElementById('manual_porcent_cafe_a');
-        $.ajax({
+  if (statusSwich == true)
+  {
+    $.ajax({
             type: "POST",
             url: '/show_open_cafe_alone/',
-            data: {csrfmiddlewaretoken: '{{ csrf_token }}',"porcPos": quantityInput.value},
+            data: {csrfmiddlewaretoken: '{{ csrf_token }}',"customTime": hoursCafe_a.value},
             success: function (data) {
             }
-        });
-        bOpen_a.disabled = true;
-        bOpen_a.style.backgroundColor = "#6f6e6e";
-        bOpen_a.style.fontSize = "12px";
-        bClose_a.disabled = false;
-        bClose_a.style.backgroundColor = "#143a51";
-        bClose_a.style.fontSize = "16px"; 
-    }
+           });   
+  }
+}
 
 </script>
 
