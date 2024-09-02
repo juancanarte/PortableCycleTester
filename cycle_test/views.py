@@ -113,6 +113,7 @@ def saveData_cafe_alone(request):
         # return JsonResponse({'success': False, 'error': 'Mensaje de error'})
     return JsonResponse({'success': False, 'error': 'Método no permitido'}, status=405)
 
+@csrf_exempt
 def customTime_cafe_alone(request):
     data = ''
     if request.method == 'POST':
