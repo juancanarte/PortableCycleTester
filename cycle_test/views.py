@@ -129,7 +129,7 @@ def remoteStop_cafe_alone():
     # Responder con un JSON que el cliente puede interpretar
     return JsonResponse({'should_execute': should_execute})
 
-def activar_funcion_desde_vista(request):
+def activar_funcion_desde_vista():
     channel_layer = get_channel_layer()
     async_to_sync(channel_layer.group_send)(
         "mi_grupo",
