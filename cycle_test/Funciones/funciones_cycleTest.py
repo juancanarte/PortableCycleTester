@@ -1172,7 +1172,7 @@ def iniciar():
 
     if not en_progreso:
         dateStart_a = datetime.now(zona_horaria) #Capturar fecha inicial completa
-        dateStart_a = dateStart_a.strftime("%m/%d/%Y %H:%M")
+        #dateStart_a = dateStart_a.strftime("%m/%d/%Y %H:%M")
 
         inicio = time.time() - tiempo_total_a
         en_progreso = True
@@ -1348,7 +1348,9 @@ def turnOff_cafe_alone():
 def sendData_cafe_alone():
     global dateStart_a, dateEnd_a, counter_open_cafe_a, counter_close_cafe_a
 
-    dataList = {'dateStart_a':dateStart_a, 'dateEnd_a':dateEnd_a, 'counter_open_cafe_a':counter_open_cafe_a,
+    _aux = dateStart_a.strftime("%m/%d/%Y %H:%M")
+
+    dataList = {'dateStart_a':_aux, 'dateEnd_a':dateEnd_a, 'counter_open_cafe_a':counter_open_cafe_a,
                 'counter_close_cafe_a':counter_close_cafe_a} 
 
     return dataList
