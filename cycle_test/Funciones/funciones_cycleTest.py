@@ -726,15 +726,15 @@ def cycleTest_stop_cafe_alone():
     relaysCounter_a = [str(counter_open_cafe_a), str(counter_close_cafe_a)]
     feedBackCounter_a = [str(counter_open_cafe_a), str(counter_close_cafe_a)]
 
+    detener()
+    reiniciar()
+    stop_saveInDB_a()
+    
     counter_open_cafe_a = 0
     counter_close_cafe_a = 0
     horas_cafe_a = 0
     minutos_cafe_a = 0
     segundos_cafe_a = 0
-
-    detener()
-    reiniciar()
-    stop_saveInDB_a()
     #joinTemporalDB_a()
 
 def cycleTest_write_start():
