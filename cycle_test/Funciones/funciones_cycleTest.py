@@ -729,7 +729,7 @@ def cycleTest_stop_cafe_alone():
     detener()
     reiniciar()
     stop_saveInDB_a()
-    joinTemporalDB_a()
+    #joinTemporalDB_a()
 
 def cycleTest_write_start():
     global client, nodo, modoG, flag_a, inputType_modulation_a, modulation_read_a, modulation_write_a, setPoint_modulation_a, port_gpio_alone,\
@@ -2473,7 +2473,7 @@ def saveInDB_a():
 
         time.sleep(0.06)
 
-def joinTemporalDB_a():
+def joinTemporalDB_a(observation):
     registros = tDataCt_a.objects.all() #Conncecion al modelo de DB
 
     #Creacion de listas para concatenar registros temporales
@@ -2514,7 +2514,7 @@ def joinTemporalDB_a():
         timeStamp_conca.extend(lista_timeStamp)
 
     newCycleTestRegister(dut_alone, actuatorRef_g, load_g, loadDetails_g, testerName_g,
-                         'ninguna observacion', modo_dut_alone, baud, nodo, op_voltage_a, inputType_modulation_a,
+                         observation, modo_dut_alone, baud, nodo, op_voltage_a, inputType_modulation_a,
                          signalType_a, widthTimePulse_a, 100, 0, '12', '08', '2024', '20240812',
                          dateStart_a, dateEnd_a, '1506', '1500',
                          temp_conca, current_conca, setPoint_conca,
