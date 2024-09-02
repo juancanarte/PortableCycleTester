@@ -8,6 +8,8 @@ from cycle_test.models import tempDataCt_a
 from cycle_test.models import users
 from cycle_test.models import cycleTestData
 from django.views.decorators.csrf import csrf_exempt
+from channels.layers import get_channel_layer
+from asgiref.sync import async_to_sync
 
 import random
 import math
@@ -120,6 +122,23 @@ def customTime_cafe_alone(request):
         input_data = request.POST.get('customTime', '')
         funciones_cycleTest.setCustomTime_a(input_data)
     return JsonResponse({'data': data})
+
+def remoteStop_cafe_alone():
+    should_execute = True  # Esta condición puede ser más compleja
+
+    # Responder con un JSON que el cliente puede interpretar
+    return JsonResponse({'should_execute': should_execute})
+
+def activar_funcion_desde_vista(request):
+    channel_layer = get_channel_layer()
+    async_to_sync(channel_layer.group_send)(
+        "mi_grupo",
+        {
+            'type': 'send_message_to_client',
+            'message': 'ejecutar_funcion'
+        }
+    )
+    return HttpResponse("Mensaje enviado a WebSocket")
 
 #Funcioes CYCLE TEST para CAFE 1
 def cycleTest_start_cafe_1(request):

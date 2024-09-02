@@ -10,6 +10,7 @@ import numpy as np
 from cycle_test.models import tempDataCt_a as tDataCt_a
 from cycle_test.models import cycleTestData as ctd
 import pytz
+from cycle_test import views
 
 """"""
 try:
@@ -1218,7 +1219,8 @@ def mostrar_tiempo():
     horas_cafe_a = int(horas)
 
     if minutos_cafe_a >= customTime_a:
-        cycleTest_stop_cafe_alone()
+        views.activar_funcion_desde_vista()
+        #cycleTest_stop_cafe_alone()
 
 def detener():
     global inicio, tiempo_pausado, en_progreso, tiempo_total_a, hilo, _detener_hilo, dateEnd_a, zona_horaria

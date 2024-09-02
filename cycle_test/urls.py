@@ -18,6 +18,7 @@ urlpatterns = [
     path('cycleTest_sendData_alone/', views.sendData_cafe_alone, name='SendData_cafe_alone'),
     path('cycleTest_saveData_alone/', views.saveData_cafe_alone, name='SaveData_cafe_alone'),
     path('cycleTest_customTime_alone/', views.customTime_cafe_alone, name='CustomTime_cafe_alone'),
+    path('cycleTest_remoteStop_alone/', views.remoteStop_cafe_alone, name='RemoteStop_cafe_alone'),
     #Funciones Cycle Test CAFE #1
     path('cycleTest_start_cafe_1/', views.cycleTest_start_cafe_1, name='CycleTest_start_cafe_1'),
     path('cycleTest_stop_cafe_1/', views.cycleTest_stop_cafe_1, name='CycleTest_stop_cafe_1'),
