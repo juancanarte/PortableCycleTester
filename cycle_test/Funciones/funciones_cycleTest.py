@@ -730,7 +730,7 @@ def cycleTest_stop_cafe_alone():
     finalTestTime_a = str(horas_cafe_a) + ':' + str(minutos_cafe_a) + ':' + str(segundos_cafe_a)
 
     detener()
-    reiniciar()
+    #reiniciar()
     stop_saveInDB_a()
 
     #counter_open_cafe_a = 0
