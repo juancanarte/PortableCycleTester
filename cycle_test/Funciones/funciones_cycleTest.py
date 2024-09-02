@@ -180,6 +180,7 @@ relayFeC_a = [None]*1000
 timeStamp_a = [None]*1000
 relaysCounter_a = None
 feedBackCounter_a = None
+finalTestTime_a = None
 
 indexDB_a = 0
 
@@ -708,7 +709,7 @@ def cycleTest_start_cafe_alone():
 
 def cycleTest_stop_cafe_alone():
     global thread_modbus_a,client,modoG,nodo,running_threads,flag_a,flag_c_a,thread_crono_a,horas_cafe_a,minutos_cafe_a,segundos_cafe_a,thread_readMod_a,\
-           flag_read_a,counter_open_cafe_a,counter_close_cafe_a, relaysCounter_a, feedBackCounter_a
+           flag_read_a,counter_open_cafe_a,counter_close_cafe_a, relaysCounter_a, feedBackCounter_a, finalTestTime_a
 
     if thread_modbus_a is not None and thread_modbus_a.is_alive():
         flag_a.set()
@@ -725,6 +726,7 @@ def cycleTest_stop_cafe_alone():
 
     relaysCounter_a = [str(counter_open_cafe_a), str(counter_close_cafe_a)]
     feedBackCounter_a = [str(counter_open_cafe_a), str(counter_close_cafe_a)]
+    finalTestTime_a = str(horas_cafe_a) + ':' + str(minutos_cafe_a) + ':' + str(segundos_cafe_a)
 
     detener()
     reiniciar()
@@ -732,9 +734,9 @@ def cycleTest_stop_cafe_alone():
 
     #counter_open_cafe_a = 0
     #counter_close_cafe_a = 0
-    horas_cafe_a = 0
-    minutos_cafe_a = 0
-    segundos_cafe_a = 0
+    #horas_cafe_a = 0
+    #minutos_cafe_a = 0
+    #segundos_cafe_a = 0
     #joinTemporalDB_a()
 
 def cycleTest_write_start():
