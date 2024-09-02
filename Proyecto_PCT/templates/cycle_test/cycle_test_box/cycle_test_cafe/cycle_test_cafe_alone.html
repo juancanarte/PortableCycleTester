@@ -271,13 +271,13 @@
           <td>Final time tes (hh) :</td>
           <td>{{baud_cafe_a}}</td>
         </tr>
-        <tr id="relaysCounter_O">
+        <tr>
           <td>Relays counter :</td>
-          <td>Open : 1000</td>
+          <td id="relaysCounter_O">Open : 0000</td>
         </tr>
-        <tr id="relaysCounter_C">
+        <tr>
           <td></td>
-          <td>Close : 1000</td>
+          <td id="relaysCounter_C">Close : 0000</td>
         </tr>
         <tr id="feedbackCounter_O">
           <td>Feedback counter :</td>
@@ -476,6 +476,8 @@ function powerOff_Cafe_a() {
   bPowerOff_Cafe_a.setAttribute("hidden", "hidden");
   bPowerOn_Cafe_a.removeAttribute("hidden");
   divButtons_cafe_a.setAttribute("hidden", "hidden");
+  document.getElementById('divCycleTestInfo_cafe_a').setAttribute("hidden", "hidden");
+
 }
 
 function detenerConexion() {
@@ -699,6 +701,8 @@ function receiveData_a() {
         // Mostrar el valor en el contenedor
         document.getElementById('dateStart_dialog').innerText = data.dateStart_a;
         document.getElementById('dateEnd_dialog').innerText = data.dateEnd_a;
+        document.getElementById('relaysCounter_O').innerText = data.counter_open_cafe_a;
+        document.getElementById('relaysCounter_C').innerText = data.counter_close_cafe_a;
     })
     .catch(error => console.error('Error:', error));
 }

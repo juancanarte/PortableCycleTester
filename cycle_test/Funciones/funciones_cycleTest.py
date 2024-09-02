@@ -178,6 +178,9 @@ feedback_a = [None]*1000
 relayFeO_a = [None]*1000
 relayFeC_a = [None]*1000
 timeStamp_a = [None]*1000
+relaysCounter_a = None
+feedBackCounter_a = None
+
 indexDB_a = 0
 
 thread_saveDB_a = None
@@ -705,7 +708,7 @@ def cycleTest_start_cafe_alone():
 
 def cycleTest_stop_cafe_alone():
     global thread_modbus_a,client,modoG,nodo,running_threads,flag_a,flag_c_a,thread_crono_a,horas_cafe_a,minutos_cafe_a,segundos_cafe_a,thread_readMod_a,\
-           flag_read_a,counter_open_cafe_a,counter_close_cafe_a
+           flag_read_a,counter_open_cafe_a,counter_close_cafe_a, relaysCounter_a, feedBackCounter_a
 
     if thread_modbus_a is not None and thread_modbus_a.is_alive():
         flag_a.set()
@@ -719,6 +722,9 @@ def cycleTest_stop_cafe_alone():
             flag_read_a.clear()
     else:
         pass
+
+    relaysCounter_a = [str(counter_open_cafe_a), str(counter_close_cafe_a)]
+    feedBackCounter_a = [str(counter_open_cafe_a), str(counter_close_cafe_a)]
 
     counter_open_cafe_a = 0
     counter_close_cafe_a = 0
@@ -2519,7 +2525,7 @@ def joinTemporalDB_a(observation):
                          dateStart_a, dateEnd_a, '1506', '1500',
                          temp_conca, current_conca, setPoint_conca,
                          feedBack_conca, relayO_conca, relayC_conca,
-                         timeStamp_conca, ['100','99'], ['99','88']) 
+                         timeStamp_conca, relaysCounter_a, feedBackCounter_a) 
 
 def saveCtData(testerName_l, actuatorRef_l, load_l, loadDetails_l):
     global testerName_g, actuatorRef_g, load_g, loadDetails_g
