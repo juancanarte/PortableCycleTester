@@ -793,7 +793,7 @@ function check_customTestTime(){
   {
     $.ajax({
             type: "POST",
-            url: '/cycleTest_customTime_alone/',
+            url: '/ct/cycleTest_customTime_alone/',
             data: {csrfmiddlewaretoken: '{{ csrf_token }}',"customTime": hoursCafe_a.value},
             success: function (data) {
             }
