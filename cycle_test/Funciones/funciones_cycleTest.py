@@ -1208,7 +1208,7 @@ def tiempo_transcurrido():
     return tiempo_total_a
 
 def mostrar_tiempo():
-    global minutos_cafe_a, segundos_cafe_a, horas_cafe_a
+    global minutos_cafe_a, segundos_cafe_a, horas_cafe_a, customTime_a
 
     tiempo = tiempo_transcurrido()
     minutos_cafe_a, segundos_cafe_a = divmod(tiempo, 60)
@@ -1216,6 +1216,9 @@ def mostrar_tiempo():
     minutos_cafe_a = int(minutos_cafe_a)
     segundos_cafe_a = int(segundos_cafe_a)
     horas_cafe_a = int(horas)
+
+    if minutos_cafe_a < customTime_a:
+        cycleTest_stop_cafe_alone()
 
 def detener():
     global inicio, tiempo_pausado, en_progreso, tiempo_total_a, hilo, _detener_hilo, dateEnd_a, zona_horaria
@@ -2543,8 +2546,7 @@ def saveCtData(testerName_l, actuatorRef_l, load_l, loadDetails_l):
     
 def setCustomTime_a(_customTime_a):
     global customTime_a
-    print(_customTime_a)
-    customTime_a = _customTime_a
+    customTime_a = int(_customTime_a)
 
 def newCycleTestRegister(_dut, _actuatorRef, _load, _loadDetails, _testerName, _observations,
                          _operationMode, _bauds, _node, _operationVoltage, _inputType, _signalType,
