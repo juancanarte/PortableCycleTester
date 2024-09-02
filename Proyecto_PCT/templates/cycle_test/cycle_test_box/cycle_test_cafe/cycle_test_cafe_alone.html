@@ -701,8 +701,8 @@ function receiveData_a() {
         // Mostrar el valor en el contenedor
         document.getElementById('dateStart_dialog').innerText = data.dateStart_a;
         document.getElementById('dateEnd_dialog').innerText = data.dateEnd_a;
-        document.getElementById('relaysCounter_O').innerText = data.counter_open_cafe_a;
-        document.getElementById('relaysCounter_C').innerText = data.counter_close_cafe_a;
+        document.getElementById('relaysCounter_O').innerText = 'Open : '+ data.counter_open_cafe_a;
+        document.getElementById('relaysCounter_C').innerText = 'Close : '+ data.counter_close_cafe_a;
     })
     .catch(error => console.error('Error:', error));
 }
