@@ -2523,8 +2523,8 @@ def joinTemporalDB_a(observation):
 
     newCycleTestRegister(dut_alone, actuatorRef_g, load_g, loadDetails_g, testerName_g,
                          observation, modo_dut_alone, baud, nodo, op_voltage_a, inputType_modulation_a,
-                         signalType_a, widthTimePulse_a, 100, 0, '12', '08', '2024', '20240812',
-                         dateStart_a, dateEnd_a, '1506', '1500',
+                         signalType_a, widthTimePulse_a, 100, 0, dateStart_a, dateEnd_a,
+                        '1506', finalTestTime_a,
                          temp_conca, current_conca, setPoint_conca,
                          feedBack_conca, relayO_conca, relayC_conca,
                          timeStamp_conca, relaysCounter_a, feedBackCounter_a) 
@@ -2541,7 +2541,7 @@ def saveCtData(testerName_l, actuatorRef_l, load_l, loadDetails_l):
 def newCycleTestRegister(_dut, _actuatorRef, _load, _loadDetails, _testerName, _observations,
                          _operationMode, _bauds, _node, _operationVoltage, _inputType, _signalType,
                          _pulseTime, _highValue,
-                         _lowValue, _day, _month, _year, _fullDate, _dateStart, _dateEnd,
+                         _lowValue, _dateStart, _dateEnd,
                          _plannedTimeTest,
                          _finalTimeTest, _temp, _current, _setPoint, _feedBack, _relayO, _relayC,
                          _timeStamp, _relaysCounter, _feedBackCounter):
@@ -2576,6 +2576,12 @@ def newCycleTestRegister(_dut, _actuatorRef, _load, _loadDetails, _testerName, _
 
     jsonFeedBackCounterA = json.dumps(_feedBackCounter)
     jsonBytes_FeedBackCounterA = jsonFeedBackCounterA.encode('utf-8')
+
+    #manege date
+    _day = dateStart_a.day
+    _month = dateStart_a.month
+    _year = dateStart_a.year
+    _fullDate = str(_day) + str(_month) + str(_year)
 
     #Pasar de tabla temporal a tabla final
     temp_data = ctd(    #Instancia de base de datos final
