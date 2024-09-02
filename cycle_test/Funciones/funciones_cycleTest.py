@@ -1217,7 +1217,7 @@ def mostrar_tiempo():
     segundos_cafe_a = int(segundos_cafe_a)
     horas_cafe_a = int(horas)
 
-    if minutos_cafe_a < customTime_a:
+    if minutos_cafe_a >= customTime_a:
         cycleTest_stop_cafe_alone()
 
 def detener():
