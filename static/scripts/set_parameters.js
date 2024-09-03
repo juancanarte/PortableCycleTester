@@ -13,6 +13,7 @@ const load = document.getElementById('load');
 const conditionalField = document.getElementById('conditionalField');
 const modoPCT = document.getElementById('modo');
 const divCycleTestDataForm = document.getElementById('divCycleTestDataForm');
+const testerName = document.getElementById('testerName');
 var formAux = document.getElementById('formAux');
 var formMain = document.getElementById('formMain');
 
@@ -30,7 +31,7 @@ function hideLoadDetails() {
 if (modoPCT.innerHTML != 'Show')
 {
   divCycleTestDataForm.style.display = 'flex';
-  document.getElementById("testerName").removeAttribute("required");
+  testerName.removeAttribute("required");
 
 }
 
