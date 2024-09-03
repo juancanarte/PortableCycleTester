@@ -440,20 +440,11 @@ function iniciarConexion()
     myLineChart.data.datasets[3].data.splice(0, 1);
     myLineChart.data.datasets[3].data.push(data.relay_C);
     myLineChart.update();
-
-    if (data.message === 'ejecutar_funcion') {
-        miFuncionJavascript();  // Ejecutar la función cuando se reciba el mensaje
-    }
   }
   socket.onclose = function(event) {
     socket.close(); // Cierra la conexión WebSocket
     detenerConexion();
   };
-}
-
-function miFuncionJavascript() {
-    console.log("La función de JavaScript ha sido ejecutada desde el servidor");
-    // Lógica adicional
 }
 
 function powerOn_Cafe_a() {
@@ -820,20 +811,6 @@ function check_customTestTime(){
   }
 }
 
-// Enviar la solicitud AJAX
-$.ajax({
-    url: '/ct/cycleTest_remoteStop_alone/',  // Asegúrate de que esta URL coincida con la registrada en urls.py
-    method: 'GET',      // O 'POST' si prefieres
-    success: function(response) {
-        // La respuesta del servidor se pasa a esta función
-        if (response.should_execute) {
-          stop();  // Ejecuta la función si la respuesta es True
-        }
-    },
-    error: function(xhr, status, error) {
-        console.error("Error al enviar la solicitud AJAX:", error);
-    }
-});
 
 </script>
 
