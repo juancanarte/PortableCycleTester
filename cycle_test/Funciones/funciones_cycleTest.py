@@ -753,7 +753,24 @@ def cycleTest_write_start():
     signalType_a = listaP[4]
     
     if modoG == 1:
-        print("open_digital_cafe_alone")
+        if port_gpio_alone == 1:
+            while not flag_a.is_set():
+                gpio.output(20, gpio.HIGH)#DIGITAL OPEN DUT#1
+                setPoint_modulation_a = 100
+                time.sleep(widthTimePulse_show)
+
+                gpio.output(20, gpio.LOW)#DIGITAL CLOSE DUT#1
+                setPoint_modulation_a = 0
+                time.sleep(widthTimePulse_show)
+        else:
+            while not flag_a.is_set():
+                gpio.output(12, gpio.HIGH)#DIGITAL OPEN DUT#2
+                setPoint_modulation_a = 100
+                time.sleep(widthTimePulse_show)
+                
+                gpio.output(12, gpio.LOW)#DIGITAL LOW DUT#2
+                setPoint_modulation_a = 0
+                time.sleep(widthTimePulse_show)
 
     elif modoG == 2:
         if signalType == 'pulseSignal':             #Signal Type PULSE SIGNAL settings default----------------------------------------

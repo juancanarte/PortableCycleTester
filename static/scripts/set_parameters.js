@@ -30,6 +30,8 @@ function hideLoadDetails() {
 if (modoPCT.innerHTML != 'Show')
 {
   divCycleTestDataForm.style.display = 'flex';
+  document.getElementById("testerName").removeAttribute("required");
+
 }
 
 function saveData() {
