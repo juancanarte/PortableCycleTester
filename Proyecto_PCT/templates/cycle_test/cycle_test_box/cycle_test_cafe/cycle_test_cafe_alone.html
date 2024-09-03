@@ -355,27 +355,20 @@
   //manejo de parametros mostrados en tablas
     if (OpModeCafe_dialog.textContent != "modbus")
     {
+      document.getElementById('NodeCafe_a').setAttribute("hidden", "hidden");
+      document.getElementById('BaudCafe_a').setAttribute("hidden", "hidden");
       BaudCafe_dialog.setAttribute("hidden", "hidden");
       NodeCafe_dialog.setAttribute("hidden", "hidden");
       InputCafe_dialog.removeAttribute("hidden");
     }
     else
     {
+      document.getElementById('NodeCafe_a').removeAttribute("hidden");
+      document.getElementById('BaudCafe_a').removeAttribute("hidden");
       BaudCafe_dialog.removeAttribute("hidden");
       NodeCafe_dialog.removeAttribute("hidden");
       InputCafe_dialog.setAttribute("hidden", "hidden");
     }
-
-    /*
-    if (OpModeCafe_dialog.textContent != "modulation")
-    {
-      InputCafe_dialog.setAttribute("hidden", "hidden");
-    }
-    else
-    {
-      InputCafe_dialog.removeAttribute("hidden");
-    }
-      */
 
     bPause_a.addEventListener('click', function() {
             pause();
