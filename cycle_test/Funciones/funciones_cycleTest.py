@@ -2552,7 +2552,7 @@ def joinTemporalDB_a(observation):
     newCycleTestRegister(dut_alone, actuatorRef_g, load_g, loadDetails_g, testerName_g,
                          observation, modo_dut_alone, baud, nodo, op_voltage_a, inputType_modulation_a,
                          signalType_a, widthTimePulse_a, 100, 0, dateStart_a, dateEnd_a,
-                        '1506', finalTestTime_a,
+                         customTime_a, finalTestTime_a,
                          temp_conca, current_conca, setPoint_conca,
                          feedBack_conca, relayO_conca, relayC_conca,
                          timeStamp_conca, relaysCounter_a, feedBackCounter_a) 
