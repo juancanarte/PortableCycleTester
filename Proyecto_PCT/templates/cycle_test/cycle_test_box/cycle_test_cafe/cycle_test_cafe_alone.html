@@ -263,13 +263,13 @@
           <td>Date end :</td>
           <td id="dateEnd_dialog">mm/dd/yyyy HH:MM</td>
         </tr>
-        <tr id="plannedTimeTest_dialog">
+        <tr>
           <td>Planned time test (hh):</td>
-          <td>{{inputSignal_cafe_a}}</td>
+          <td id="plannedTimeTest_dialog">0000</td>
         </tr>
-        <tr id="finalTimeTest">
-          <td>Final time tes (hh) :</td>
-          <td>{{baud_cafe_a}}</td>
+        <tr>
+          <td>Final time test (hh):</td>
+          <td id="finalTimeTest">0000</td>
         </tr>
         <tr>
           <td>Relays counter :</td>
@@ -703,6 +703,8 @@ function receiveData_a() {
         document.getElementById('dateEnd_dialog').innerText = data.dateEnd_a;
         document.getElementById('relaysCounter_O').innerText = 'Open : '+ data.counter_open_cafe_a;
         document.getElementById('relaysCounter_C').innerText = 'Close : '+ data.counter_close_cafe_a;
+        document.getElementById('plannedTimeTest_dialog').innerText = data.customTime_a;
+        document.getElementById('finalTimeTest').innerText = data.finalTime_a;
     })
     .catch(error => console.error('Error:', error));
 }

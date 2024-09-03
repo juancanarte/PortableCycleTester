@@ -181,7 +181,7 @@ relayFeC_a = [None]*1000
 timeStamp_a = [None]*1000
 relaysCounter_a = None
 feedBackCounter_a = None
-finalTestTime_a = None
+
 
 indexDB_a = 0
 
@@ -201,6 +201,7 @@ horas_cafe_a = 0
 dateStart_a = None
 dateEnd_a = None
 customTime_a = 9999
+finalTestTime_a = None
 
 #----------------------------------------------CAFE 1----------------------------------------------#
 name_dut_1 = ''
@@ -1351,12 +1352,12 @@ def turnOff_cafe_alone():
         client.close()
 
 def sendData_cafe_alone():
-    global dateStart_a, dateEnd_a, counter_open_cafe_a, counter_close_cafe_a
+    global dateStart_a, dateEnd_a, counter_open_cafe_a, counter_close_cafe_a, customTime_a, finalTestTime_a
 
     _aux = dateStart_a.strftime("%m/%d/%Y %H:%M")
 
     dataList = {'dateStart_a':_aux, 'dateEnd_a':dateEnd_a, 'counter_open_cafe_a':counter_open_cafe_a,
-                'counter_close_cafe_a':counter_close_cafe_a} 
+                'counter_close_cafe_a':counter_close_cafe_a, 'customTime_a':customTime_a, 'finalTime_a':finalTestTime_a}
 
     return dataList
 
