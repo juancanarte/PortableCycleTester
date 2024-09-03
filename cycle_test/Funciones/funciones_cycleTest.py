@@ -755,6 +755,8 @@ def cycleTest_write_start():
     if modoG == 1:
         if port_gpio_alone == 1:
             while not flag_a.is_set():
+                while pausa_hilo == True:
+                    time.sleep(0.1)
                 gpio.output(20, gpio.HIGH)#DIGITAL OPEN DUT#1
                 setPoint_modulation_a = 100
                 time.sleep(widthTimePulse_show)
@@ -764,6 +766,8 @@ def cycleTest_write_start():
                 time.sleep(widthTimePulse_show)
         else:
             while not flag_a.is_set():
+                while pausa_hilo == True:
+                    time.sleep(0.1)
                 gpio.output(12, gpio.HIGH)#DIGITAL OPEN DUT#2
                 setPoint_modulation_a = 100
                 time.sleep(widthTimePulse_show)
