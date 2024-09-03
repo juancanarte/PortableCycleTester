@@ -1352,8 +1352,11 @@ def turnOff_cafe_alone():
     elif modoG == 3:    #ModBus
         result2 = client.write_register(2, 0, nodo)
 
-    if position_a > 1:
-        time.sleep(tiempoApagadoCafe_a)
+    if modoG != 1:
+        if position_a > 1:
+            time.sleep(tiempoApagadoCafe_a)
+        else:
+            pass
     else:
         pass
 
