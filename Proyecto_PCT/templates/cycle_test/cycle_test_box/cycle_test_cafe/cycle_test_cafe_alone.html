@@ -357,13 +357,13 @@
     {
       BaudCafe_dialog.setAttribute("hidden", "hidden");
       NodeCafe_dialog.setAttribute("hidden", "hidden");
-      InputCafe_dialog.setAttribute("hidden", "hidden");
+      InputCafe_dialog.removeAttribute("hidden");
     }
     else
     {
       BaudCafe_dialog.removeAttribute("hidden");
       NodeCafe_dialog.removeAttribute("hidden");
-      InputCafe_dialog.removeAttribute("hidden");
+      InputCafe_dialog.setAttribute("hidden", "hidden");
     }
 
     /*
