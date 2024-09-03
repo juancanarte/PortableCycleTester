@@ -352,17 +352,21 @@
   var BaudCafe_dialog = document.getElementById('BaudCafe_dialog');
   var NodeCafe_dialog = document.getElementById('NodeCafe_dialog');
 
+  //manejo de parametros mostrados en tablas
     if (OpModeCafe_dialog.textContent != "modbus")
     {
       BaudCafe_dialog.setAttribute("hidden", "hidden");
       NodeCafe_dialog.setAttribute("hidden", "hidden");
+      InputCafe_dialog.setAttribute("hidden", "hidden");
     }
     else
     {
       BaudCafe_dialog.removeAttribute("hidden");
       NodeCafe_dialog.removeAttribute("hidden");
+      InputCafe_dialog.removeAttribute("hidden");
     }
 
+    /*
     if (OpModeCafe_dialog.textContent != "modulation")
     {
       InputCafe_dialog.setAttribute("hidden", "hidden");
@@ -371,12 +375,7 @@
     {
       InputCafe_dialog.removeAttribute("hidden");
     }
-
-    /*
-    stopButton.addEventListener('click', function() {
-            socket.close(); // Cierra la conexión WebSocket
-        });
-    */
+      */
 
     bPause_a.addEventListener('click', function() {
             pause();
