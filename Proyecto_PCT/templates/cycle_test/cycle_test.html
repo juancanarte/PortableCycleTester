@@ -3,14 +3,15 @@
 {% load static %}
 
 {% block content %}
+<div class="overlay" id="overlay"></div>
 <!-- Modal -->
-<dialog id="modalTurnOff_all" style="z-index: 9999;">
+<dialog class="dialog-center" id="modalTurnOff_all" style="z-index: 9999;">
   <h2>Turn OFF all devices?</h2>
   <br>
-  <button class="css-button-eye" style="margin-right: 10px; border-radius: 0%; width:80px;" onclick="powerOff_all()">
+  <button class="css-button-eye" style="margin-right: 10px; border-radius: 0%; width:80px;" onclick="powerOff_all();">
     Ok
   </button>
-  <button class="css-button-eye" style="margin-right: 10px; border-radius: 0%; width:80px;" onclick="window.modalTurnOff_all.close();">
+  <button class="css-button-eye" style="margin-right: 10px; border-radius: 0%; width:80px;" onclick="closeDialog();">
     Cancel
   </button>
 </dialog>
@@ -44,7 +45,7 @@
 
   {% endif %}
   <div class="col-md-6 d-flex justify-content-center align-items-center w-100">
-    <button type="submit" onclick="window.modalTurnOff_all.show()" class="css-button-sharp--blue">Back</button>
+    <button type="submit" onclick="openDialog()" class="css-button-sharp--blue">Back</button>
   </div>
   
 </div>
@@ -101,6 +102,16 @@ function powerOff_all() {
   function backPage()
   {
     history.back();
+  }
+
+  function openDialog() {
+    document.getElementById('overlay').style.display = 'block';
+    document.getElementById('modalTurnOff_all').showModal();
+  }
+
+  function closeDialog() {
+    document.getElementById('overlay').style.display = 'none';
+    document.getElementById('modalTurnOff_all').close();
   }
 </script>
 {% endblock %}

@@ -153,7 +153,7 @@
             <img src="{% static 'images/on.svg' %}" alt="Icono">
           </button> 
     
-          <button id="powerOff_Cafe_a" class="css-button-eye" style="margin-right: 10px; border-radius: 0%; min-width:80px;" onclick="window.modalTurnOff_cafe_a.showModal();" hidden>
+          <button id="powerOff_Cafe_a" class="css-button-eye" style="margin-right: 10px; border-radius: 0%; min-width:80px;" onclick="powerOff_Cafe_a()" hidden>
             OFF
             <img src="{% static 'images/off.svg' %}" alt="Icono">
           </button>
@@ -164,7 +164,7 @@
                 <button id="bStart_a" class="css-button-show" onclick="start()">Start</button>
             </div>
             <div id="divStop_a">
-                <button id="bStop_a" class="css-button-show" onclick="stop()" hidden>Stop</button>
+                <button id="bStop_a" class="css-button-show" onclick="window.modalStopTest_cafe_a.showModal();" hidden>Stop</button>
             </div>
             <div id="divPause_a">
                 <button id="bPause_a" class="css-button-show" hidden>Pause</button>
@@ -299,15 +299,17 @@
 </dialog>
 
 <!-- Modal turn off ?-->
-<dialog id="modalTurnOff_cafe_a">
+<dialog class="" id="modalTurnOff_cafe_a">
   <h2>Turn OFF device?</h2>
   <br>
-  <button class="css-button-eye" style="margin-right: 10px; border-radius: 0%; width:80px;" onclick="powerOff_Cafe_a()">
-    Ok
-  </button>
-  <button class="css-button-eye" style="margin-right: 10px; border-radius: 0%; width:80px;" onclick="window.modalTurnOff_cafe_a.close();">
-    Cancel
-  </button>
+  <div>
+    <button class="css-button-eye" style="margin-right: 10px; border-radius: 0%; width:80px;" onclick="powerOff_Cafe_a()">
+      Ok
+    </button>
+    <button class="css-button-eye" style="margin-right: 10px; border-radius: 0%; width:80px;" onclick="window.modalTurnOff_cafe_a.close();">
+      Cancel
+    </button>
+  </div>
 </dialog>
 
 <!-- Modal turn on waiting -->
@@ -317,11 +319,18 @@
   <br>
 </dialog>
 
-<!-- Modal go to 0% -->
-<dialog id="modalGoTo_0_cafe_a">
-  <h2>Going to position 0% ...</h2>
-  <progress style="width: 100%; height: 20px;" id="progressBarGoTo0_cafe_a" max="100" value="0"></progress>
+<!-- Modal turn off ?-->
+<dialog class="" id="modalStopTest_cafe_a">
+  <h2>Stop cycle test?</h2>
   <br>
+  <div>
+    <button class="css-button-eye" style="margin-right: 10px; border-radius: 0%; width:80px;" onclick="stop();window.modalStopTest_cafe_a.close();">
+      Yes
+    </button>
+    <button class="css-button-eye" style="margin-right: 10px; border-radius: 0%; width:80px;" onclick="window.modalStopTest_cafe_a.close();">
+      No
+    </button>
+  </div>
 </dialog>
 
 <script src="{% static 'js/chart.min.js' %}"></script>
@@ -335,7 +344,6 @@
   const modalTurnON_waiting_cafe_a = document.getElementById("modalTurnON_waiting_cafe_a");
   const progressBarTurnOn_cafe_a = document.getElementById("progressBarTurnOn_cafe_a");
  
-  const modalGoTo_0_cafe_a = document.getElementById("modalGoTo_0_cafe_a");
   const progressBarGoTo0_cafe_a = document.getElementById("progressBarGoTo0_cafe_a");
 
   var divShowParamsCafe_a = document.getElementById('divShowParamsCafe_a');
