@@ -1106,11 +1106,11 @@ def cycleTest_read_cafe_alone():
 
     try:
         if (puerto_dut_alone == 1):
-            relay_O = int(not gpio.input(25))*55*2
-            relay_C = int(not gpio.input(24))*55*2
+            relay_O = int(not gpio.input(25))*100
+            relay_C = int(not gpio.input(24))*100
         elif (puerto_dut_alone == 2):
-            relay_O = int(not gpio.input(23))*55*2
-            relay_C = int(not gpio.input(18))*55*2 
+            relay_O = int(not gpio.input(23))*100
+            relay_C = int(not gpio.input(18))*100
     except:
         relay_O = random.randint(0,100)
         relay_C = random.randint(0,100)
@@ -1161,10 +1161,10 @@ def cycleTest_resume_cafe_alone():
 def relay_analysis(signal_relayA, signal_relayB):
     global posAnteriorA_a, posAnteriorB_a, counter_open_cafe_a, counter_close_cafe_a
 
-    if signal_relayA == 50 and posAnteriorA_a == 0:
+    if signal_relayA == 100 and posAnteriorA_a == 0:
         counter_open_cafe_a = counter_open_cafe_a + 1
 
-    if signal_relayB == 50 and posAnteriorB_a == 0:
+    if signal_relayB == 100 and posAnteriorB_a == 0:
         counter_close_cafe_a = counter_close_cafe_a + 1
 
     posAnteriorA_a = signal_relayA
