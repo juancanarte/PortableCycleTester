@@ -217,5 +217,6 @@ def turnOff_cafe_2(request):
 
 def stop(request):
     funciones_cycleTest.stop()
+    print("stop vista")
     data = ''
     return JsonResponse({'data': data})   
