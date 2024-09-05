@@ -442,6 +442,8 @@ function iniciarConexion()
     myLineChart.data.datasets[3].data.splice(0, 1);
     myLineChart.data.datasets[3].data.push(data.relay_C);
 
+    myLineChart.data.label.shift();
+
     myLineChart.update();
   }
   socket.onclose = function(event) {
@@ -545,7 +547,7 @@ numeros.push(i.toString()); // Convertir el número a string y agregarlo al arre
 
 var canvas = document.getElementById('myChart');
 var data = {// www . ja  v a 2s.c  om
-labels: [],
+labels: numeros,
 datasets: [
 {
   label: "Control Signal",
