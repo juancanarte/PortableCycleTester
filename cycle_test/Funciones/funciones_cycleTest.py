@@ -2390,10 +2390,10 @@ def turn_off_all():
 def stop():
     global client,client_1, client_2, cant_duts, port_gpio_alone, name_dut_1, name_dut_2, dut_alone, modo_dut_1, modo_dut_2, modo_dut_alone
 
+    print("Entra aqui")
     #si hay 1 DUT
     if cant_duts == 1:
         if dut_alone == 'CAFE':
-            print("se apresiono back")
             cycleTest_stop_cafe_alone()
             if (client != None):
                 client.close()
