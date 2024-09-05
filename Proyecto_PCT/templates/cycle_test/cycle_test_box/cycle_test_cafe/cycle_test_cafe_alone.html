@@ -428,8 +428,6 @@ function iniciarConexion()
     document.querySelector('#close_cafe_a').innerText = "Close : " + data.relayCountB;
     document.querySelector('#testTime').innerText = data.hor + ":" + data.min + ":" + data.sec;
 
-    //myLineChart.data.labels.push(data.hor + ":" + data.min + ":" + data.sec);
-
     myLineChart.data.datasets[0].data.splice(0, 1);
     myLineChart.data.datasets[0].data.push(data.pos);
     
