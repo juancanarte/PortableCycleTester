@@ -2393,6 +2393,7 @@ def stop():
     #si hay 1 DUT
     if cant_duts == 1:
         if dut_alone == 'CAFE':
+            print("se apresiono back")
             cycleTest_stop_cafe_alone()
             if (client != None):
                 client.close()
