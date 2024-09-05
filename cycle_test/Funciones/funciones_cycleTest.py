@@ -735,6 +735,8 @@ def cycleTest_stop_cafe_alone():
     #reiniciar()
     stop_saveInDB_a()
 
+    print("stop cafe a")
+
     #counter_open_cafe_a = 0
     #counter_close_cafe_a = 0
     #horas_cafe_a = 0
