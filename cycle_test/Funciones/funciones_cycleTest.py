@@ -1356,6 +1356,7 @@ def turnOff_cafe_alone():
     elif modoG == 3:    #ModBus
         result2 = client.write_register(2, 0, nodo)
 
+    '''
     if modoG != 1:
         if position_a > 1:
             time.sleep(tiempoApagadoCafe_a)
@@ -1363,7 +1364,8 @@ def turnOff_cafe_alone():
             pass
     else:
         pass
-
+    '''
+        
     if p == 1:
         #Apagar DUT #1
         pcfRPI_on_off.write("p4", "LOW")
