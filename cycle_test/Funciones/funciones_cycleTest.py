@@ -1106,11 +1106,11 @@ def cycleTest_read_cafe_alone():
 
     try:
         if (puerto_dut_alone == 1):
-            relay_O = int(not gpio.input(25))*50+10
-            relay_C = int(not gpio.input(24))*50+10
+            relay_O = int(not gpio.input(25))*55*2
+            relay_C = int(not gpio.input(24))*55*2
         elif (puerto_dut_alone == 2):
-            relay_O = int(not gpio.input(23))*50+10
-            relay_C = int(not gpio.input(18))*50+10        
+            relay_O = int(not gpio.input(23))*55*2
+            relay_C = int(not gpio.input(18))*55*2 
     except:
         relay_O = random.randint(0,100)
         relay_C = random.randint(0,100)
