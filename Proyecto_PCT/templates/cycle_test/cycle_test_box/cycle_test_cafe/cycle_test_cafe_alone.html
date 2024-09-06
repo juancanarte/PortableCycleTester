@@ -441,7 +441,7 @@ function iniciarConexion()
     myLineChart.data.datasets[3].data.push(data.relay_C);
 
     myLineChart.data.labels.splice(0,1);
-    myLineChart.data.labels.push(data.sec);
+    myLineChart.data.labels.push(data.hor + ":" + data.min + ":" + data.sec);
 
     myLineChart.update();
   }
