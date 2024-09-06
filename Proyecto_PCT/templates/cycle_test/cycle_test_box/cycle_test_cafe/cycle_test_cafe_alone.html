@@ -396,6 +396,26 @@ function stop(){
             success: function (data) {
               receiveData_a();
               document.getElementById('botonesForm').removeAttribute("hidden");
+
+              const empty = new Array(25).fill(0);
+              const emptyString = new Array(25).fill("");
+
+              myLineChart.data.datasets[0].data.splice(0,25);
+              myLineChart.data.datasets[0].data.push(empty);
+              
+              myLineChart.data.datasets[1].data.splice(0,25);
+              myLineChart.data.datasets[1].data.push(empty);
+
+              myLineChart.data.datasets[2].data.splice(0,25);
+              myLineChart.data.datasets[2].data.push(empty);
+
+              myLineChart.data.datasets[3].data.splice(0,25);
+              myLineChart.data.datasets[3].data.push(empty);
+
+              myLineChart.data.labels.splice(0,25);
+              myLineChart.data.labels.push(emptyString);
+
+  myLineChart.update();
             }
         });
 
@@ -414,27 +434,6 @@ function stop(){
   document.querySelector('#open_cafe_a').innerText = "Open : 0";
   document.querySelector('#close_cafe_a').innerText = "Close : 0";
   document.querySelector('#testTime').innerText = "0:0:0";
-
-  const empty = new Array(25).fill(0);
-  const emptyString = new Array(25).fill("");
-
-  myLineChart.data.datasets[0].data.splice(0,25);
-  myLineChart.data.datasets[0].data.push(empty);
-  
-  myLineChart.data.datasets[1].data.splice(0,25);
-  myLineChart.data.datasets[1].data.push(empty);
-
-  myLineChart.data.datasets[2].data.splice(0,25);
-  myLineChart.data.datasets[2].data.push(empty);
-
-  myLineChart.data.datasets[3].data.splice(0,25);
-  myLineChart.data.datasets[3].data.push(empty);
-
-  myLineChart.data.labels.splice(0,25);
-  myLineChart.data.labels.push(emptyString);
-
-  myLineChart.update();
-
 
 }
 
