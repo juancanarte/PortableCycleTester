@@ -754,20 +754,9 @@ function start() {
         success: function (data) {
           console.log(myLineChart);
 
-          myLineChart.data.datasets[0].data.splice(0, 1);
-    myLineChart.data.datasets[0].data.push(dataSockets.pos);
-    
-    myLineChart.data.datasets[1].data.splice(0, 1);
-    myLineChart.data.datasets[1].data.push(dataSockets.setPos);
+    const arrayDeCeros = new Array(100).fill(50);
+    myLineChart.data.datasets[0].data.push(arrayDeCeros);
 
-    myLineChart.data.datasets[2].data.splice(0, 1);
-    myLineChart.data.datasets[2].data.push(dataSockets.relay_O);
-
-    myLineChart.data.datasets[3].data.splice(0, 1);
-    myLineChart.data.datasets[3].data.push(dataSockets.relay_C);
-
-    myLineChart.data.labels.splice(0,1);
-    myLineChart.data.labels.push(dataSockets.hor + ":" + dataSockets.min + ":" + dataSockets.sec);
 
     myLineChart.update();
         }
