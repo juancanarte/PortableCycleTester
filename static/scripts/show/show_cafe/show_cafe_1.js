@@ -109,7 +109,7 @@ function detenerConexion_1() {
         divClose_1.setAttribute("hidden", "hidden");
         txt_drive_1.innerHTML = "AUTO";
       }
-      else if (selectedOption_1 == 'manual' && modo_cafe_1.textContent != 'DIGITAL')
+      else if (selectedOption_1 == 'manual' && modo_cafe_1.textContent != 'digital')
       {
         divPorcent_cafe_1.removeAttribute("hidden");
         divOpen_1.removeAttribute("hidden");
@@ -118,8 +118,9 @@ function detenerConexion_1() {
         divStart_1.setAttribute("hidden", "hidden");
         txt_drive_1.innerHTML = "MANUAL";
       }
-      else if (selectedOption_1 == 'manual' && modo_cafe_1.textContent == 'DIGITAL')
+      else if (selectedOption_1 == 'manual' && modo_cafe_1.textContent == 'digital')
       {
+        divPorcent_cafe_1.setAttribute("hidden", "hidden");
         divOpen_1.removeAttribute("hidden");
         divClose_1.removeAttribute("hidden");
         divStop_1.setAttribute("hidden", "hidden");
