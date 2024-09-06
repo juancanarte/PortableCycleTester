@@ -81,6 +81,7 @@ function detenerConexion() {
  ddDrive_a.addEventListener('change', function() 
   {
       const selectedOption = this.value;
+      console.log(selectedOption,modo_cafe_a.textContent);
       if (selectedOption == 'auto')
       {
         divPorcent_cafe_a.setAttribute("hidden", "hidden");
@@ -101,7 +102,6 @@ function detenerConexion() {
       }
       else if (selectedOption == 'manual' && modo_cafe_a.textContent == 'DIGITAL')
       {
-        console.log("manual digital");
         divOpen_a.removeAttribute("hidden");
         divClose_a.removeAttribute("hidden");
         divStop_a.setAttribute("hidden", "hidden");
