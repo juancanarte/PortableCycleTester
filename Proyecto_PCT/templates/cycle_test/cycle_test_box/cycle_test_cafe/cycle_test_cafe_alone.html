@@ -745,8 +745,15 @@ function start() {
     $.ajax({
         url: '/ct/cycleTest_start_cafe_alone/',
         success: function (data) {
+          myLineChart.data.datasets[0].hidden = false;
+          myLineChart.data.datasets[1].hidden = false;
+          myLineChart.data.datasets[2].hidden = false;
+          myLineChart.data.datasets[3].hidden = false;
+
+          myLineChart.update();
         }
     });
+    
     startWrite();
     bStart_a.setAttribute("hidden", "hidden");
     stopButton.removeAttribute("hidden");
