@@ -105,6 +105,7 @@ function detenerConexion() {
         divClose_a.removeAttribute("hidden");
         divStop_a.setAttribute("hidden", "hidden");
         divStart_a.setAttribute("hidden", "hidden");
+        divPorcent_cafe_a.setAttribute("hidden", "hidden");
         txt_drive_a.innerHTML = "MANUAL";
       }
 
