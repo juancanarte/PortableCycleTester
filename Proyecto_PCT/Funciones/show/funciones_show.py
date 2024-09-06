@@ -1113,10 +1113,12 @@ def turnOff_cafe_alone():
     elif modoG == 3:    #ModBus
         result2 = client.write_register(2, 0, nodo)
         
+    '''   
     if position_a > 1:
         time.sleep(tiempoApagadoCafe_a)
     else:
         pass
+    '''
 
     if p == 1:
         #Apagar DUT #1
@@ -1589,10 +1591,12 @@ def turnOff_cafe_1():
         result2 = client_1.write_register(2, 0, nodo)
         setPoint_modulation_1 = 0
 
+    '''
     if position_1 > 1:
         time.sleep(tiempoApagadoCafe_1)
     else:
         pass
+    '''
 
     print("Apagar cafe 1")
     show_stop_cafe_1()
@@ -2063,10 +2067,13 @@ def turnOff_cafe_2():
         result2 = client_2.write_register(2, 0, nodo_2)
         setPoint_modulation_2 = 0
 
+
+    '''
     if position_2 > 1:
         time.sleep(tiempoApagadoCafe_2)
     else:
         pass
+    '''
 
     print("Apagar cafe 2")
     show_stop_cafe_2()
