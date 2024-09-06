@@ -400,12 +400,11 @@ function stop(){
               document.getElementById('botonesForm').removeAttribute("hidden");
 
               myLineChart.data.datasets[0].hidden = true;
-              myLineChart.data.datasets[1].hidden;
-              myLineChart.data.datasets[2].hidden;
-              myLineChart.data.datasets[3].hidden;
+              myLineChart.data.datasets[1].hidden = true;
+              myLineChart.data.datasets[2].hidden = true;
+              myLineChart.data.datasets[3].hidden = true;
 
               myLineChart.update();
-              console.log(myLineChart.data.datasets[0].hidden);
             }
         });
 
