@@ -400,10 +400,10 @@ function stop(){
               document.getElementById('botonesForm').removeAttribute("hidden");
               console.log(myLineChart);
 
-              myLineChart.data.datasets[0].data = [];  // Limpia los datos
-              myLineChart.data.datasets[1].data = [];  // Limpia los datos
-              myLineChart.data.datasets[2].data = [];  // Limpia los datos
-              myLineChart.data.datasets[3].data = [];  // Limpia los datos
+              myLineChart.data.datasets[0].data.splice(0, 100);
+              myLineChart.data.datasets[1].data.splice(0, 100);
+              myLineChart.data.datasets[2].data.splice(0, 100);
+              myLineChart.data.datasets[3].data.splice(0, 100);
               /*
               myLineChart.data.datasets[0].hidden = true;
               myLineChart.data.datasets[1].hidden = true;
