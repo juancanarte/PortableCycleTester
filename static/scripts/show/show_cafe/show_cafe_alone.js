@@ -81,7 +81,6 @@ function detenerConexion() {
  ddDrive_a.addEventListener('change', function() 
   {
       const selectedOption = this.value;
-      console.log(selectedOption,modo_cafe_a.textContent);
       if (selectedOption == 'auto')
       {
         divPorcent_cafe_a.setAttribute("hidden", "hidden");
