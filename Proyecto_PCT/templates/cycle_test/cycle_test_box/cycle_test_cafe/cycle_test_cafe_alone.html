@@ -399,16 +399,7 @@ function stop(){
               receiveData_a();
               document.getElementById('botonesForm').removeAttribute("hidden");
 
-              const empty = new Array(25).fill(0);
-              const emptyString = new Array(25).fill(" ");
-
-              myLineChart.data.datasets[0].data = [];
-              myLineChart.data.datasets[1].data = [];
-              myLineChart.data.datasets[2].data = [];
-              myLineChart.data.datasets[3].data = [];
-
-              //myLineChart.data.labels = emptyString;
-
+              myLineChart.data.datasets[0].hidden;
               myLineChart.update();
             }
         });
@@ -750,19 +741,6 @@ function start() {
     $.ajax({
         url: '/ct/cycleTest_start_cafe_alone/',
         success: function (data) {
-          myLineChart.data.datasets[0].data.splice(0, 1);
-          myLineChart.data.datasets[0].data.push(dataSockets.pos);
-    
-          myLineChart.data.datasets[1].data.splice(0, 1);
-          myLineChart.data.datasets[1].data.push(dataSockets.setPos);
-
-          myLineChart.data.datasets[2].data.splice(0, 1);
-          myLineChart.data.datasets[2].data.push(dataSockets.relay_O);
-
-          myLineChart.data.datasets[3].data.splice(0, 1);
-          myLineChart.data.datasets[3].data.push(dataSockets.relay_C);
-
-          myLineChart.update();
         }
     });
     startWrite();
