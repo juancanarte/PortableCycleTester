@@ -455,6 +455,8 @@ function iniciarConexion()
     myLineChart.data.labels.push(data.hor + ":" + data.min + ":" + data.sec);
 
     myLineChart.update();
+
+    console.log(data.pos);
   }
   socket.onclose = function(event) {
     socket.close(); // Cierra la conexión WebSocket
