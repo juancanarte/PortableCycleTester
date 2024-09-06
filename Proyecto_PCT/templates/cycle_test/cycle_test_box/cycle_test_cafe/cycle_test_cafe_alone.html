@@ -750,13 +750,19 @@ function start() {
     $.ajax({
         url: '/ct/cycleTest_start_cafe_alone/',
         success: function (data) {
+          myLineChart.data.datasets[0].data.splice(0, 1);
           myLineChart.data.datasets[0].data.push(dataSockets.pos);
     
+          myLineChart.data.datasets[1].data.splice(0, 1);
           myLineChart.data.datasets[1].data.push(dataSockets.setPos);
 
+          myLineChart.data.datasets[2].data.splice(0, 1);
           myLineChart.data.datasets[2].data.push(dataSockets.relay_O);
 
+          myLineChart.data.datasets[3].data.splice(0, 1);
           myLineChart.data.datasets[3].data.push(dataSockets.relay_C);
+
+          myLineChart.update();
         }
     });
     startWrite();
