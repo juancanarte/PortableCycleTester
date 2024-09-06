@@ -335,6 +335,8 @@
 
 <script src="{% static 'js/chart.min.js' %}"></script>
 <script>
+  var dataSockets = null;
+
   const dialogCycleTest = document.getElementById('formCreateCycleTest');
   const cancelBtn = document.getElementById('cancelBtn');
 
@@ -405,7 +407,7 @@ function stop(){
               myLineChart.data.datasets[2].data = [];
               myLineChart.data.datasets[3].data = [];
 
-              myLineChart.data.labels = emptyString;
+              //myLineChart.data.labels = emptyString;
 
               myLineChart.update();
             }
@@ -433,30 +435,28 @@ function iniciarConexion()
 {
   socket = new WebSocket("ws://" + window.location.host + "/ws/ct_read_cafe_alone/");
   socket.onmessage = function(event){
-    var data = JSON.parse(event.data);
+    dataSockets  = JSON.parse(event.data);
 
-    document.querySelector('#open_cafe_a').innerText = "Open : " + data.relayCountA;
-    document.querySelector('#close_cafe_a').innerText = "Close : " + data.relayCountB;
-    document.querySelector('#testTime').innerText = data.hor + ":" + data.min + ":" + data.sec;
+    document.querySelector('#open_cafe_a').innerText = "Open : " + dataSockets.relayCountA;
+    document.querySelector('#close_cafe_a').innerText = "Close : " + dataSockets.relayCountB;
+    document.querySelector('#testTime').innerText = dataSockets.hor + ":" + dataSockets.min + ":" + dataSockets.sec;
 
     myLineChart.data.datasets[0].data.splice(0, 1);
-    myLineChart.data.datasets[0].data.push(data.pos);
+    myLineChart.data.datasets[0].data.push(dataSockets.pos);
     
     myLineChart.data.datasets[1].data.splice(0, 1);
-    myLineChart.data.datasets[1].data.push(data.setPos);
+    myLineChart.data.datasets[1].data.push(dataSockets.setPos);
 
     myLineChart.data.datasets[2].data.splice(0, 1);
-    myLineChart.data.datasets[2].data.push(data.relay_O);
+    myLineChart.data.datasets[2].data.push(dataSockets.relay_O);
 
     myLineChart.data.datasets[3].data.splice(0, 1);
-    myLineChart.data.datasets[3].data.push(data.relay_C);
+    myLineChart.data.datasets[3].data.push(dataSockets.relay_C);
 
     myLineChart.data.labels.splice(0,1);
-    myLineChart.data.labels.push(data.hor + ":" + data.min + ":" + data.sec);
+    myLineChart.data.labels.push(dataSockets.hor + ":" + dataSockets.min + ":" + dataSockets.sec);
 
     myLineChart.update();
-
-    console.log(data.pos);
   }
   socket.onclose = function(event) {
     socket.close(); // Cierra la conexión WebSocket
