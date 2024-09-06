@@ -91,7 +91,7 @@ function detenerConexion() {
         divClose_a.setAttribute("hidden", "hidden");
         txt_drive_a.innerHTML = "AUTO";
       }
-      else if (selectedOption == 'manual' && modo_cafe_a.textContent != 'DIGITAL')
+      else if (selectedOption == 'manual' && modo_cafe_a.textContent != 'digital')
       {
         divPorcent_cafe_a.removeAttribute("hidden");
         divOpen_a.removeAttribute("hidden");
