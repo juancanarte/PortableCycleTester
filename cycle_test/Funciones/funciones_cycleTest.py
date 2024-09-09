@@ -1148,7 +1148,7 @@ def cycleTest_pause_cafe_alone():
 
     pausa_hilo = True
     #pausar_cronometro()
-    pausar()
+    #pausar()
 
 def cycleTest_resume_cafe_alone():
     global pausa_hilo
