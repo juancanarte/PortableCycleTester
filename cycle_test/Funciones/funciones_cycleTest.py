@@ -2541,6 +2541,32 @@ def saveInDB_a():
         '''
 
 def joinTemporalDB_a(observation):
+    temp_conca = tDataCt_av2.objects.values_list('temp', flat=True)
+    current_conca = tDataCt_av2.objects.values_list('current', flat=True)
+    setPoint_conca = tDataCt_av2.objects.values_list('setPoint', flat=True)
+    feedBack_conca = tDataCt_av2.objects.values_list('feedback', flat=True)
+    relayO_conca = tDataCt_av2.objects.values_list('relayO', flat=True)
+    relayC_conca = tDataCt_av2.objects.values_list('relayC', flat=True)
+    timeStamp_conca = tDataCt_av2.objects.values_list('timeStamp', flat=True)
+    pauseStatus_conca = tDataCt_av2.objects.values_list('pauseStatus', flat=True)
+
+    lista_temp = list(temp_conca)
+    lista_current = list(current_conca)
+    lista_setPoint = list(setPoint_conca)
+    lista_feedBack = list(feedBack_conca)
+    lista_relayO = list(relayO_conca)
+    lista_relayC = list(relayC_conca)
+    lista_timeStamp = list(timeStamp_conca)
+    lista_pauseStatus = list(pauseStatus_conca)
+
+    newCycleTestRegister(dut_alone, actuatorRef_g, load_g, loadDetails_g, testerName_g,
+                         observation, modo_dut_alone, baud, nodo, op_voltage_a, inputType_modulation_a,
+                         signalType_a, widthTimePulse_a, 100, 0, dateStart_a, dateEnd_a,
+                         customTime_a, finalTestTime_a,
+                         lista_temp, lista_current, lista_setPoint,
+                         lista_feedBack, lista_relayO, lista_relayC,
+                         lista_timeStamp, lista_pauseStatus, relaysCounter_a, feedBackCounter_a) 
+    '''
     registros = tDataCt_a.objects.all() #Conncecion al modelo de DB
 
     #Creacion de listas para concatenar registros temporales
@@ -2584,6 +2610,7 @@ def joinTemporalDB_a(observation):
         timeStamp_conca.extend(lista_timeStamp)
         pauseStatus_conca.extend(lista_pauseStatus)
 
+
     newCycleTestRegister(dut_alone, actuatorRef_g, load_g, loadDetails_g, testerName_g,
                          observation, modo_dut_alone, baud, nodo, op_voltage_a, inputType_modulation_a,
                          signalType_a, widthTimePulse_a, 100, 0, dateStart_a, dateEnd_a,
@@ -2591,6 +2618,7 @@ def joinTemporalDB_a(observation):
                          temp_conca, current_conca, setPoint_conca,
                          feedBack_conca, relayO_conca, relayC_conca,
                          timeStamp_conca, pauseStatus_conca, relaysCounter_a, feedBackCounter_a) 
+    '''
 
 def saveCtData(testerName_l, actuatorRef_l, load_l, loadDetails_l):
     global testerName_g, actuatorRef_g, load_g, loadDetails_g
