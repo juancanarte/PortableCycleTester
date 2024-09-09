@@ -5,6 +5,7 @@ from django.urls import reverse
 from Proyecto_PCT.Funciones.show import funciones_show
 from cycle_test.Funciones import funciones_cycleTest
 from cycle_test.models import tempDataCt_a
+from cycle_test.models import tempDataCtv2_a
 from cycle_test.models import users
 from cycle_test.models import cycleTestData
 from django.views.decorators.csrf import csrf_exempt
@@ -59,6 +60,7 @@ def cycle_test(request):
 def cycleTest_start_cafe_alone(request):
     funciones_cycleTest.cycleTest_start_cafe_alone()
     tempDataCt_a.objects.all().delete()
+    tempDataCtv2_a.objects.all().delete()
 
     data = ''
     return JsonResponse({'data': data})
