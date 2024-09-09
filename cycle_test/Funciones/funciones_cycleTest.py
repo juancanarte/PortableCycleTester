@@ -2474,7 +2474,7 @@ def saveInDB_a():
             feedback_a[indexDB_a] = position_a
             relayFeO_a[indexDB_a] = relayO_a
             relayFeC_a[indexDB_a] = relayC_a
-            pauseStatus_a[indexDB_a] = en_progreso
+            pauseStatus_a[indexDB_a] = pausa_hilo
             temp_a[indexDB_a] = 0
             current_a[indexDB_a] = 0
             timeStamp_a[indexDB_a] = tiempo_total_a
