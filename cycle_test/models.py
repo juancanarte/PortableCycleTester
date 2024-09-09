@@ -55,6 +55,6 @@ class cycleTestData(models.Model):
     relayO = models.BinaryField()
     relayC = models.BinaryField()
     timeStamp = models.BinaryField()
-    pause = models.BooleanField(default=False)
+    pause = models.BinaryField()
     relaysCounter = models.BinaryField()
     feedBackCounter = models.BinaryField()
