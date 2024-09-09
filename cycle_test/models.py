@@ -25,6 +25,16 @@ class tempDataCt_a(models.Model):
     timeStamp = models.BinaryField()
     pauseStatus = models.BinaryField(default=b'')
 
+class tempDataCtv2_a(models.Model):
+    temp = models.IntegerField()
+    current = models.IntegerField()
+    setPoint = models.IntegerField()
+    feedback = models.IntegerField()
+    relayO = models.IntegerField()
+    relayC = models.IntegerField()
+    timeStamp = models.FloatField()
+    pauseStatus = models.BooleanField()
+
 class cycleTestData(models.Model):
     dut = models.CharField(max_length=30)
     actuatorRef = models.CharField(max_length=30)

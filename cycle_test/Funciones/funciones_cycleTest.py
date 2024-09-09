@@ -8,6 +8,7 @@ import random
 import json
 import numpy as np
 from cycle_test.models import tempDataCt_a as tDataCt_a
+from cycle_test.models import tempDataCtv2_a as tDataCt_av2
 from cycle_test.models import cycleTestData as ctd
 import pytz
 from cycle_test import views
@@ -172,14 +173,14 @@ setPointMod_a = 0
 flag_read_a = threading.Event()
 thread_readMod_a = None
 
-temp_a = [None]*1000
-current_a = [None]*1000
-setPoint_a = [None]*1000
-feedback_a = [None]*1000
-relayFeO_a = [None]*1000
-relayFeC_a = [None]*1000
-timeStamp_a = [None]*1000
-pauseStatus_a = [None]*1000
+temp_a = 0
+current_a = 0
+setPoint_a = 0
+feedback_a = 0
+relayFeO_a = 0
+relayFeC_a = 0
+timeStamp_a = None
+pauseStatus_a = False
 relaysCounter_a = None
 feedBackCounter_a = None
 
@@ -2462,11 +2463,25 @@ def stop_saveInDB_a():
         flag_thread_saveDB_a.clear()
 
 def saveInDB_a():
-    global temp_a, current_a, setPoint_a, feedback_a, relayFeO_a, relayFeC_a, timeStamp_a, pauseStatus_a, indexDB_a, flag_thread_saveDB_a
+    global temp_a, current_a, setPoint_a, feedback_a, relayFeO_a, relayFeC_a, timeStamp_a, pauseStatus_a, indexDB_a, flag_thread_saveDB_a, tiempo_total_a
     
-    tDataCt_a.objects.all().delete
+    tDataCt_av2.objects.all().delete
     
     while not flag_thread_saveDB_a.is_set():
+        temp_data = tDataCt_av2(      #Instancia de base de datos temporal
+                temp = int(temp_a),
+                current = int(current_a),
+                setPoint = int(setPoint_a),
+                feedback = int(feedback_a),
+                relayO = int(relayFeO_a),
+                relayC = int(relayFeC_a),
+                timeStamp = float(tiempo_total_a),
+                pauseStatus = bool(pausa_hilo)
+            )
+        temp_data.save() #Guardar json en base de datos
+
+        time.sleep(0.06)
+    '''    
         #Estan los vectores llenos?
         if indexDB_a < 1000:
             #Asignar nuevos valores de lectura a los vectores
@@ -2520,9 +2535,9 @@ def saveInDB_a():
                 )
             temp_data.save() #Guardar json en base de datos
             indexDB_a = 0
-            print("Van mil datos")
-
+            print("1 registro")
         time.sleep(0.06)
+        '''
 
 def joinTemporalDB_a(observation):
     registros = tDataCt_a.objects.all() #Conncecion al modelo de DB
