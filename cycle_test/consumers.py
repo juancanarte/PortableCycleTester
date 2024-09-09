@@ -271,6 +271,7 @@ class ct_read_cafe_a(AsyncWebsocketConsumer):
                 _pos, _setPos, _signalType, _relay_O, _relay_C, _relayCountA, _relayCountB, _hor, _min, _sec  = funciones_cycleTest.cycleTest_read_cafe_alone()
                 _ct_relays_cafe_a = randint(1,100)
 
+                '''    
                 if (_signalType == 'sawSignal'):
                     if (_pos != ct_position_cafe_a):
                         await self.send(json.dumps({'pos':ct_position_cafe_a, 'setPos':ct_setPoint_cafe_a, 'relay_O':_relay_O, 'relay_C':_relay_C,
@@ -278,9 +279,10 @@ class ct_read_cafe_a(AsyncWebsocketConsumer):
                         ct_position_cafe_a = _pos
                         ct_setPoint_cafe_a = _setPos
                         ct_relays_cafe_a = _ct_relays_cafe_a
+                '''
                 
-                else:
-                    await self.send(json.dumps({'pos':_pos, 'setPos':_setPos, 'relay_O':_relay_O, 'relay_C':_relay_C, 'relayCountA':_relayCountA,
+                #else:
+                await self.send(json.dumps({'pos':_pos, 'setPos':_setPos, 'relay_O':_relay_O, 'relay_C':_relay_C, 'relayCountA':_relayCountA,
                                                 'relayCountB':_relayCountB, 'hor':_hor, "min":_min, "sec":_sec}))
             await asyncio.sleep(0.08)
 
