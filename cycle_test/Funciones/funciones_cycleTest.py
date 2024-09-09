@@ -2471,10 +2471,10 @@ def saveInDB_a():
         temp_data = tDataCt_av2(      #Instancia de base de datos temporal
                 temp = int(temp_a),
                 current = int(current_a),
-                setPoint = int(setPoint_a),
-                feedback = int(feedback_a),
-                relayO = int(relayFeO_a),
-                relayC = int(relayFeC_a),
+                setPoint = int(setPoint_modulation_a),
+                feedback = int(position_a),
+                relayO = int(relayO_a),
+                relayC = int(relayC_a),
                 timeStamp = float(tiempo_total_a),
                 pauseStatus = bool(pausa_hilo)
             )
