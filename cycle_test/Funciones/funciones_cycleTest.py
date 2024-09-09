@@ -179,6 +179,7 @@ feedback_a = [None]*1000
 relayFeO_a = [None]*1000
 relayFeC_a = [None]*1000
 timeStamp_a = [None]*1000
+pauseStatus_a = [None]*1000
 relaysCounter_a = None
 feedBackCounter_a = None
 
@@ -2461,7 +2462,7 @@ def stop_saveInDB_a():
         flag_thread_saveDB_a.clear()
 
 def saveInDB_a():
-    global temp_a, current_a, setPoint_a, feedback_a, relayFeO_a, relayFeC_a, timeStamp_a, indexDB_a, flag_thread_saveDB_a
+    global temp_a, current_a, setPoint_a, feedback_a, relayFeO_a, relayFeC_a, timeStamp_a, pauseStatus_a, indexDB_a, flag_thread_saveDB_a
     
     tDataCt_a.objects.all().delete
     
@@ -2473,6 +2474,7 @@ def saveInDB_a():
             feedback_a[indexDB_a] = position_a
             relayFeO_a[indexDB_a] = relayO_a
             relayFeC_a[indexDB_a] = relayC_a
+            pauseStatus_a[indexDB_a] = en_progreso
             temp_a[indexDB_a] = 0
             current_a[indexDB_a] = 0
             timeStamp_a[indexDB_a] = tiempo_total_a
@@ -2499,6 +2501,9 @@ def saveInDB_a():
             
             jsonRelaysFeCA = json.dumps(relayFeC_a)
             jsonBytes_RelaysFeCA = jsonRelaysFeCA.encode('utf-8')
+
+            jsonPauseStatusA = json.dumps(pauseStatus_a)
+            jsonBytes_PauseStatusA = jsonPauseStatusA.encode('utf-8')
             
             jsonTimeStampA = json.dumps(timeStamp_a)
             jsonBytes_TimeStampA = jsonTimeStampA.encode('utf-8')
@@ -2510,7 +2515,8 @@ def saveInDB_a():
                     feedback = jsonBytes_FeedbackA,
                     relayO = jsonBytes_RelaysFeOA,
                     relayC = jsonBytes_RelaysFeCA,
-                    timeStamp = jsonBytes_TimeStampA
+                    timeStamp = jsonBytes_TimeStampA,
+                    pauseStatus = jsonBytes_PauseStatusA
                 )
             temp_data.save() #Guardar json en base de datos
             indexDB_a = 0
@@ -2529,6 +2535,7 @@ def joinTemporalDB_a(observation):
     relayO_conca = []
     relayC_conca = []
     timeStamp_conca = []
+    pauseStatus_conca = []
 
     for registro in registros:
         # Decodificar el BLOB de bytes a string
@@ -2539,6 +2546,7 @@ def joinTemporalDB_a(observation):
         relayOConca_json = registro.relayO.decode('utf-8')
         relayCConca_json = registro.relayC.decode('utf-8')
         timeStampConca_json = registro.timeStamp.decode('utf-8')
+        pauseStatusConca_json = registro.pauseStatus.decode('utf-8')
         
         # Convertir el string JSON a una lista
         lista_temp = json.loads(tempConca_json)
@@ -2548,6 +2556,7 @@ def joinTemporalDB_a(observation):
         lista_relayO = json.loads(relayOConca_json)
         lista_relayC = json.loads(relayCConca_json)
         lista_timeStamp = json.loads(timeStampConca_json)
+        lista_pauseStatus = json.loads(pauseStatusConca_json)
 
         # Concatenar las listas
         temp_conca.extend(lista_temp)
@@ -2557,6 +2566,7 @@ def joinTemporalDB_a(observation):
         relayO_conca.extend(lista_relayO)
         relayC_conca.extend(lista_relayC)
         timeStamp_conca.extend(lista_timeStamp)
+        pauseStatus_conca.extend(lista_pauseStatus)
 
     newCycleTestRegister(dut_alone, actuatorRef_g, load_g, loadDetails_g, testerName_g,
                          observation, modo_dut_alone, baud, nodo, op_voltage_a, inputType_modulation_a,
@@ -2564,7 +2574,7 @@ def joinTemporalDB_a(observation):
                          customTime_a, finalTestTime_a,
                          temp_conca, current_conca, setPoint_conca,
                          feedBack_conca, relayO_conca, relayC_conca,
-                         timeStamp_conca, relaysCounter_a, feedBackCounter_a) 
+                         timeStamp_conca, pauseStatus_conca, relaysCounter_a, feedBackCounter_a) 
 
 def saveCtData(testerName_l, actuatorRef_l, load_l, loadDetails_l):
     global testerName_g, actuatorRef_g, load_g, loadDetails_g
@@ -2585,7 +2595,7 @@ def newCycleTestRegister(_dut, _actuatorRef, _load, _loadDetails, _testerName, _
                          _lowValue, _dateStart, _dateEnd,
                          _plannedTimeTest,
                          _finalTimeTest, _temp, _current, _setPoint, _feedBack, _relayO, _relayC,
-                         _timeStamp, _relaysCounter, _feedBackCounter):
+                         _timeStamp, _pauseStatus, _relaysCounter, _feedBackCounter):
     
     #Convertir listas a json
     jsonLoadDetailsA = json.dumps(_loadDetails)
@@ -2611,6 +2621,9 @@ def newCycleTestRegister(_dut, _actuatorRef, _load, _loadDetails, _testerName, _
     
     jsonTimeStampA = json.dumps(_timeStamp)
     jsonBytes_TimeStampA = jsonTimeStampA.encode('utf-8')
+
+    jsonPauseStatusA = json.dumps(_pauseStatus)
+    jsonBytes_PauseStatusA = jsonPauseStatusA.encode('utf-8')
     
     jsonRelaysCounterA = json.dumps(_relaysCounter)
     jsonBytes_RelaysCounterA = jsonRelaysCounterA.encode('utf-8')
@@ -2656,6 +2669,7 @@ def newCycleTestRegister(_dut, _actuatorRef, _load, _loadDetails, _testerName, _
         relayO = jsonBytes_RelaysFeOA,
         relayC = jsonBytes_RelaysFeCA,
         timeStamp = jsonBytes_TimeStampA,
+        pause = jsonBytes_PauseStatusA,
         relaysCounter = jsonBytes_RelaysCounterA,
         feedBackCounter = jsonBytes_FeedBackCounterA
         )

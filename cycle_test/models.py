@@ -23,6 +23,7 @@ class tempDataCt_a(models.Model):
     relayO = models.BinaryField()
     relayC = models.BinaryField()
     timeStamp = models.BinaryField()
+    pauseStatus = models.BinaryField(default=b'')
 
 class cycleTestData(models.Model):
     dut = models.CharField(max_length=30)
@@ -55,6 +56,6 @@ class cycleTestData(models.Model):
     relayO = models.BinaryField()
     relayC = models.BinaryField()
     timeStamp = models.BinaryField()
-    pause = models.BinaryField()
+    pause = models.BinaryField(default=b'')
     relaysCounter = models.BinaryField()
     feedBackCounter = models.BinaryField()
