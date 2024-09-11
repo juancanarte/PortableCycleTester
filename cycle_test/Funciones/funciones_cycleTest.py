@@ -302,6 +302,8 @@ def extraer_parametros(parametrosR, modo):
     for i in range(4,38):
         listaP.append(parametros[i].split('|')[0])
 
+    print(listaP[35], listaP[36], listaP[37], listaP[38])
+
     opVoltage_coil_a = parametros[11].split('|')[0].upper()
     opVoltage_coil_1 = parametros[28].split('|')[0].upper()
     opVoltage_coil_2 = parametros[30].split('|')[0].upper()
