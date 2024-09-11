@@ -189,7 +189,8 @@ running_threads = []
 def extraer_parametros(parametrosR, modo):
     parametros = parametrosR.split(',')
     listaP = []
-    print(parametros)
+
+    print(parametros[35], parametros[36], parametros[37], parametros[38])
 
     for i in range(4,34):
         listaP.append(parametros[i].split('|')[0])
