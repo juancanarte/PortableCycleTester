@@ -30,6 +30,8 @@ if (resultado == 'Show')
 {
     divWidthTime_2.setAttribute("hidden", "hidden");
     divSignalType_2.setAttribute("hidden", "hidden");
+    document.getElementById('divHighValue_2').setAttribute("hidden", "hidden");
+    document.getElementById('divLowValue_2').setAttribute("hidden", "hidden");
 }
 
 incrementButton_2.addEventListener('click', () => {

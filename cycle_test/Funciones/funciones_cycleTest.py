@@ -2481,7 +2481,6 @@ def saveInDB_a():
         temp_data.save() #Guardar json en base de datos
 
         time.sleep(0.06)
-        print(temp_a, current_a, setPoint_a, feedback_a, relayFeO_a, relayFeC_a, tiempo_total_a, pausa_hilo)
     '''    
         #Estan los vectores llenos?
         if indexDB_a < 1000:

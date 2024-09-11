@@ -30,6 +30,8 @@ if (resultado == 'Show')
 {
     divWidthTime.setAttribute("hidden", "hidden");
     divSignalType.setAttribute("hidden", "hidden");
+    document.getElementById('divHighValue_1').setAttribute("hidden", "hidden");
+    document.getElementById('divLowValue_1').setAttribute("hidden", "hidden");
 }
 
 incrementButton.addEventListener('click', () => {
@@ -134,6 +136,8 @@ ddOperMode.addEventListener('change', function()
         </select>
         </div>`;
     }
+
+    
 });
 
 ddSignalType.addEventListener('change', function() 

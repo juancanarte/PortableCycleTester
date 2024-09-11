@@ -72,117 +72,128 @@ var arrayParamsTest = arrayParams;
 //------------------------------------------------------------------------------------------------------------//
 buttonSetParameters.addEventListener('click', function() 
 {
-  //document.getElementById('formAux').submit();
-  //------------------------------------Asignar al Array parametros de los DUT Alone------------------------------------//
+    //document.getElementById('formAux').submit();
+    //------------------------------------Asignar al Array parametros de los DUT Alone------------------------------------//
 
-if (arrayParamsTest[1] == 'CAFE')                                   //Si el DUT Alone es CAFE
-{
-  const dropdownsParams = document.querySelectorAll('.form-select');
-  const node_a = document.querySelector('input[type="number"]');
-  for (let j = 0; j < dropdownsParams.length; j++)
+  if (arrayParamsTest[1] == 'CAFE')                                   //Si el DUT Alone es CAFE
   {
-    var label = dropdownsParams[j].value;
-    var optionD = dropdownsParams[j].id;
-    arrayParamsTest[j+4] = label + '|' + optionD;                   //Asignado desde la posicion 4 en adelante
+    const dropdownsParams = document.querySelectorAll('.form-select');
+    const node_a = document.querySelector('input[type="number"]');
+    for (let j = 0; j < dropdownsParams.length; j++)
+    {
+      var label = dropdownsParams[j].value;
+      var optionD = dropdownsParams[j].id;
+      arrayParamsTest[j+4] = label + '|' + optionD;                   //Asignado desde la posicion 4 en adelante
+    }
+    arrayParamsTest[10] = node_a.value;
   }
-  arrayParamsTest[10] = node_a.value;
-}
-else if (arrayParams[1] == 'COIL')                                   //Si el DUT Alone es COIL
-{
-  const dropdownsParams = document.querySelectorAll('.form-select');
-  for (let j = 0; j < dropdownsParams.length; j++)
+  else if (arrayParams[1] == 'COIL')                                   //Si el DUT Alone es COIL
   {
-    var label = dropdownsParams[j].value;
-    var optionD = dropdownsParams[j].id;
-    arrayParamsTest[j+11] = label + '|' + optionD;                   //Asignado desde la posicion 11 en adelante
+    const dropdownsParams = document.querySelectorAll('.form-select');
+    for (let j = 0; j < dropdownsParams.length; j++)
+    {
+      var label = dropdownsParams[j].value;
+      var optionD = dropdownsParams[j].id;
+      arrayParamsTest[j+11] = label + '|' + optionD;                   //Asignado desde la posicion 11 en adelante
+    }
   }
-}
-else if (arrayParams[1] == 'LIMIT SWITCH')                           //Si el DUT Alone es LIMIT SWITCH
-{
-  const dropdownsParams = document.querySelectorAll('.form-select');
-  for (let j = 0; j < dropdownsParams.length; j++)
+  else if (arrayParams[1] == 'LIMIT SWITCH')                           //Si el DUT Alone es LIMIT SWITCH
   {
-    var label = dropdownsParams[j].value;
-    var optionD = dropdownsParams[j].id;
-    arrayParamsTest[j+13] = label + '|' + optionD;                   //Asignado desde la posicion 13 en adelante
+    const dropdownsParams = document.querySelectorAll('.form-select');
+    for (let j = 0; j < dropdownsParams.length; j++)
+    {
+      var label = dropdownsParams[j].value;
+      var optionD = dropdownsParams[j].id;
+      arrayParamsTest[j+13] = label + '|' + optionD;                   //Asignado desde la posicion 13 en adelante
+    }
   }
-}
 
-//------------------------------------Asignar al Array parametros de los DUT 1 ------------------------------------//
+  //------------------------------------Asignar al Array parametros de los DUT 1 ------------------------------------//
 
-if (arrayParamsTest[2] == 'CAFE')                                   //Si el DUT 1 es CAFE
-{
-  const divEspecifico = document.querySelector('#divParamsDut1');
-  const dropdownsParams = divEspecifico.querySelectorAll('.form-select');
-  var node_1 = document.getElementById('node_1');
-  for (let j = 0; j < dropdownsParams.length; j++)
+  if (arrayParamsTest[2] == 'CAFE')                                   //Si el DUT 1 es CAFE
   {
-    var label = dropdownsParams[j].value;
-    var optionD = dropdownsParams[j].id;
-    arrayParamsTest[j+14] = label + '|' + optionD;                   //Asignado desde la posicion 20 en adelante
+    const divEspecifico = document.querySelector('#divParamsDut1');
+    const dropdownsParams = divEspecifico.querySelectorAll('.form-select');
+    var node_1 = document.getElementById('node_1');
+    for (let j = 0; j < dropdownsParams.length; j++)
+    {
+      var label = dropdownsParams[j].value;
+      var optionD = dropdownsParams[j].id;
+      arrayParamsTest[j+14] = label + '|' + optionD;                   //Asignado desde la posicion 20 en adelante
+    }
+    arrayParamsTest[20] = node_1.value;
   }
-  arrayParamsTest[20] = node_1.value;
-}
-else if (arrayParams[2] == 'COIL')                                   //Si el DUT 1 es COIL
-{
-  const divEspecifico = document.querySelector('#divParamsDut1');
-  const dropdownsParams = divEspecifico.querySelectorAll('.form-select');
-  for (let j = 0; j < dropdownsParams.length; j++)
+  else if (arrayParams[2] == 'COIL')                                   //Si el DUT 1 es COIL
   {
-    var label = dropdownsParams[j].value;
-    var optionD = dropdownsParams[j].id;
-    arrayParamsTest[j+28] = label + '|' + optionD;                   //Asignado desde la posicion 28 en adelante
+    const divEspecifico = document.querySelector('#divParamsDut1');
+    const dropdownsParams = divEspecifico.querySelectorAll('.form-select');
+    for (let j = 0; j < dropdownsParams.length; j++)
+    {
+      var label = dropdownsParams[j].value;
+      var optionD = dropdownsParams[j].id;
+      arrayParamsTest[j+28] = label + '|' + optionD;                   //Asignado desde la posicion 28 en adelante
+    }
   }
-}
-else if (arrayParams[2] == 'LIMIT SWITCH')                           //Si el DUT 1 es LIMIT SWITCH
-{
-  const divEspecifico = document.querySelector('#divParamsDut1');
-  const dropdownsParams = divEspecifico.querySelectorAll('.form-select');
-  for (let j = 0; j < dropdownsParams.length; j++)
+  else if (arrayParams[2] == 'LIMIT SWITCH')                           //Si el DUT 1 es LIMIT SWITCH
   {
-    var label = dropdownsParams[j].value;
-    var optionD = dropdownsParams[j].id;
-    arrayParamsTest[j+32] = label + '|' + optionD;                   //Asignado desde la posicion 32 en adelante
+    const divEspecifico = document.querySelector('#divParamsDut1');
+    const dropdownsParams = divEspecifico.querySelectorAll('.form-select');
+    for (let j = 0; j < dropdownsParams.length; j++)
+    {
+      var label = dropdownsParams[j].value;
+      var optionD = dropdownsParams[j].id;
+      arrayParamsTest[j+32] = label + '|' + optionD;                   //Asignado desde la posicion 32 en adelante
+    }
   }
-}
 
-//------------------------------------Asignar al Array parametros de los DUT 2 ------------------------------------//
+  //------------------------------------Asignar al Array parametros de los DUT 2 ------------------------------------//
 
-if (arrayParamsTest[3] == 'CAFE')                                   //Si el DUT 2 es CAFE
-{
-  const divEspecifico = document.querySelector('#divParamsDut2');
-  const dropdownsParams = divEspecifico.querySelectorAll('.form-select');
-  var node_2 = document.getElementById('node_2');
-  for (let j = 0; j < dropdownsParams.length; j++)
+  if (arrayParamsTest[3] == 'CAFE')                                   //Si el DUT 2 es CAFE
   {
-    var label = dropdownsParams[j].value;
-    var optionD = dropdownsParams[j].id;
-    arrayParamsTest[j+21] = label + '|' + optionD;                   //Asignado desde la posicion 21 en adelante
+    const divEspecifico = document.querySelector('#divParamsDut2');
+    const dropdownsParams = divEspecifico.querySelectorAll('.form-select');
+    var node_2 = document.getElementById('node_2');
+    for (let j = 0; j < dropdownsParams.length; j++)
+    {
+      var label = dropdownsParams[j].value;
+      var optionD = dropdownsParams[j].id;
+      arrayParamsTest[j+21] = label + '|' + optionD;                   //Asignado desde la posicion 21 en adelante
+    }
+    arrayParamsTest[27] = node_2.value;
   }
-  arrayParamsTest[27] = node_2.value;
-}
-else if (arrayParams[3] == 'COIL')                                   //Si el DUT 2 es COIL
-{
-  const divEspecifico = document.querySelector('#divParamsDut2');
-  const dropdownsParams = divEspecifico.querySelectorAll('.form-select');
-  for (let j = 0; j < dropdownsParams.length; j++)
+  else if (arrayParams[3] == 'COIL')                                   //Si el DUT 2 es COIL
   {
-    var label = dropdownsParams[j].value;
-    var optionD = dropdownsParams[j].id;
-    arrayParamsTest[j+30] = label + '|' + optionD;                   //Asignado desde la posicion 30 en adelante
+    const divEspecifico = document.querySelector('#divParamsDut2');
+    const dropdownsParams = divEspecifico.querySelectorAll('.form-select');
+    for (let j = 0; j < dropdownsParams.length; j++)
+    {
+      var label = dropdownsParams[j].value;
+      var optionD = dropdownsParams[j].id;
+      arrayParamsTest[j+30] = label + '|' + optionD;                   //Asignado desde la posicion 30 en adelante
+    }
   }
-}
-else if (arrayParams[3] == 'LIMIT SWITCH')                           //Si el DUT 2 es LIMIT SWITCH
-{
-  const divEspecifico = document.querySelector('#divParamsDut2');
-  const dropdownsParams = divEspecifico.querySelectorAll('.form-select');
-  for (let j = 0; j < dropdownsParams.length; j++)
+  else if (arrayParams[3] == 'LIMIT SWITCH')                           //Si el DUT 2 es LIMIT SWITCH
   {
-    var label = dropdownsParams[j].value;
-    var optionD = dropdownsParams[j].id;
-    arrayParamsTest[j+33] = label + '|' + optionD;                   //Asignado desde la posicion 33 en adelante
+    const divEspecifico = document.querySelector('#divParamsDut2');
+    const dropdownsParams = divEspecifico.querySelectorAll('.form-select');
+    for (let j = 0; j < dropdownsParams.length; j++)
+    {
+      var label = dropdownsParams[j].value;
+      var optionD = dropdownsParams[j].id;
+      arrayParamsTest[j+33] = label + '|' + optionD;                   //Asignado desde la posicion 33 en adelante
+    }
   }
-}
+
+
+  //------------------------------------alto y bajo dut 1 ------------------------------------//
+  var highCaf_1 = document.getElementById('InputHighValue_1');
+  var lowCaf_1 = document.getElementById('InputLowValue_1');
+
+  var highCaf_2 = document.getElementById('InputHighValue_2');
+  var lowCaf_2 = document.getElementById('InputLowValue_2');
+
+  console.log(highCaf_1, lowCaf_1, highCaf_2, lowCaf_2);
+
   buttonSetParameters.value = arrayParamsTest;
 });
 //Estructura del arreglo
