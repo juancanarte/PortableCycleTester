@@ -6,7 +6,7 @@ var idDutAlone = document.getElementById('idDutAlone');
 var LabelDutAlone = document.getElementById('labelDutAlone');
 var LabelDut1 = document.getElementById('LabelDut1');
 var LabelDut2 = document.getElementById('LabelDut2');
-var arrayParams = Array(34);
+var arrayParams = Array(38);
 var node_1 = document.getElementById('node_1');
 var node_2 = document.getElementById('node_2');
 const load = document.getElementById('load');
@@ -192,7 +192,19 @@ buttonSetParameters.addEventListener('click', function()
   var highCaf_2 = document.getElementById('InputHighValue_2');
   var lowCaf_2 = document.getElementById('InputLowValue_2');
 
-  console.log(highCaf_1, lowCaf_1, highCaf_2, lowCaf_2);
+  if (highCaf_1 != null)
+  {
+    arrayParamsTest[35] = highCaf_1.value;
+    arrayParamsTest[36] = lowCaf_1.value;
+  }
+
+  if (highCaf_2 != null)
+    {
+      arrayParamsTest[37] = highCaf_2.value;
+      arrayParamsTest[38] = lowCaf_2.value;
+    }
+
+    console.log(arrayParamsTest);
 
   buttonSetParameters.value = arrayParamsTest;
 });
