@@ -298,6 +298,8 @@ def extraer_parametros(parametrosR, modo):
     global listaP
 
     parametros = parametrosR.split(',')
+    print(parametros)
+    
     listaP = []
     for i in range(4,34):
         listaP.append(parametros[i].split('|')[0])
