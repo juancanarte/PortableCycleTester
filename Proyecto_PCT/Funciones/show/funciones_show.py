@@ -189,7 +189,7 @@ running_threads = []
 def extraer_parametros(parametrosR, modo):
     parametros = parametrosR.split(',')
     listaP = []
-    for i in range(4,38):
+    for i in range(4,34):
         listaP.append(parametros[i].split('|')[0])
 
     opVoltage_coil_a = parametros[11].split('|')[0].upper()
