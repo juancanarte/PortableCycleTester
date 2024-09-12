@@ -14,6 +14,7 @@ const conditionalField = document.getElementById('conditionalField');
 const modoPCT = document.getElementById('modo');
 const divCycleTestDataForm = document.getElementById('divCycleTestDataForm');
 const testerName = document.getElementById('testerName');
+const actuatorRef = document.getElementById('actuatorRef');
 var formAux = document.getElementById('formAux');
 var formMain = document.getElementById('formMain');
 
@@ -36,6 +37,7 @@ if (modoPCT.innerHTML != 'Show')
 else{
   divCycleTestDataForm.style.display = 'none';
   testerName.removeAttribute("required");
+  actuatorRef.removeAttribute("required");
 }
 
 function saveData() {
