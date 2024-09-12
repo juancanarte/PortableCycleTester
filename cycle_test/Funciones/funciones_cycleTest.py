@@ -1174,6 +1174,8 @@ def cycleTest_read_cafe_alone():
     relay_analysis(relay_O, relay_C)
     feedBack_analysis_cafe_a(position)
 
+    print(counter_open_cafe_a, counter_close_cafe_a, counter_openF_cafe_a, counter_closeF_cafe_a)
+
     return setPoint,position,signalType_a,relay_O,relay_C,counter_open_cafe_a,counter_close_cafe_a,counter_openF_cafe_a,counter_closeF_cafe_a,horas_cafe_a,minutos_cafe_a,segundos_cafe_a
 
 def theread_read_cafe_alone():
