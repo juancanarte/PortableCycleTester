@@ -760,7 +760,7 @@ def cycleTest_start_cafe_alone():
 
 def cycleTest_stop_cafe_alone():
     global thread_modbus_a,client,modoG,nodo,running_threads,flag_a,flag_c_a,thread_crono_a,horas_cafe_a,minutos_cafe_a,segundos_cafe_a,thread_readMod_a,\
-           flag_read_a,counter_open_cafe_a,counter_close_cafe_a, relaysCounter_a, feedBackCounter_a, finalTestTime_a
+           flag_read_a,counter_open_cafe_a,counter_close_cafe_a, counter_openF_cafe_a, counter_closeF_cafe_a, relaysCounter_a, feedBackCounter_a, finalTestTime_a
 
     if thread_modbus_a is not None and thread_modbus_a.is_alive():
         flag_a.set()
@@ -776,7 +776,7 @@ def cycleTest_stop_cafe_alone():
         pass
 
     relaysCounter_a = [str(counter_open_cafe_a), str(counter_close_cafe_a)]
-    feedBackCounter_a = [str(counter_open_cafe_a), str(counter_close_cafe_a)]
+    feedBackCounter_a = [str(counter_openF_cafe_a), str(counter_closeF_cafe_a)]
     finalTestTime_a = str(horas_cafe_a) + ':' + str(minutos_cafe_a) + ':' + str(segundos_cafe_a)
 
     detener()
