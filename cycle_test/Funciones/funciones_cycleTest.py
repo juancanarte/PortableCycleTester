@@ -305,7 +305,27 @@ def extraer_parametros(parametrosR, modo):
     global listaP, highValue_cafe_1, lowValue_cafe_1, highValue_cafe_2, lowValue_cafe_2
 
     parametros = parametrosR.split(',')
-    print(parametros[35], parametros[36], parametros[37], parametros[38])
+
+    try:
+        highValue_cafe_1 = int(parametros[35])
+    except:
+        highValue_cafe_1 = 100
+
+    try:
+        lowValue_cafe_1 = int(parametros[36])
+    except:
+        lowValue_cafe_1 = 0
+
+    try:
+        highValue_cafe_2 = int(parametros[37])
+    except:
+        highValue_cafe_2 = 100
+
+    try:
+        lowValue_cafe_2 = int(parametros[38])
+    except:
+        lowValue_cafe_2 = 0
+
     '''
     highValue_cafe_1 = int(parametros[35]) if parametros[35].isdigit() else 100
     lowValue_cafe_1 = int(parametros[36]) if parametros[36].isdigit() else 100
