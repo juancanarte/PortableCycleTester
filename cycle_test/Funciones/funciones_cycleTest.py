@@ -1227,7 +1227,7 @@ def feedBack_analysis_cafe_a(valor_actual):
         return
 
     # Detectar si el valor acaba de cambiar a 100
-    if valor_anterior_cafe_a < 100 - 1 and valor_actual >= 100 - 1:
+    if valor_anterior_cafe_a < 100 - 2 and valor_actual >= 100 - 2:
     #if valor_anterior_cafe_a != 100 and valor_actual == 100:
         counter_openF_cafe_a += 1
     
