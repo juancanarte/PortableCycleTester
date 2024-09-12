@@ -279,13 +279,13 @@
           <td></td>
           <td id="relaysCounter_C">Close : 0000</td>
         </tr>
-        <tr id="feedbackCounter_O">
+        <tr>
           <td>Feedback counter :</td>
-          <td>Open : 1000</td>
+          <td id="feedbackCounter_O">Open : 0000</td>
         </tr>
-        <tr id="feedbackCounter_C">
+        <tr>
           <td></td>
-          <td>Close : 1000</td>
+          <td id="feedbackCounter_C">Close : 0000</td>
         </tr>
       </table>
     </div>
@@ -417,6 +417,8 @@ function stop(){
 
   document.querySelector('#open_cafe_a').innerText = "Open : 0";
   document.querySelector('#close_cafe_a').innerText = "Close : 0";
+  document.querySelector('#feedbackCounter_O').innerText = "Open : 0";
+  document.querySelector('#feedbackCounter_C').innerText = "Close : 0";
   document.querySelector('#testTime').innerText = "0:0:0";
 
 }
@@ -429,6 +431,8 @@ function iniciarConexion()
 
     document.querySelector('#open_cafe_a').innerText = "Open : " + dataSockets.relayCountA;
     document.querySelector('#close_cafe_a').innerText = "Close : " + dataSockets.relayCountB;
+    document.querySelector('#feedbackCounter_O').innerText = "Open : " + dataSockets.relayCountFA;
+    document.querySelector('#feedbackCounter_C').innerText = "Close : " + dataSockets.relayCountFB;
     document.querySelector('#testTime').innerText = dataSockets.hor + ":" + dataSockets.min + ":" + dataSockets.sec;
 
     myLineChart.data.datasets[0].data.splice(0, 1);

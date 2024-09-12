@@ -1175,7 +1175,7 @@ def cycleTest_read_cafe_alone():
     feedBack_analysis_cafe_a(position)
     print(counter_openF_cafe_a, counter_closeF_cafe_a)
 
-    return setPoint, position, signalType_a, relay_O, relay_C, counter_open_cafe_a, counter_close_cafe_a, horas_cafe_a, minutos_cafe_a, segundos_cafe_a
+    return setPoint,position,signalType_a,relay_O,relay_C,counter_open_cafe_a,counter_close_cafe_a,counter_openF_cafe_a,counter_closeF_cafe_a,horas_cafe_a,minutos_cafe_a,segundos_cafe_a
 
 def theread_read_cafe_alone():
     global client, nodo, flag_read_a, posMod_a, setPoint_modulation_a
@@ -1225,7 +1225,7 @@ def feedBack_analysis_cafe_a(valor_actual):
     if valor_anterior_cafe_a is None:
         valor_anterior_cafe_a = valor_actual
         return
-
+    
     # Detectar si el valor acaba de cambiar a 100
     if valor_anterior_cafe_a < 100 - 2 and valor_actual >= 100 - 2:
     #if valor_anterior_cafe_a != 100 and valor_actual == 100:

@@ -268,7 +268,7 @@ class ct_read_cafe_a(AsyncWebsocketConsumer):
         global ct_position_cafe_a, ct_setPoint_cafe_a, ct_relays_cafe_a
         while self.running:
             if not self.paused:
-                _pos, _setPos, _signalType, _relay_O, _relay_C, _relayCountA, _relayCountB, _hor, _min, _sec  = funciones_cycleTest.cycleTest_read_cafe_alone()
+                _pos, _setPos, _signalType, _relay_O, _relay_C, _relayCountA, _relayCountB, _relayCountFA, _relayCountFB, _hor, _min, _sec  = funciones_cycleTest.cycleTest_read_cafe_alone()
                 _ct_relays_cafe_a = randint(1,100)
 
                 '''    
@@ -282,8 +282,8 @@ class ct_read_cafe_a(AsyncWebsocketConsumer):
                 '''
                 
                 #else:
-                await self.send(json.dumps({'pos':_pos, 'setPos':_setPos, 'relay_O':_relay_O, 'relay_C':_relay_C, 'relayCountA':_relayCountA,
-                                                'relayCountB':_relayCountB, 'hor':_hor, "min":_min, "sec":_sec}))
+                await self.send(json.dumps({'pos':_pos, 'setPos':_setPos, 'relay_O':_relay_O, 'relay_C':_relay_C, 'relayCountA':_relayCountA, 'relayCountFA':_relayCountFA,
+                                            'relayCountFB':_relayCountFB,'relayCountB':_relayCountB, 'hor':_hor, "min":_min, "sec":_sec}))
             await asyncio.sleep(0.08)
 
 class ct_read_cafe_1(AsyncWebsocketConsumer):
