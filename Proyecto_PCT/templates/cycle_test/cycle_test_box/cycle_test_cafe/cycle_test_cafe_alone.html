@@ -417,8 +417,8 @@ function stop(){
 
   document.querySelector('#open_cafe_a').innerText = "Open : 0";
   document.querySelector('#close_cafe_a').innerText = "Close : 0";
-  document.querySelector('#feedbackCounter_O').innerText = "Open : 0";
-  document.querySelector('#feedbackCounter_C').innerText = "Close : 0";
+  document.querySelector('#openFe_cafe_a').innerText = "Open : 0";
+  document.querySelector('#closeFe_cafe_a').innerText = "Close : 0";
   document.querySelector('#testTime').innerText = "0:0:0";
 
 }
@@ -716,6 +716,8 @@ function receiveData_a() {
         document.getElementById('dateEnd_dialog').innerText = data.dateEnd_a;
         document.getElementById('relaysCounter_O').innerText = 'Open : '+ data.counter_open_cafe_a;
         document.getElementById('relaysCounter_C').innerText = 'Close : '+ data.counter_close_cafe_a;
+        document.getElementById('feedbackCounter_O').innerText = 'Open : '+ data.counter_openF_cafe_a;
+        document.getElementById('feedbackCounter_C').innerText = 'Close : '+ data.counter_closeF_cafe_a;
         document.getElementById('plannedTimeTest_dialog').innerText = data.customTime_a;
         document.getElementById('finalTimeTest').innerText = data.finalTime_a;
     })

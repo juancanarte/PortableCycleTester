@@ -1447,12 +1447,12 @@ def turnOff_cafe_alone():
         client.close()
 
 def sendData_cafe_alone():
-    global dateStart_a, dateEnd_a, counter_open_cafe_a, counter_close_cafe_a, customTime_a, finalTestTime_a
+    global dateStart_a, dateEnd_a, counter_open_cafe_a, counter_close_cafe_a, counter_openF_cafe_a, counter_closeF_cafe_a, customTime_a, finalTestTime_a
 
     _aux = dateStart_a.strftime("%m/%d/%Y %H:%M")
 
-    dataList = {'dateStart_a':_aux, 'dateEnd_a':dateEnd_a, 'counter_open_cafe_a':counter_open_cafe_a,
-                'counter_close_cafe_a':counter_close_cafe_a, 'customTime_a':customTime_a, 'finalTime_a':finalTestTime_a}
+    dataList = {'dateStart_a':_aux, 'dateEnd_a':dateEnd_a, 'counter_open_cafe_a':counter_open_cafe_a,'counter_close_cafe_a':counter_close_cafe_a,
+                'customTime_a':customTime_a, 'counter_openF_cafe_a':counter_openF_cafe_a, 'counter_closeF_cafe_a':counter_closeF_cafe_a, 'finalTime_a':finalTestTime_a}
 
     return dataList
 
