@@ -1217,6 +1217,10 @@ def relay_analysis(signal_relayA, signal_relayB):
 def feedBack_analysis_cafe_a(valor_actual):
     global counter_openF_cafe_a, counter_closeF_cafe_a
 
+    if valor_anterior is None:
+        valor_anterior = valor_actual
+        return
+
     # Detectar si el valor acaba de cambiar a 100
     if valor_anterior != 100 and valor_actual == 100:
         counter_openF_cafe_a += 1
