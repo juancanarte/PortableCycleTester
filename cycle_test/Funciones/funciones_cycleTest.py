@@ -1219,21 +1219,35 @@ def relay_analysis(signal_relayA, signal_relayB):
     posAnteriorB_a = signal_relayB
 
 def feedBack_analysis_cafe_a(valor_actual):
-    global counter_openF_cafe_a, counter_closeF_cafe_a, valor_anterior_cafe_a
+    global counter_openF_cafe_a, counter_closeF_cafe_a, valor_anterior_cafe_a, highValue_cafe_1, lowValue_cafe_1, highValue_cafe_2, lowValue_cafe_2
+
+    p = globals()['port_gpio_alone']
 
     if valor_anterior_cafe_a is None:
         valor_anterior_cafe_a = valor_actual
         return
     
-    # Detectar si el valor acaba de cambiar a 100
-    if valor_anterior_cafe_a < 100 - 2 and valor_actual >= 100 - 2:
-    #if valor_anterior_cafe_a != 100 and valor_actual == 100:
-        counter_openF_cafe_a += 1
+    if p == 1:
+        # Detectar si el valor acaba de cambiar a 100
+        if valor_anterior_cafe_a < highValue_cafe_1 - 2 and valor_actual >= highValue_cafe_1 - 2:
+        #if valor_anterior_cafe_a != 100 and valor_actual == 100:
+            counter_openF_cafe_a += 1
+        
+        # Detectar si el valor acaba de cambiar a 0
+        elif valor_anterior_cafe_a > lowValue_cafe_1 + 1 and valor_actual <= lowValue_cafe_1 + 1:
+        #elif valor_anterior_cafe_a != 0 and valor_actual == 0:
+            counter_closeF_cafe_a += 1
     
-    # Detectar si el valor acaba de cambiar a 0
-    elif valor_anterior_cafe_a > 0 + 1 and valor_actual <= 0 + 1:
-    #elif valor_anterior_cafe_a != 0 and valor_actual == 0:
-        counter_closeF_cafe_a += 1
+    elif p == 2:
+        # Detectar si el valor acaba de cambiar a 100
+        if valor_anterior_cafe_a < highValue_cafe_2 - 2 and valor_actual >= highValue_cafe_2 - 2:
+        #if valor_anterior_cafe_a != 100 and valor_actual == 100:
+            counter_openF_cafe_a += 1
+        
+        # Detectar si el valor acaba de cambiar a 0
+        elif valor_anterior_cafe_a > lowValue_cafe_2 + 1 and valor_actual <= lowValue_cafe_2 + 1:
+        #elif valor_anterior_cafe_a != 0 and valor_actual == 0:
+            counter_closeF_cafe_a += 1
 
     valor_anterior_cafe_a = valor_actual
 
