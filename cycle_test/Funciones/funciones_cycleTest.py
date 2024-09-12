@@ -126,6 +126,11 @@ testerName_g = ''
 actuatorRef_g = ''
 load_g = False
 loadDetails_g = ''
+
+highValue_cafe_1 = 100
+lowValue_cafe_1 = 0
+highValue_cafe_2 = 100
+lowValue_cafe_2 = 0
 #--------------------------------------------CAFE ALONE--------------------------------------------#
 modo_dut_alone = ''
 dut_alone = ''
@@ -136,6 +141,9 @@ posAnteriorB_a = 0
 
 counter_open_cafe_a = 0
 counter_close_cafe_a = 0
+
+counter_openF_cafe_a = 0
+counter_closeF_cafe_a = 0
 
 controlSignal_a = 0
 feedbackSignal_a = 0
@@ -183,7 +191,6 @@ timeStamp_a = None
 pauseStatus_a = False
 relaysCounter_a = None
 feedBackCounter_a = None
-
 
 indexDB_a = 0
 
@@ -295,10 +302,14 @@ stop_condition = threading.Condition()
 running_threads = []
 
 def extraer_parametros(parametrosR, modo):
-    global listaP
+    global listaP, highValue_cafe_1, lowValue_cafe_1, highValue_cafe_2, lowValue_cafe_2
 
     parametros = parametrosR.split(',')
-    print(parametros[35], parametros[36], parametros[37], parametros[38])
+
+    highValue_cafe_1 = int(parametros[35])
+    lowValue_cafe_1 = int(parametros[36])
+    highValue_cafe_2 = int(parametros[37])
+    lowValue_cafe_2 = int(parametros[38])
 
     listaP = []
     for i in range(4,34):
@@ -1047,7 +1058,7 @@ def cycleTest_write_start():
 
 def cycleTest_read_cafe_alone():
     global client, nodo, modoG, modulation_read_a, inputType_modulation_a, setPoint_modulation_a, listaP, counter_open_cafe_a,\
-    counter_close_cafe_a, minutos_cafe_a, segundos_cafe_a, puerto_dut_alone, posMod_a, relayO_a, relayC_a, controlSignal_a,\
+    counter_close_cafe_a, counter_openF_cafe_a, counter_closeF_cafe_a, minutos_cafe_a, segundos_cafe_a, puerto_dut_alone, posMod_a, relayO_a, relayC_a, controlSignal_a,\
     feedbackSignal_a, position_a, horas_cafe_a
 
     signalType_a = listaP[4]
@@ -1128,6 +1139,8 @@ def cycleTest_read_cafe_alone():
     mostrar_tiempo()
 
     relay_analysis(relay_O, relay_C)
+    feedBack_analysis_cafe_a(position)
+    print(counter_openF_cafe_a, counter_closeF_cafe_a)
 
     return setPoint, position, signalType_a, relay_O, relay_C, counter_open_cafe_a, counter_close_cafe_a, horas_cafe_a, minutos_cafe_a, segundos_cafe_a
 
@@ -1172,6 +1185,19 @@ def relay_analysis(signal_relayA, signal_relayB):
 
     posAnteriorA_a = signal_relayA
     posAnteriorB_a = signal_relayB
+
+def feedBack_analysis_cafe_a(valor_actual):
+    global counter_openF_cafe_a, counter_closeF_cafe_a
+
+    # Detectar si el valor acaba de cambiar a 100
+    if valor_anterior != 100 and valor_actual == 100:
+        counter_openF_cafe_a += 1
+    
+    # Detectar si el valor acaba de cambiar a 0
+    elif valor_anterior != 0 and valor_actual == 0:
+        counter_closeF_cafe_a += 1
+
+    valor_anterior = valor_actual
 
 def cronometro():
     global minutos_cafe_a, segundos_cafe_a, tempo_aux
