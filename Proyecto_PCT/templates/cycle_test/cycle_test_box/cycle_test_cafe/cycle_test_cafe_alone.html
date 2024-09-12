@@ -434,6 +434,7 @@ function iniciarConexion()
     document.querySelector('#feedbackCounter_O').innerText = "Open : " + dataSockets.relayCountFA;
     document.querySelector('#feedbackCounter_C').innerText = "Close : " + dataSockets.relayCountFB;
     document.querySelector('#testTime').innerText = dataSockets.hor + ":" + dataSockets.min + ":" + dataSockets.sec;
+    console.log(dataSockets.relayCountFA, dataSockets.relayCountFB);
 
     myLineChart.data.datasets[0].data.splice(0, 1);
     myLineChart.data.datasets[0].data.push(dataSockets.pos);
