@@ -145,6 +145,8 @@ counter_close_cafe_a = 0
 counter_openF_cafe_a = 0
 counter_closeF_cafe_a = 0
 
+valor_anterior_cafe_a = None
+
 controlSignal_a = 0
 feedbackSignal_a = 0
 relayO_a = 0
@@ -1215,21 +1217,21 @@ def relay_analysis(signal_relayA, signal_relayB):
     posAnteriorB_a = signal_relayB
 
 def feedBack_analysis_cafe_a(valor_actual):
-    global counter_openF_cafe_a, counter_closeF_cafe_a
+    global counter_openF_cafe_a, counter_closeF_cafe_a, valor_anterior_cafe_a
 
-    if valor_anterior is None:
-        valor_anterior = valor_actual
+    if valor_anterior_cafe_a is None:
+        valor_anterior_cafe_a = valor_actual
         return
 
     # Detectar si el valor acaba de cambiar a 100
-    if valor_anterior != 100 and valor_actual == 100:
+    if valor_anterior_cafe_a != 100 and valor_actual == 100:
         counter_openF_cafe_a += 1
     
     # Detectar si el valor acaba de cambiar a 0
-    elif valor_anterior != 0 and valor_actual == 0:
+    elif valor_anterior_cafe_a != 0 and valor_actual == 0:
         counter_closeF_cafe_a += 1
 
-    valor_anterior = valor_actual
+    valor_anterior_cafe_a = valor_actual
 
 def cronometro():
     global minutos_cafe_a, segundos_cafe_a, tempo_aux
