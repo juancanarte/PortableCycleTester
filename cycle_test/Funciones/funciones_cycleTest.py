@@ -733,10 +733,13 @@ def show_params(params, modo):
 #Funciones CYCLE TEST para CAFE alone
 def cycleTest_start_cafe_alone():
     global thread_modbus_a, thread_crono_a, client, modoG, nodo, running_threads, counter_open_cafe_a,\
-           counter_close_cafe_a, minutos_cafe_a, segundos_cafe_a, thread_readMod_a
+           counter_close_cafe_a, minutos_cafe_a, segundos_cafe_a, thread_readMod_a, counter_openF_cafe_a, counter_closeF_cafe_a
 
     counter_open_cafe_a = 0
     counter_close_cafe_a = 0
+
+    counter_openF_cafe_a = 0
+    counter_closeF_cafe_a = 0
 
     if thread_modbus_a is None or not thread_modbus_a.is_alive():
         thread_modbus_a = threading.Thread(target=cycleTest_write_start)
