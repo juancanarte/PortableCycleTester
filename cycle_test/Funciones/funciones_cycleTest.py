@@ -1057,14 +1057,14 @@ def cycleTest_write_start():
             while not flag_a.is_set():
                 while pausa_hilo == True:
                     time.sleep(0.1)
-                result2 = client.write_register(2, 100, nodo)
+                result2 = client.write_register(2, setPoint_h_a, nodo)
                 #client.write_register(2, 100, functioncode=6)
-                setPoint_modulation_a = 100
+                setPoint_modulation_a = setPoint_h_a
                 time.sleep(widthTimePulse_show)
 
-                result2 = client.write_register(2, 0, nodo)
+                result2 = client.write_register(2, setPoint_l_a, nodo)
                 #client.write_register(2, 0, functioncode=6)
-                setPoint_modulation_a = 0
+                setPoint_modulation_a = setPoint_l_a
                 time.sleep(widthTimePulse_show)
         
         elif signalType == 'sawSignal':
@@ -1072,8 +1072,8 @@ def cycleTest_write_start():
             porcent_step = saw_porcent
             wtp_show = (widthTimePulse_show*1000)/(100/porcent_step)
             wtp_show = widthTimePulse_show
-            array_1 = np.arange(0,101,porcent_step)
-            array_2 = np.arange(100, -1, -1*porcent_step)[1:-1]
+            array_1 = np.arange(setPoint_l_a,setPoint_h_a + 1,porcent_step)
+            array_2 = np.arange(setPoint_h_a, setPoint_l_a - 1, -1*porcent_step)[1:-1]
             final_array = np.concatenate((array_1, array_2))
             while not flag_a.is_set():
                 while pausa_hilo == True:
@@ -1092,8 +1092,8 @@ def cycleTest_write_start():
             porcent_step = scale_porcent
             wtp_show = (widthTimePulse_show*1000)/(100/porcent_step)
             wtp_show = widthTimePulse_show
-            array_1 = np.arange(0,101,porcent_step)
-            array_2 = np.arange(100, -1, -1*porcent_step)[1:-1]
+            array_1 = np.arange(setPoint_l_a,setPoint_h_a + 1,porcent_step)
+            array_2 = np.arange(setPoint_h_a, setPoint_l_a - 1, -1*porcent_step)[1:-1]
             final_array = np.concatenate((array_1, array_2))
             while not flag_a.is_set():
                 while pausa_hilo == True:
