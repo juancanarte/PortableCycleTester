@@ -842,24 +842,26 @@ def cycleTest_write_start():
                     while pausa_hilo == True:
                         time.sleep(0.1)
                     temp_setPoint_a = map(setPoint_h_a,0,100,bajo_Mod_0_10,alto_Mod_0_10)
-                    modulation_write_a.raw_value = temp_setPoint_a
-                    setPoint_modulation_a = 100
+                    modulation_write_a.raw_value = int(temp_setPoint_a)
+                    setPoint_modulation_a = setPoint_h_a
                     time.sleep(widthTimePulse_show)
 
                     temp_setPoint_a = map(setPoint_l_a,0,100,bajo_Mod_0_10,alto_Mod_0_10)
-                    modulation_write_a.raw_value = temp_setPoint_a
-                    setPoint_modulation_a = 0
+                    modulation_write_a.raw_value = int(temp_setPoint_a)
+                    setPoint_modulation_a = setPoint_l_a
                     time.sleep(widthTimePulse_show)
             elif inputType_modulation_a == '2-10v':
                 while not flag_a.is_set():
                     while pausa_hilo == True:
                         time.sleep(0.1)
-                    modulation_write_a.raw_value = alto_Mod_2_10
-                    setPoint_modulation_a = 100
+                    temp_setPoint_a = map(setPoint_h_a,0,100,bajo_Mod_2_10,alto_Mod_2_10)
+                    modulation_write_a.raw_value = int(temp_setPoint_a)
+                    setPoint_modulation_a = setPoint_h_a
                     time.sleep(widthTimePulse_show)
 
-                    modulation_write_a.raw_value = bajo_Mod_2_10
-                    setPoint_modulation_a = 0
+                    temp_setPoint_a = map(setPoint_l_a,0,100,bajo_Mod_2_10,alto_Mod_2_10)
+                    modulation_write_a.raw_value = int(temp_setPoint_a)
+                    setPoint_modulation_a = setPoint_l_a
                     time.sleep(widthTimePulse_show)
             elif inputType_modulation_a == '0-20mA':
                 while not flag_a.is_set():
@@ -867,23 +869,25 @@ def cycleTest_write_start():
                         time.sleep(0.1)
                     temp_setPoint_a = map(setPoint_h_a,0,100,bajo_Mod_0_20,alto_Mod_0_20)
                     modulation_write_a.raw_value = int(temp_setPoint_a)
-                    setPoint_modulation_a = 100
+                    setPoint_modulation_a = setPoint_h_a
                     time.sleep(widthTimePulse_show)
 
                     temp_setPoint_a = map(setPoint_l_a,0,100,bajo_Mod_0_20,alto_Mod_0_20)
                     modulation_write_a.raw_value = int(temp_setPoint_a)
-                    setPoint_modulation_a = 0
+                    setPoint_modulation_a = setPoint_l_a
                     time.sleep(widthTimePulse_show)
             elif inputType_modulation_a == '4-20mA':
                 while not flag_a.is_set():
                     while pausa_hilo == True:
                         time.sleep(0.1)
-                    modulation_write_a.raw_value = alto_Mod_4_20
-                    setPoint_modulation_a = 100
+                    temp_setPoint_a = map(setPoint_h_a,0,100,bajo_Mod_4_20,alto_Mod_4_20)
+                    modulation_write_a.raw_value = int(temp_setPoint_a)
+                    setPoint_modulation_a = setPoint_h_a
                     time.sleep(widthTimePulse_show)
 
-                    modulation_write_a.raw_value = bajo_Mod_4_20
-                    setPoint_modulation_a = 0
+                    temp_setPoint_a = map(setPoint_l_a,0,100,bajo_Mod_4_20,alto_Mod_4_20)
+                    modulation_write_a.raw_value = int(temp_setPoint_a)
+                    setPoint_modulation_a = setPoint_l_a
                     time.sleep(widthTimePulse_show)
 
         elif signalType == 'sawSignal':             #Signal Type SAW SIGNAL settings default--------------------------------------------
