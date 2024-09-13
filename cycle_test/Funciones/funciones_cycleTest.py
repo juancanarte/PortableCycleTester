@@ -793,13 +793,23 @@ def cycleTest_stop_cafe_alone():
 
 def cycleTest_write_start():
     global client, nodo, modoG, flag_a, inputType_modulation_a, modulation_read_a, modulation_write_a, setPoint_modulation_a, port_gpio_alone,\
-    listaP, pausa_hilo, signalType_a, widthTimePulse_a
+    listaP, pausa_hilo, signalType_a, widthTimePulse_a, highValue_cafe_1, lowValue_cafe_1, highValue_cafe_2, lowValue_cafe_2
+
+    p = globals()['port_gpio_alone']
+
+    if p == 1:
+        setPoint_h_a = highValue_cafe_1
+        setPoint_l_a = lowValue_cafe_1
+    elif p == 2:
+        setPoint_h_a = highValue_cafe_2
+        setPoint_l_a = lowValue_cafe_2
 
     setPoint_modulation_a = 0
     widthTimePulse_show = int(listaP[5][0])
     widthTimePulse_a = int(listaP[5][0])
     signalType = listaP[4]
     signalType_a = listaP[4]
+
     
     if modoG == 1:
         if port_gpio_alone == 1:
@@ -831,11 +841,13 @@ def cycleTest_write_start():
                 while not flag_a.is_set():
                     while pausa_hilo == True:
                         time.sleep(0.1)
-                    modulation_write_a.raw_value = alto_Mod_0_10
+                    temp_setPoint_a = map(setPoint_h_a,0,100,bajo_Mod_0_10,alto_Mod_0_10)
+                    modulation_write_a.raw_value = temp_setPoint_a
                     setPoint_modulation_a = 100
                     time.sleep(widthTimePulse_show)
 
-                    modulation_write_a.raw_value = bajo_Mod_0_10
+                    temp_setPoint_a = map(setPoint_l_a,0,100,bajo_Mod_0_10,alto_Mod_0_10)
+                    modulation_write_a.raw_value = temp_setPoint_a
                     setPoint_modulation_a = 0
                     time.sleep(widthTimePulse_show)
             elif inputType_modulation_a == '2-10v':
@@ -853,11 +865,13 @@ def cycleTest_write_start():
                 while not flag_a.is_set():
                     while pausa_hilo == True:
                         time.sleep(0.1)
-                    modulation_write_a.raw_value = alto_Mod_0_20
+                    temp_setPoint_a = map(setPoint_h_a,0,100,bajo_Mod_0_20,alto_Mod_0_20)
+                    modulation_write_a.raw_value = temp_setPoint_a
                     setPoint_modulation_a = 100
                     time.sleep(widthTimePulse_show)
 
-                    modulation_write_a.raw_value = bajo_Mod_0_20
+                    temp_setPoint_a = map(setPoint_l_a,0,100,bajo_Mod_0_20,alto_Mod_0_20)
+                    modulation_write_a.raw_value = temp_setPoint_a
                     setPoint_modulation_a = 0
                     time.sleep(widthTimePulse_show)
             elif inputType_modulation_a == '4-20mA':
