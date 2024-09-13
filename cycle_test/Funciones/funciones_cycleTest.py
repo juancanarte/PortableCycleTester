@@ -896,8 +896,8 @@ def cycleTest_write_start():
                 porcent_step = saw_porcent
                 wtp_show = (widthTimePulse_show*1000)/(100/porcent_step)
                 wtp_show = widthTimePulse_show
-                array_1 = np.arange(0,101,porcent_step)
-                array_2 = np.arange(100, -1, -1*porcent_step)[1:-1]
+                array_1 = np.arange(setPoint_l_a,setPoint_h_a + 1,porcent_step)
+                array_2 = np.arange(setPoint_h_a, setPoint_l_a - 1, -1*porcent_step)[1:-1]
                 final_array = np.concatenate((array_1, array_2))
                 while not flag_a.is_set():
                     while pausa_hilo == True:
@@ -916,8 +916,8 @@ def cycleTest_write_start():
                 porcent_step = saw_porcent
                 wtp_show = (widthTimePulse_show*1000)/(100/porcent_step)
                 wtp_show = widthTimePulse_show
-                array_1 = np.arange(0,101,porcent_step)
-                array_2 = np.arange(100, -1, -1*porcent_step)[1:-1]
+                array_1 = np.arange(setPoint_l_a,setPoint_h_a + 1,porcent_step)
+                array_2 = np.arange(setPoint_h_a, setPoint_l_a - 1, -1*porcent_step)[1:-1]
                 final_array = np.concatenate((array_1, array_2))
                 while not flag_a.is_set():
                     while pausa_hilo == True:
@@ -936,8 +936,8 @@ def cycleTest_write_start():
                 porcent_step = saw_porcent
                 wtp_show = (widthTimePulse_show*1000)/(100/porcent_step)
                 wtp_show = widthTimePulse_show
-                array_1 = np.arange(0,101,porcent_step)
-                array_2 = np.arange(100, -1, -1*porcent_step)[1:-1]
+                array_1 = np.arange(setPoint_l_a,setPoint_h_a + 1,porcent_step)
+                array_2 = np.arange(setPoint_h_a, setPoint_l_a - 1, -1*porcent_step)[1:-1]
                 final_array = np.concatenate((array_1, array_2))
                 while not flag_a.is_set():
                     while pausa_hilo == True:
@@ -956,8 +956,8 @@ def cycleTest_write_start():
                 porcent_step = saw_porcent
                 wtp_show = (widthTimePulse_show*1000)/(100/porcent_step)
                 wtp_show = widthTimePulse_show
-                array_1 = np.arange(0,101,porcent_step)
-                array_2 = np.arange(100, -1, -1*porcent_step)[1:-1]
+                array_1 = np.arange(setPoint_l_a,setPoint_h_a + 1,porcent_step)
+                array_2 = np.arange(setPoint_h_a, setPoint_l_a - 1, -1*porcent_step)[1:-1]
                 final_array = np.concatenate((array_1, array_2))
                 while not flag_a.is_set():
                     while pausa_hilo == True:
@@ -1037,8 +1037,8 @@ def cycleTest_write_start():
                 porcent_step = scale_porcent
                 wtp_show = (widthTimePulse_show*1000)/(100/porcent_step)
                 wtp_show = widthTimePulse_show
-                array_1 = np.arange(0,101,porcent_step)
-                array_2 = np.arange(100, -1, -1*porcent_step)[1:-1]
+                array_1 = np.arange(setPoint_l_a,setPoint_h_a + 1,porcent_step)
+                array_2 = np.arange(setPoint_h_a, setPoint_l_a - 1, -1*porcent_step)[1:-1]
                 final_array = np.concatenate((array_1, array_2))
                 while not flag_a.is_set():
                     while pausa_hilo == True:
