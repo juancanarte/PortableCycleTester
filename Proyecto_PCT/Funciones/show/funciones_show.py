@@ -376,12 +376,12 @@ def show_params(params, modo):
             #Si es CAFE MODBUS
             if modo_dut_alone == 'MODBUS':
                 if puerto_dut_alone == 1:
-                    puerto = '/dev/ttyUSB1'
+                    puerto = '/dev/ttyUSB0'
                     #Switch Relay Modulation/Modbus DUT #1
                     pcfRPI.write("p4", "LOW")
                     
                 else:
-                    puerto = '/dev/ttyUSB0'
+                    puerto = '/dev/ttyUSB1'
                     #Switch Relay Modulation/Modbus DUT #2
                     pcfRPI.write("p5", "LOW")
                 
