@@ -866,12 +866,12 @@ def cycleTest_write_start():
                     while pausa_hilo == True:
                         time.sleep(0.1)
                     temp_setPoint_a = map(setPoint_h_a,0,100,bajo_Mod_0_20,alto_Mod_0_20)
-                    modulation_write_a.raw_value = temp_setPoint_a
+                    modulation_write_a.raw_value = int(temp_setPoint_a)
                     setPoint_modulation_a = 100
                     time.sleep(widthTimePulse_show)
 
                     temp_setPoint_a = map(setPoint_l_a,0,100,bajo_Mod_0_20,alto_Mod_0_20)
-                    modulation_write_a.raw_value = temp_setPoint_a
+                    modulation_write_a.raw_value = int(temp_setPoint_a)
                     setPoint_modulation_a = 0
                     time.sleep(widthTimePulse_show)
             elif inputType_modulation_a == '4-20mA':
