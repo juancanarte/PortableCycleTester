@@ -194,6 +194,9 @@ pauseStatus_a = False
 relaysCounter_a = None
 feedBackCounter_a = None
 
+setPoint_h_a = 100
+setPoint_l_a = 0
+
 indexDB_a = 0
 
 thread_saveDB_a = None
@@ -327,19 +330,6 @@ def extraer_parametros(parametrosR, modo):
         lowValue_cafe_2 = int(parametros[38])
     except:
         lowValue_cafe_2 = 0
-
-    '''
-    highValue_cafe_1 = int(parametros[35]) if parametros[35].isdigit() else 100
-    lowValue_cafe_1 = int(parametros[36]) if parametros[36].isdigit() else 100
-    highValue_cafe_2 = int(parametros[37]) if parametros[37].isdigit() else 100
-    lowValue_cafe_2 = int(parametros[38]) if parametros[38].isdigit() else 100
-
-    
-    highValue_cafe_1 = int(parametros[35])
-    lowValue_cafe_1 = int(parametros[36])
-    highValue_cafe_2 = int(parametros[37])
-    lowValue_cafe_2 = int(parametros[38])
-    '''
 
     listaP = []
     for i in range(4,34):
@@ -793,7 +783,7 @@ def cycleTest_stop_cafe_alone():
 
 def cycleTest_write_start():
     global client, nodo, modoG, flag_a, inputType_modulation_a, modulation_read_a, modulation_write_a, setPoint_modulation_a, port_gpio_alone,\
-    listaP, pausa_hilo, signalType_a, widthTimePulse_a, highValue_cafe_1, lowValue_cafe_1, highValue_cafe_2, lowValue_cafe_2
+    listaP, pausa_hilo, signalType_a, widthTimePulse_a, highValue_cafe_1, lowValue_cafe_1, highValue_cafe_2, lowValue_cafe_2, setPoint_h_a, setPoint_l_a
 
     p = globals()['port_gpio_alone']
 
@@ -2658,7 +2648,7 @@ def joinTemporalDB_a(observation):
 
     newCycleTestRegister(dut_alone, actuatorRef_g, load_g, loadDetails_g, testerName_g,
                          observation, modo_dut_alone, baud, nodo, op_voltage_a, inputType_modulation_a,
-                         signalType_a, widthTimePulse_a, 100, 0, dateStart_a, dateEnd_a,
+                         signalType_a, widthTimePulse_a, setPoint_h_a, setPoint_l_a, dateStart_a, dateEnd_a,
                          customTime_a, finalTestTime_a,
                          lista_temp, lista_current, lista_setPoint,
                          lista_feedBack, lista_relayO, lista_relayC,
