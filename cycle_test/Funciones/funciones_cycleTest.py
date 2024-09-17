@@ -1230,7 +1230,12 @@ def cycleTest_read_cafe_alone():
     controlSignal_a = setPoint
     feedbackSignal_a = position
 
-    position_a = position
+    if (position == "OP"):
+        position_a = 1
+    elif (position == "CL"):
+        position_a = 2
+    else:
+        position_a = position
     
     mostrar_tiempo()
 
@@ -2589,7 +2594,7 @@ def saveInDB_a():
                 temp = int(temp_a),
                 current = int(current_a),
                 setPoint = int(setPoint_modulation_a),
-                feedback = position_a,
+                feedback = int(position_a),
                 relayO = int(relayO_a),
                 relayC = int(relayC_a),
                 timeStamp = float(tiempo_total_a),
