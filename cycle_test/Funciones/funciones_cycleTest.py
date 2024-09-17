@@ -1165,32 +1165,7 @@ def cycleTest_read_cafe_alone():
     setPoint = 0
     if modoG == 1:
         setPoint = setPoint_modulation_a
-        if port == 1:
-            #Readig relays feedback DUT#1
-            try: 
-                relay_Od = int(not gpio.input(24))*100
-                relay_Cd = int(not gpio.input(25))*100
-                if (relay_Od == 0 and relay_Cd == 0 and setPoint == 100):
-                    position = "OP"
-                elif (relay_Od == 0 and relay_Cd == 0 and setPoint == 0):
-                    position = "CL"
-                elif (relay_Od != relay_Cd):
-                    position = setPoint
-            except:
-                pass
-        else:
-            #Readig relays feedback DUT#2
-            try: 
-                relay_Od = int(not gpio.input(18))*100
-                relay_Cd = int(not gpio.input(23))*100
-                if (relay_Od == 0 and relay_Cd == 0 and setPoint == 100):
-                    position = "OP"
-                elif (relay_Od == 0 and relay_Cd == 0 and setPoint == 0):
-                    position = "CL"
-                elif (relay_Od != relay_Cd):
-                    position = setPoint
-            except:
-                pass
+        position = 0
     
     elif modoG == 2:
         if inputType_modulation_a == '0-10v':   
@@ -1230,12 +1205,7 @@ def cycleTest_read_cafe_alone():
     controlSignal_a = setPoint
     feedbackSignal_a = position
 
-    if (position == "OP"):
-        position_a = 1
-    elif (position == "CL"):
-        position_a = 2
-    else:
-        position_a = position
+    position_a = position
     
     mostrar_tiempo()
 
