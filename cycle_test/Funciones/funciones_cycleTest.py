@@ -197,17 +197,15 @@ feedBackCounter_a = None
 setPoint_h_a = 100
 setPoint_l_a = 0
 
-indexDB_a = 0
-
 thread_saveDB_a = None
 flag_thread_saveDB_a = threading.Event()
 #----------------CRONOMETRO------------#
-inicio = 0
-tiempo_pausado = 0
-en_progreso = False
+inicio_a = 0
+tiempo_pausado_a = 0
+en_progreso_a = False
 tiempo_total_a = 0
-hilo = None
-_detener_hilo = threading.Event()
+hiloCrono_a = None
+_detener_hilo_a = threading.Event()
 minutos_cafe_a = 0
 segundos_cafe_a = 0
 horas_cafe_a = 0
@@ -227,8 +225,15 @@ posAnteriorB_1 = 0
 counter_open_cafe_1 = 0
 counter_close_cafe_1 = 0
 
-minutos_cafe_1 = 0
-segundos_cafe_1 = 0
+counter_openF_cafe_1 = 0
+counter_closeF_cafe_1 = 0
+
+valor_anterior_cafe_1 = None
+
+controlSignal_1 = 0
+feedbackSignal_1 = 0
+relayO_1 = 0
+relayC_1 = 0
 
 pausa_hilo_1 = False
 tiempoApagadoCafe_1 = 6
@@ -241,21 +246,57 @@ modulation_write_1 = None
 modulation_read_1 = None
 inputType_modulation_1 = 0
 setPoint_modulation_1 = 0
+widthTimePulse_1 = None
+signalType_1 = None
+position_1 = 0
 #parametros modbus 1
 client_1 = None
 nodo_1 = 1
 baud_1 = 19200
 flag_1 = threading.Event()
+# Bandera para controlar la pausa del cronómetro
+pausa_flag_1 = threading.Event()
 flag_c_1 = threading.Event()
+thread_modbus_1 = None
+cronometro_1 = None
+thread_crono_1 = None
 
 posMod_1 = 0
 setPointMod_1 = 0
 flag_read_1 = threading.Event()
 thread_readMod_1 = None
-posAnt_modBus_1 = 0
 
-thread_modbus_1 = None
-thread_crono_1 = None
+temp_1 = 0
+current_1 = 0
+setPoint_1 = 0
+feedback_1 = 0
+relayFeO_1 = 0
+relayFeC_1 = 0
+timeStamp_1 = None
+pauseStatus_1 = False
+relaysCounter_1 = None
+feedBackCounter_1 = None
+
+setPoint_h_1 = 100
+setPoint_l_1 = 0
+
+thread_saveDB_1 = None
+flag_thread_saveDB_1 = threading.Event()
+#----------------CRONOMETRO------------#
+inicio = 0
+tiempo_pausado = 0
+en_progreso_a = False
+tiempo_total_a = 0
+hilo = None
+_detener_hilo = threading.Event()
+minutos_cafe_1 = 0
+segundos_cafe_1 = 0
+horas_cafe_1 = 0
+
+dateStart_1 = None
+dateEnd_1 = None
+customTime_1 = 9999
+finalTestTime_1 = None
 #----------------------------------------------CAFE 2----------------------------------------------#
 name_dut_2 = ''
 modo_dut_2 = ''
@@ -266,8 +307,15 @@ posAnteriorB_2 = 0
 counter_open_cafe_2 = 0
 counter_close_cafe_2 = 0
 
-minutos_cafe_2 = 0
-segundos_cafe_2 = 0
+counter_openF_cafe_2 = 0
+counter_closeF_cafe_2 = 0
+
+valor_anterior_cafe_2 = None
+
+controlSignal_2 = 0
+feedbackSignal_2 = 0
+relayO_2 = 0
+relayC_2 = 0
 
 pausa_hilo_2 = False
 tiempoApagadoCafe_2 = 6
@@ -280,11 +328,16 @@ modulation_write_2 = None
 modulation_read_2 = None
 inputType_modulation_2 = 0
 setPoint_modulation_2 = 0
+widthTimePulse_2 = None
+signalType_2 = None
+position_2 = 0
 #parametros modbus 2
 client_2 = None
 nodo_2 = 1
 baud_2 = 19200
 flag_2 = threading.Event()
+# Bandera para controlar la pausa del cronómetro
+
 flag_c_2 = threading.Event()
 
 posMod_2 = 0
@@ -520,7 +573,7 @@ def show_params(params, modo):
                     puerto = '/dev/ttyUSB0'
                     #Switch Relay Modulation/Modbus DUT #1
                     pcfRPI.write("p4", "LOW")
-                    
+ 
                 else:
                     puerto = '/dev/ttyUSB1'
                     #Switch Relay Modulation/Modbus DUT #2
@@ -740,6 +793,7 @@ def cycleTest_start_cafe_alone():
     iniciar()
     start_saveInDB_a()
     
+    '''
     if modoG == 3:
         if thread_readMod_a is None or not thread_readMod_a.is_alive():
             thread_readMod_a = threading.Thread(target=theread_read_cafe_alone)
@@ -747,6 +801,7 @@ def cycleTest_start_cafe_alone():
             running_threads.append(thread_readMod_a)
     else:
         pass
+    '''
 
 def cycleTest_stop_cafe_alone():
     global thread_modbus_a,client,modoG,nodo,running_threads,flag_a,flag_c_a,thread_crono_a,horas_cafe_a,minutos_cafe_a,segundos_cafe_a,thread_readMod_a,\
@@ -1260,7 +1315,7 @@ def feedBack_analysis_cafe_a(valor_actual):
     valor_anterior_cafe_a = valor_actual
 
 def cronometro():
-    global minutos_cafe_a, segundos_cafe_a, tempo_aux
+    global minutos_cafe_a, segundos_cafe_a
     tiempo_acumulado = 0
 
     while not flag_c_a.is_set():
@@ -1268,53 +1323,51 @@ def cronometro():
         while not flag_c_a.is_set() and not pausa_flag_a.is_set():
             tiempo_transcurrido = time.time() - tiempo_inicio + tiempo_acumulado
             minutos_cafe_a, segundos_cafe_a = divmod(int(tiempo_transcurrido), 60)
-            #print(f"Tiempo transcurrido: {minutos_cafe_a:02}:{segundos_cafe_a:02}", end='\r')
             time.sleep(1)
         tiempo_acumulado = time.time() - tiempo_inicio
         while pausa_flag_a.is_set():
             time.sleep(0.1)
 
 def _actualizar_tiempo():
-    global inicio, tiempo_pausado, en_progreso, tiempo_total_a, hilo, _detener_hilo
+    global inicio_a, tiempo_pausado_a, en_progreso_a, tiempo_total_a, _detener_hilo_a
 
-    while not _detener_hilo.is_set():
-        if en_progreso:
-            tiempo_total_a = time.time() - inicio
+    while not _detener_hilo_a.is_set():
+        if en_progreso_a:
+            tiempo_total_a = time.time() - inicio_a
         time.sleep(0.1)
 
 def iniciar():
-    global inicio, tiempo_pausado, en_progreso, tiempo_total_a, hilo, _detener_hilo, dateStart_a, zona_horaria
+    global inicio_a, tiempo_pausado_a, en_progreso_a, tiempo_total_a, hiloCrono_a, _detener_hilo_a, dateStart_a, zona_horaria
 
-    if not en_progreso:
+    if not en_progreso_a:
         dateStart_a = datetime.now(zona_horaria) #Capturar fecha inicial completa
-        #dateStart_a = dateStart_a.strftime("%m/%d/%Y %H:%M")
 
-        inicio = time.time() - tiempo_total_a
-        en_progreso = True
-        if hilo is None:
-            _detener_hilo.clear()
-            hilo = threading.Thread(target=_actualizar_tiempo)
-            hilo.start()
+        inicio_a = time.time() - tiempo_total_a
+        en_progreso_a = True
+        if hiloCrono_a is None:
+            _detener_hilo_a.clear()
+            hiloCrono_a = threading.Thread(target=_actualizar_tiempo)
+            hiloCrono_a.start()
         print("Cronómetro iniciado")
 
 def pausar():
-    global inicio, tiempo_pausado, en_progreso, tiempo_total_a, hilo, _detener_hilo
-    if en_progreso:
-        en_progreso = False
+    global inicio_a, tiempo_pausado_a, en_progreso_a, tiempo_total_a, _detener_hilo_a
+    if en_progreso_a:
+        en_progreso_a = False
         print("Cronómetro pausado")
 
 def reanudar():
-    global inicio, tiempo_pausado, en_progreso, tiempo_total_a, hilo, _detener_hilo
-    if not en_progreso:
-        inicio = time.time() - tiempo_total_a
-        en_progreso = True
+    global inicio_a, tiempo_pausado_a, en_progreso_a, tiempo_total_a, _detener_hilo_a
+    if not en_progreso_a:
+        inicio_a = time.time() - tiempo_total_a
+        en_progreso_a = True
         print("Cronómetro reanudado")
 
 def reiniciar():
-    global inicio, tiempo_pausado, en_progreso, tiempo_total_a, hilo, _detener_hilo
-    en_progreso = False
+    global inicio_a, tiempo_pausado_a, en_progreso_a, tiempo_total_a, _detener_hilo_a
+    en_progreso_a = False
     tiempo_total_a = 0
-    inicio = 0
+    inicio_a = 0
     print("Cronómetro reiniciado")
 
 def tiempo_transcurrido():
@@ -1335,35 +1388,16 @@ def mostrar_tiempo():
         cycleTest_stop_cafe_alone()
 
 def detener():
-    global inicio, tiempo_pausado, en_progreso, tiempo_total_a, hilo, _detener_hilo, dateEnd_a, zona_horaria
+    global inicio_a, tiempo_pausado_a, en_progreso_a, tiempo_total_a, hiloCrono_a, _detener_hilo_a, dateEnd_a, zona_horaria
 
-    if hilo is not None:
+    if hiloCrono_a is not None:
         dateEnd_a = datetime.now(zona_horaria)
         dateEnd_a = dateEnd_a.strftime("%m/%d/%Y %H:%M")
 
-        _detener_hilo.set()
-        hilo.join()
-        hilo = None
+        _detener_hilo_a.set()
+        hiloCrono_a.join()
+        hiloCrono_a = None
         print("Hilo del cronómetro detenido")
-
-# Función para iniciar el cronómetro en un hilo separado
-def iniciar_cronometro():
-    flag_c_a.clear()
-    pausa_flag_a.clear()
-    hilo_cronometro = threading.Thread(target=cronometro)
-    hilo_cronometro.start()
-
-# Función para detener el cronómetro
-def detener_cronometro():
-    flag_c_a.set()
-
-# Función para pausar el cronómetro
-def pausar_cronometro():
-    pausa_flag_a.set()
-
-# Función para reanudar el cronómetro
-def reanudar_cronometro():
-    pausa_flag_a.clear()
 
 def turnOn_cafe_alone():
     global client, nodo, modoG, inputType_modulation_a, modulation_write_a, setPoint_modulation_a, tiempoApagadoCafe_a, tiempoEncendidoCafe_a
@@ -1486,6 +1520,9 @@ def cycleTest_start_cafe_1():
     counter_open_cafe_1 = 0
     counter_close_cafe_1 = 0
 
+    counter_openF_cafe_a = 0
+    counter_closeF_cafe_a = 0
+
     if thread_modbus_1 is None or not thread_modbus_1.is_alive():
         thread_modbus_1 = threading.Thread(target=cycleTest_write_start_1)
         thread_modbus_1.start()
@@ -1495,6 +1532,8 @@ def cycleTest_start_cafe_1():
         thread_crono_1 = threading.Thread(target=cronometro_1)
         thread_crono_1.start()
         running_threads.append(thread_crono_1)
+
+
 
     if modoG_1 == 3:
         if thread_readMod_1 is None or not thread_readMod_1.is_alive():
@@ -2569,63 +2608,6 @@ def saveInDB_a():
         temp_data.save() #Guardar json en base de datos
 
         time.sleep(0.06)
-    '''    
-        #Estan los vectores llenos?
-        if indexDB_a < 1000:
-            #Asignar nuevos valores de lectura a los vectores
-            setPoint_a[indexDB_a] = setPoint_modulation_a
-            feedback_a[indexDB_a] = position_a
-            relayFeO_a[indexDB_a] = relayO_a
-            relayFeC_a[indexDB_a] = relayC_a
-            pauseStatus_a[indexDB_a] = pausa_hilo
-            temp_a[indexDB_a] = 0
-            current_a[indexDB_a] = 0
-            timeStamp_a[indexDB_a] = tiempo_total_a
-            
-            #incrementar el contador general
-            indexDB_a = indexDB_a + 1
-        #Ya se llenaron los vectores
-        else:
-            #Converitr listas a json
-            jsonTempA = json.dumps(temp_a)
-            jsonBytes_TempA = jsonTempA.encode('utf-8')
-            
-            jsonCurrentA = json.dumps(current_a)
-            jsonBytes_CurrentA = jsonCurrentA.encode('utf-8')
-            
-            jsonSetPointA = json.dumps(setPoint_a)
-            jsonBytes_SetPointA = jsonSetPointA.encode('utf-8')
-            
-            jsonFeedbackA = json.dumps(feedback_a)
-            jsonBytes_FeedbackA = jsonFeedbackA.encode('utf-8')
-            
-            jsonRelaysFeOA = json.dumps(relayFeO_a)
-            jsonBytes_RelaysFeOA = jsonRelaysFeOA.encode('utf-8')
-            
-            jsonRelaysFeCA = json.dumps(relayFeC_a)
-            jsonBytes_RelaysFeCA = jsonRelaysFeCA.encode('utf-8')
-
-            jsonPauseStatusA = json.dumps(pauseStatus_a)
-            jsonBytes_PauseStatusA = jsonPauseStatusA.encode('utf-8')
-            
-            jsonTimeStampA = json.dumps(timeStamp_a)
-            jsonBytes_TimeStampA = jsonTimeStampA.encode('utf-8')
-            
-            temp_data = tDataCt_a(      #Instancia de base de datos temporal
-                    temp = jsonBytes_TempA,
-                    current = jsonBytes_CurrentA,
-                    setPoint = jsonBytes_SetPointA,
-                    feedback = jsonBytes_FeedbackA,
-                    relayO = jsonBytes_RelaysFeOA,
-                    relayC = jsonBytes_RelaysFeCA,
-                    timeStamp = jsonBytes_TimeStampA,
-                    pauseStatus = jsonBytes_PauseStatusA
-                )
-            temp_data.save() #Guardar json en base de datos
-            indexDB_a = 0
-            print("1 registro")
-        time.sleep(0.06)
-        '''
 
 def joinTemporalDB_a(observation):
     temp_conca = tDataCt_av2.objects.values_list('temp', flat=True)
