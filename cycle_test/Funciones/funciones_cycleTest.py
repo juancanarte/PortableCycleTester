@@ -1446,7 +1446,7 @@ def turnOn_cafe_alone():
         result2 = client.write_register(2, 0, nodo)
 
 def turnOff_cafe_alone():
-    global client, nodo, modoG, inputType_modulation_a, modulation_write_a, setPoint_modulation_a, tiempoApagadoCafe_a, position_a
+    global client, nodo, modoG, inputType_modulation_a, modulation_write_a, setPoint_modulation_a, tiempoApagadoCafe_a
     #gpio.output(#, gpio.LOW)  #GPIO Desactivar GPIO para apagar puerto ALONE
     p = globals()['port_gpio_alone']
 
@@ -1480,16 +1480,6 @@ def turnOff_cafe_alone():
     
     elif modoG == 3:    #ModBus
         result2 = client.write_register(2, 0, nodo)
-
-    '''
-    if modoG != 1:
-        if position_a > 1:
-            time.sleep(tiempoApagadoCafe_a)
-        else:
-            pass
-    else:
-        pass
-    '''
         
     if p == 1:
         #Apagar DUT #1
@@ -2599,7 +2589,7 @@ def saveInDB_a():
                 temp = int(temp_a),
                 current = int(current_a),
                 setPoint = int(setPoint_modulation_a),
-                feedback = int(position_a),
+                feedback = position_a,
                 relayO = int(relayO_a),
                 relayC = int(relayC_a),
                 timeStamp = float(tiempo_total_a),
