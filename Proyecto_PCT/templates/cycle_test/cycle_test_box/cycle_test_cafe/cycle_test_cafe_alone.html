@@ -319,7 +319,7 @@
   <br>
 </dialog>
 
-<!-- Modal turn off ?-->
+<!-- Modal Stop cycle test?-->
 <dialog class="" id="modalStopTest_cafe_a">
   <h2>Stop cycle test?</h2>
   <br>
@@ -345,8 +345,6 @@
 
   const modalTurnON_waiting_cafe_a = document.getElementById("modalTurnON_waiting_cafe_a");
   const progressBarTurnOn_cafe_a = document.getElementById("progressBarTurnOn_cafe_a");
- 
-  const progressBarGoTo0_cafe_a = document.getElementById("progressBarGoTo0_cafe_a");
 
   var divShowParamsCafe_a = document.getElementById('divShowParamsCafe_a');
   var divHideParamsCafe_a = document.getElementById('divHideParamsCafe_a');
@@ -380,15 +378,15 @@
     InputCafe_dialog.setAttribute("hidden", "hidden");
   }
 
-    bPause_a.addEventListener('click', function() {
-            pause();
-            //pause_ws();
-        });
+bPause_a.addEventListener('click', function() {
+        pause();
+        //pause_ws();
+    });
 
-    bResume_a.addEventListener('click', function() {
-            resume();
-            resume_ws();
-        });
+bResume_a.addEventListener('click', function() {
+        resume();
+        resume_ws();
+    });
 
     var socket = null;
 
@@ -420,7 +418,6 @@ function stop(){
   document.querySelector('#openFe_cafe_a').innerText = "Open : 0";
   document.querySelector('#closeFe_cafe_a').innerText = "Close : 0";
   document.querySelector('#testTime').innerText = "0:0:0";
-
 }
 
 function iniciarConexion()
@@ -488,7 +485,6 @@ function powerOff_Cafe_a() {
   bPowerOn_Cafe_a.removeAttribute("hidden");
   divButtons_cafe_a.setAttribute("hidden", "hidden");
   document.getElementById('divCycleTestInfo_cafe_a').setAttribute("hidden", "hidden");
-
 }
 
 function detenerConexion() {
@@ -497,7 +493,6 @@ function detenerConexion() {
   }))
 }
 
-// Detener el consumidor
 function startWrite() {
   socket.send(JSON.stringify({
     'message':'start'
@@ -517,29 +512,16 @@ function resume_ws() {
 }
 
 function showParams_a() {
-    /*$.ajax({
-        url: '/show_start_cafe_alone/',
-        success: function (data) {
-        }
-    });*/
     divParamsCafe_a.removeAttribute("hidden");
     divShowParamsCafe_a.setAttribute("hidden", "hidden");
     divHideParamsCafe_a.removeAttribute("hidden");
 }
 
 function hideParams_a() {
-    /*$.ajax({
-        url: '/show_start_cafe_alone/',
-        success: function (data) {
-        }
-    });*/
     divParamsCafe_a.setAttribute("hidden", "hidden");
     divHideParamsCafe_a.setAttribute("hidden", "hidden");
     divShowParamsCafe_a.removeAttribute("hidden");
 }
-
-var intervalId1 = null;
-var intervalId2 = null;
 
 var numeros = []; // Declarar un arreglo vacío
 var arreglo = Array(100).fill(0);
@@ -551,7 +533,6 @@ for (var i = 0; i <= 100; i++) {
 numeros.push(i.toString()); // Convertir el número a string y agregarlo al arreglo
 }
 const arrayDeCeros = new Array(100).fill("");
-
 
 var canvas = document.getElementById('myChart');
 var data = {// www . ja  v a 2s.c  om
@@ -643,8 +624,6 @@ datasets: [
 }
 ]
 };
-
-var zero = 7;
 
 var option = {
 animation: true,
@@ -746,7 +725,6 @@ function start() {
     $.ajax({
         url: '/ct/cycleTest_start_cafe_alone/',
         success: function (data) {
-
         }
     });
     
@@ -829,7 +807,6 @@ function check_customTestTime(){
            });   
   }
 }
-
 
 </script>
 

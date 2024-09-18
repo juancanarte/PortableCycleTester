@@ -1,10 +1,11 @@
 {% load static %}
 <div class="container">
-    <div class="row justify-content-center align-items-center">
-      <div class="col-sm">
-        <h3 class="subtitulo">CAFE - {{modo_cafe_1}}</h3>
-      </div>
+  <div class="row justify-content-center align-items-center">
+    <div class="col-sm">
+      <h3 class="subtitulo">CAFE - {{modo_cafe_1}}</h3>
+      <h4 class="subtitulo" style="font-size: 20px;">Tester name : {{testerName}}</h3>
     </div>
+  </div>
 </div>
 
 <div class="container">
@@ -66,27 +67,80 @@
           <canvas id="myChart_1" style="width: 100%;"></canvas>
         </div>
 
-        <div class="row justify-content-center align-items-center">
-            <div class="computer_text_main" style="border: 2px dashed #000; padding: 5px; max-width: 540px;">
-                <div class="computer_text_main">
-                    <h3>Test of time :</h3>
+        <div id="divCycleTestInfo_cafe_1" hidden>
+          <div class="row justify-content-center align-items-center">
+            <div class="computer_text_main" style="max-width: 560px;">
+              <div class="computer_text_main" style="margin: 0px; width: auto;">
+                <label class="switch">
+                  <input type="checkbox" id="toggleSwitch_1" onchange="toggleBlock_1()">
+                  <span class="slider"></span>
+              </label>
+              </div>
+  
+              <div id="divCustomTime_1" class="computer_text_main disabled" style="margin: 0px 6px 0px 6px; width: auto;">
+                <h3>Custom test time (hours) : </h3> 
+              </div>
+  
+              <div id="divCustomTimeInput_1" class="computer_text_main disabled" style="margin: 0px; width: auto;">
+                <label for="hoursCafe_1"></label>
+                <input type="text" id="hoursCafe_1" name="hoursCafe_1" style="max-width: 40px;" pattern="[A-Za-z0-9\s]*" required>
+              </div>
+            </div>
+          </div>
+  
+          <div class="row justify-content-center align-items-center">
+            <div class="computer_text_main" style="max-width: 540px;">
+              <div class="computer_text_main" style="padding: 5px;">
+                  <h3>Time Test (hh/mm/ss) =>&nbsp;</h3>
+                  <h1 id="testTime_1"></h1>
+              </div>
+            </div>
+          </div>
+  
+          <div class="row justify-content-center align-items-center">
+              <div class="computer_text_main" style="max-width: 540px; margin-bottom: 4px;">
+              <div class="computer_text_main" style="margin: 0px; width: 156px;">
+                  <h3>Relays counter =>&nbsp;</h3>
+              </div>
+  
+                  <div class="computer_text_main" style="justify-content: left; width: 125px; margin: 0px;">
+                      <h3 id="open_cafe_1">Open : 0000</h3>
+                  </div>
+  
+                  <div class="computer_text_main"  style="justify-content: left; width: 125px; margin: 0px;">
+                      <h3 id="close_cafe_1">Close : 0000</h3>
+                  </div>
+              </div>
+          </div>
+  
+          <div class="row justify-content-center align-items-center">
+            <div class="computer_text_main" style="max-width: 540px; margin-bottom: 4px;">
+            <div class="computer_text_main" style="margin: 0px; width: 183px;">
+                <h3>FeedBack counter =>&nbsp;</h3>
+            </div>
+  
+                <div class="computer_text_main" style="justify-content: left; width: 125px; margin: 0px;">
+                    <h3 id="openFe_cafe_1">Open : 0000</h3>
                 </div>
-
-                <div class="computer_text_main">
-                    <h3 id="open_cafe_1">Open : </h3>
-                    
-                </div>
-
-                <div class="computer_text_main">
-                    <h3 id="close_cafe_1">Close : </h3>
-                    
+  
+                <div class="computer_text_main"  style="justify-content: left; width: 125px; margin: 0px;">
+                    <h3 id="closeFe_cafe_1">Close : 0000</h3>
                 </div>
             </div>
-
-            <div class="computer_text_main" style="padding: 5px;">
-                <h3>Total Test Time :</h3>
-                <h1 id="testTime_1"></h1>
+          </div>
+  
+          <div class="row justify-content-center align-items-center">
+            <div class="computer_text_main" style="max-width: 540px;">
+              <div class="computer_text_main" style="margin: 0px; width: 139px;">
+                  <h3>Current = 0.3A&nbsp;</h3>
+              </div>
+  
+              <div class="computer_text_main" style="justify-content: left; width: 226px; margin: 0px;">
+                  <h3 id="openFe_cafe_1">Temperature = 55°C / 131°F</h3>
+              </div>
+  
             </div>
+          </div>
         </div>
 
         <div class="computer_text_main" style="padding: 5px; max-width: 540px;">
@@ -95,41 +149,163 @@
             <img src="{% static 'images/on.svg' %}" alt="Icono">
           </button> 
     
-          <button id="powerOff_Cafe_1" class="css-button-eye" style="margin-right: 10px; border-radius: 0%; min-width:80px;" onclick="window.modalTurnOff_cafe_1.showModal();" hidden>
+          <button id="powerOff_Cafe_1" class="css-button-eye" style="margin-right: 10px; border-radius: 0%; min-width:80px;" onclick="powerOff_Cafe_1()" hidden>
             OFF
             <img src="{% static 'images/off.svg' %}" alt="Icono">
           </button>
         </div>
 
         <div id="divButtons_cafe_1" class="computer_text_main" style="margin-top: 10px;" hidden>
-            <div id="divStart_1">
-                <button id="bStart_1" class="css-button-show" onclick="start_1()">Start</button>
-            </div>
-            <div id="divStop_1">
-                <button id="bStop_1" class="css-button-show">Stop</button>
-            </div>
-            <div id="divPause_1">
-                <button id="bPause_1" class="css-button-show">Pause</button>
-            </div>
-            <div id="divReset_1">
-                <button id="bResume_1" class="css-button-show">Resume</button>
-            </div>
+          <div id="divStart_1">
+              <button id="bStart_1" class="css-button-show" onclick="start()">Start</button>
+          </div>
+          <div id="divStop_1">
+              <button id="bStop_1" class="css-button-show" onclick="window.modalStopTest_cafe_1.showModal();" hidden>Stop</button>
+          </div>
+          <div id="divPause_1">
+              <button id="bPause_1" class="css-button-show" hidden>Pause</button>
+          </div>
+          <div id="divReset_1">
+              <button id="bResume_1" class="css-button-show" hidden>Resume</button>
+          </div>
         </div>
 
       </div>
     </div>
 </div>
 
-<!-- Modal -->
-<dialog id="modalTurnOff_cafe_1">
-  <h2>Turn OFF device?</h2>
+<!--formulario cycle test-->
+
+<!-- Modal sure ?-->
+<dialog id="dialogCancelar_1">
+  <h2>Remove Data?</h2>
   <br>
-  <button class="css-button-eye" style="margin-right: 10px; border-radius: 0%; width:80px;" onclick="powerOff_Cafe_1()">
+  <button class="css-button-eye" style="margin-right: 10px; border-radius: 0%; width:80px;" onclick="window.dialogCancelar_1.close();window.formCreateCycleTest_1.close();">
     Ok
   </button>
-  <button class="css-button-eye" style="margin-right: 10px; border-radius: 0%; width:80px;" onclick="window.modalTurnOff_cafe_1.close();">
+  <button class="css-button-eye" style="margin-right: 10px; border-radius: 0%; width:80px;" onclick="window.dialogCancelar.close();">
     Cancel
   </button>
+</dialog>
+
+<!-- Modal sure ?-->
+<dialog id="dialogNext_1">
+  <h2>Data stored</h2>
+  <br>
+  <button class="css-button-eye" style="margin-right: 10px; border-radius: 0%; width:80px;" onclick="window.dialogNext_1.close();">
+    Next
+  </button>
+</dialog>
+
+<!-- Modal formulario cycle test-->
+<dialog id="formCreateCycleTest_1">
+  <h3 class="modal-title">CYCLE TEST FINISHED DUT1</h3>
+  <form id="cycleTestForm_1" action="{% url 'SaveData_cafe_alone' %}">
+    <div id="conditionalField_1" class="form-group" style="display: flex; justify-content: center; flex-direction: row; align-items: flex-start; margin-bottom: 10px;">
+      <label for="observations_1">Observations:</label>
+      <textarea id="observations_1" name="observations_1" style="max-width: 177px;" rows="5" pattern="[A-Za-z0-9\s]*"></textarea>
+    </div>
+
+    <h4 class="modal-title" style="margin-top: 10px;">Cycle test settings</h4>
+    <div class="computer_text_main flex-column" style="margin-bottom: 10px; width: 213px;">
+      <table style="width: 88%;">
+        <tr id="OpModeCafe_dialog_1">
+          <td>Oper. Mode :</td>
+          <td>{{modo_cafe_1}}</td>
+        </tr>
+        <tr id="OpVoltCafe_dialog_1">
+          <td>Op. Voltage :</td>
+          <td>{{opVoltage_cafe_1}}</td>
+        </tr>
+        <tr id="InputCafe_dialog_1">
+          <td>Input Type :</td>
+          <td>{{inputSignal_cafe_1}}</td>
+        </tr>
+        <tr id="BaudCafe_dialog_1">
+          <td>Baud :</td>
+          <td>{{baud_cafe_1}}</td>
+        </tr>
+        <tr id="NodeCafe_dialog_1">
+          <td>Node :</td>
+          <td>{{node_cafe_1}}</td>
+        </tr>
+        <tr id="SignalCafe_dialog_1">
+          <td>Signal Type :</td>
+          <td>{{signalType_cafe_1}}</td>
+        </tr>
+        <tr id="WidthCafe_dialog_1">
+          <td>Pulse width :</td>
+          <td>{{widthTime_cafe_1}}</td>
+        </tr>
+        <tr id="highValue_dialog_1">
+          <td>High value :</td>
+          <td>100%</td>
+        </tr>
+        <tr id="lowValue_dialog_1">
+          <td>Low value :</td>
+          <td>0%</td>
+        </tr>
+      </table>
+    </div>
+
+    <h4 class="modal-title" style="margin-top: 10px;">Cycle test data</h4>
+    <div class="computer_text_main flex-column" style="margin-bottom: 10px; width: 332px;">
+      <table style="width: 88%;">
+        <tr>
+          <td>Date start :</td>
+          <td id="dateStart_dialog_1">mm/dd/yyyy HH:MM</td>
+        </tr>
+        <tr>
+          <td>Date end :</td>
+          <td id="dateEnd_dialog_1">mm/dd/yyyy HH:MM</td>
+        </tr>
+        <tr>
+          <td>Planned time test (hh):</td>
+          <td id="plannedTimeTest_dialog_1">0000</td>
+        </tr>
+        <tr>
+          <td>Final time test (h:m:s):</td>
+          <td id="finalTimeTest_1">0000</td>
+        </tr>
+        <tr>
+          <td>Relays counter :</td>
+          <td id="relaysCounter_O_1">Open : 0000</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td id="relaysCounter_C_1">Close : 0000</td>
+        </tr>
+        <tr>
+          <td>Feedback counter :</td>
+          <td id="feedbackCounter_O_1">Open : 0000</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td id="feedbackCounter_C_1">Close : 0000</td>
+        </tr>
+      </table>
+    </div>
+
+    <!-- Botones al final del formulario -->
+    <div id="botonesForm_1" class="form-actions" hidden>
+      <button class="css-button-show" type="button" id="cancelBtn_1" onclick="window.dialogCancelar_1.showModal();">Cancelar</button>
+      <button class="css-button-show" type="button" onclick="saveData_1();">Save</button>
+    </div>
+  </form>
+</dialog>
+
+<!-- Modal turn off ?-->
+<dialog class="" id="modalTurnOff_cafe_1">
+  <h2>Turn OFF device?</h2>
+  <br>
+  <div>
+    <button class="css-button-eye" style="margin-right: 10px; border-radius: 0%; width:80px;" onclick="powerOff_Cafe_1()">
+      Ok
+    </button>
+    <button class="css-button-eye" style="margin-right: 10px; border-radius: 0%; width:80px;" onclick="window.modalTurnOff_cafe_1.close();">
+      Cancel
+    </button>
+  </div>
 </dialog>
 
 <!-- Modal turn on waiting -->
@@ -139,164 +315,180 @@
   <br>
 </dialog>
 
-<!-- Modal go to 0% -->
-<dialog id="modalGoTo_0_cafe_1">
-  <h2>Going to position 0% ...</h2>
-  <progress style="width: 100%; height: 20px;" id="progressBarGoTo0_cafe_1" max="100" value="0"></progress>
+<!-- Modal Stop cycle test?-->
+<dialog class="" id="modalStopTest_cafe_1">
+  <h2>Stop cycle test?</h2>
   <br>
+  <div>
+    <button class="css-button-eye" style="margin-right: 10px; border-radius: 0%; width:80px;" onclick="stop_1();window.modalStopTest_cafe_1.close();">
+      Yes
+    </button>
+    <button class="css-button-eye" style="margin-right: 10px; border-radius: 0%; width:80px;" onclick="window.modalStopTest_cafe_1.close();">
+      No
+    </button>
+  </div>
 </dialog>
 
 <script src="{% static 'js/chart.min.js' %}"></script>
 <script>
+var dataSockets_1 = null;
+
+const dialogCycleTest_1 = document.getElementById('formCreateCycleTest_1');
+const cancelBt_1 = document.getElementById('cancelBtn_1');
+
+const bPowerOn_Cafe_1 = document.getElementById('powerOn_Cafe_1');
+const bPowerOff_Cafe_1 = document.getElementById('powerOff_Cafe_1');
+
 const modalTurnON_waiting_cafe_1 = document.getElementById("modalTurnON_waiting_cafe_1");
 const progressBarTurnOn_cafe_1 = document.getElementById("progressBarTurnOn_cafe_1");
 
-const modalGoTo_0_cafe_1 = document.getElementById("modalGoTo_0_cafe_1");
-const progressBarGoTo0_cafe_1 = document.getElementById("progressBarGoTo0_cafe_1");
+var divShowParamsCafe_1 = document.getElementById('divShowParamsCafe_1');
+var divHideParamsCafe_1 = document.getElementById('divHideParamsCafe_1');
+var divParamsCafe_1 = document.getElementById('divParamsCafe_1');
+var divButtons_cafe_1 = document.getElementById('divButtons_cafe_1')
+const bStart_1 = document.getElementById('bStart_1');
+const stopButton_1 = document.getElementById('bStop_1');
+const bPause_1 = document.getElementById('bPause_1');
+const bResume_1 = document.getElementById('bResume_1');
 
-    var divShowParamsCafe_1 = document.getElementById('divShowParamsCafe_1');
-    var divHideParamsCafe_1 = document.getElementById('divHideParamsCafe_1');
-    var divParamsCafe_1 = document.getElementById('divParamsCafe_1');
-    var divButtons_cafe_1 = document.getElementById('divButtons_cafe_1')
-    //const bStart_a = document.getElementById('bStart_a');
-    const stopButton_1 = document.getElementById('bStop_1');
-    const bPause_1 = document.getElementById('bPause_1');
-    const bResume_1 = document.getElementById('bResume_1');
+var OpModeCafe_dialog_1 = document.getElementById('OpModeCafe_dialog_1');
+var InputCafe_dialog_1 = document.getElementById('InputCafe_dialog_1');
+var BaudCafe_dialog_1 = document.getElementById('BaudCafe_dialog_1');
+var NodeCafe_dialog_1 = document.getElementById('NodeCafe_dialog_1');
 
-    const bPowerOn_Cafe_1 = document.getElementById('powerOn_Cafe_1');
-    const bPowerOff_Cafe_1 = document.getElementById('powerOff_Cafe_1');
+//manejo de parametros mostrados en tablas
+if (OpModeCafe_dialog_1.textContent != "modbus")
+{
+  document.getElementById('NodeCafe_1').setAttribute("hidden", "hidden");
+  document.getElementById('BaudCafe_1').setAttribute("hidden", "hidden");
+  BaudCafe_dialog_1.setAttribute("hidden", "hidden");
+  NodeCafe_dialog_1.setAttribute("hidden", "hidden");
+  InputCafe_dialog_1.removeAttribute("hidden");
+}
+else
+{
+  document.getElementById('NodeCafe_1').removeAttribute("hidden");
+  document.getElementById('BaudCafe_1').removeAttribute("hidden");
+  BaudCafe_dialog_1.removeAttribute("hidden");
+  NodeCafe_dialog_1.removeAttribute("hidden");
+  InputCafe_dialog_1.setAttribute("hidden", "hidden");
+}    
 
-    var InputCafe_1 = document.getElementById('InputCafe_1');
-    var OpModeCafe_1 = document.getElementById('OpModeCafe_1');
-    var BaudCafe_1 = document.getElementById('BaudCafe_1');
-    var NodeCafe_1 = document.getElementById('NodeCafe_1');
+bPause_1.addEventListener('click', function() {
+        pause_1();
+        //pause_ws_1();
+    });
 
-    if (OpModeCafe_1.textContent != "modbus")
-    {
-      BaudCafe_1.setAttribute("hidden", "hidden");
-      NodeCafe_1.setAttribute("hidden", "hidden");
-    }
-    else
-    {
-      BaudCafe_1.removeAttribute("hidden");
-      NodeCafe_1.removeAttribute("hidden");
-    }
-
-    if (OpModeCafe_1.textContent != "modulation")
-    {
-      InputCafe_1.setAttribute("hidden", "hidden");
-    }
-    else
-    {
-      InputCafe_1.removeAttribute("hidden");
-    }
-    
-   /* bStart_a.addEventListener('click', function() {
-            startWrite();
-            console.log('start');
-        });*/
-
-    stopButton_1.addEventListener('click', function() {
-            socket_1.close(); // Cierra la conexión WebSocket
-        });
-
-    bPause_1.addEventListener('click', function() {
-            pause_1();
-            pause_ws_1();
-        });
-
-    bResume_1.addEventListener('click', function() {
-            resume_1();
-            resume_ws_1();
-        });
+bResume_1.addEventListener('click', function() {
+        resume_1();
+        resume_ws_1();
+    });
 
     var socket_1 = null;
 
+function stop_1(){
+  $.ajax({
+            url: '/ct/cycleTest_stop_cafe_1/',
+            success: function (data) {
+              receiveData_1();
+              document.getElementById('botonesForm_1').removeAttribute("hidden");
+            }
+        });
+
+  socket_1.send(JSON.stringify({
+    'message':'stop'
+  }))
+
+  //receiveData_a();
+  resume_ws_1();
+  resume_1();
+  dialogCycleTest_1.showModal();
+  //document.getElementById('botonesForm').removeAttribute("hidden");
+  document.getElementById('bStart_1').removeAttribute("hidden");
+  document.getElementById('powerOff_Cafe_1').removeAttribute("hidden");
+  document.getElementById('bStop_1').setAttribute("hidden", "hidden");
+  document.getElementById('bPause_1').setAttribute("hidden", "hidden");
+
+  document.querySelector('#open_cafe_1').innerText = "Open : 0";
+  document.querySelector('#close_cafe_1').innerText = "Close : 0";
+  document.querySelector('#openFe_cafe_1').innerText = "Open : 0";
+  document.querySelector('#closeFe_cafe_1').innerText = "Close : 0";
+  document.querySelector('#testTime_1').innerText = "0:0:0";
+}
+
+function iniciarConexion_1()
+{
   socket_1 = new WebSocket("ws://" + window.location.host + "/ws/ct_read_cafe_1/");
   socket_1.onmessage = function(event){
-    var data1 = JSON.parse(event.data);
+    dataSockets_1  = JSON.parse(event.data);
 
-    document.querySelector('#open_cafe_1').innerText = "Open : " + data1.relayCountA;
-    document.querySelector('#close_cafe_1').innerText = "Close : " + data1.relayCountB;
-    document.querySelector('#testTime_1').innerText = data1.min + ":" + data1.sec;
+    document.querySelector('#open_cafe_1').innerText = "Open : " + dataSockets_1.relayCountA;
+    document.querySelector('#close_cafe_1').innerText = "Close : " + dataSockets_1.relayCountB;
+    document.querySelector('#openFe_cafe_1').innerText = "Open : " + dataSockets_1.relayCountFA;
+    document.querySelector('#closeFe_cafe_1').innerText = "Close : " + dataSockets_1.relayCountFB;
+    document.querySelector('#testTime_1').innerText = dataSockets_1.hor + ":" + dataSockets_1.min + ":" + dataSockets_1.sec;
 
     myLineChart_1.data.datasets[0].data.splice(0, 1);
-    myLineChart_1.data.datasets[0].data.push(data1.pos);
+    myLineChart_1.data.datasets[0].data.push(dataSockets_1.pos);
     
     myLineChart_1.data.datasets[1].data.splice(0, 1);
-    myLineChart_1.data.datasets[1].data.push(data1.setPos);
+    myLineChart_1.data.datasets[1].data.push(dataSockets_1.setPos);
 
     myLineChart_1.data.datasets[2].data.splice(0, 1);
-    myLineChart_1.data.datasets[2].data.push(data1.relay_O);
+    myLineChart_1.data.datasets[2].data.push(dataSockets_1.relay_O);
 
     myLineChart_1.data.datasets[3].data.splice(0, 1);
-    myLineChart_1.data.datasets[3].data.push(data1.relay_C);
+    myLineChart_1.data.datasets[3].data.push(dataSockets_1.relay_C);
+
+    myLineChart_1.data.labels.splice(0,1);
+    myLineChart_1.data.labels.push(dataSockets_1.hor + ":" + dataSockets_1.min + ":" + dataSockets_1.sec);
+
     myLineChart_1.update();
   }
+  socket_1.onclose = function(event) {
+    socket_1.close(); // Cierra la conexión WebSocket
+    detenerConexion_1();
+  };
+}
 
-  function powerOn_Cafe_1() {
-    turnOn_1();
-    //intervalId_1 = setInterval(readToCafe_1, 200);
-
-    window.modalTurnON_waiting_cafe_1.showModal();
-    let progress = 0;
-    const interval = setInterval(function() {
-    progress += 1;
-    progressBarTurnOn_cafe_1.value = progress;
-    if (progress >= 100) {
-      clearInterval(interval);
-      setTimeout(function() {
-        modalTurnON_waiting_cafe_1.close();
-        progressBarTurnOn_cafe_1.value = 0;
-        modalGoTo_0_cafe_1.showModal();
-
-        let progressSecond = 0;
-        const intervalSecond = setInterval(function() {
-          progressSecond += 0.35;
-          progressBarGoTo0_cafe_1.value = progressSecond;
-          if (progressSecond >= 100) {
-            clearInterval(intervalSecond);
-            setTimeout(function() {
-              modalGoTo_0_cafe_1.close(); // Cerrar el segundo modal después de 2 segundos
-              progressBarGoTo0_cafe_1.value = 0;
-            }, 50); // Cerrar el segundo modal después de 2 segundos
-          }
-        }, 20);
-
-      }, 10); // Cerrar el modal después de 2 segundos
-    }
-    }, 20); // Actualizar la barra de progreso cada 20ms
-
-    bPowerOn_Cafe_1.setAttribute("hidden", "hidden");
-    bPowerOff_Cafe_1.removeAttribute("hidden");
-    divButtons_cafe_1.removeAttribute("hidden");
+function powerOn_Cafe_1() {
+  turnOn_1();
+  
+  window.modalTurnON_waiting_cafe_1.showModal();
+  let progress = 0;
+  const interval = setInterval(function() {
+  progress += 1;
+  progressBarTurnOn_cafe_1.value = progress;
+  if (progress >= 100) {
+    clearInterval(interval);
+    modalTurnON_waiting_cafe_1.close();
   }
+  }, 70); // Actualizar la barra de progreso cada 20ms
 
-  function powerOff_Cafe_1() {
-    window.modalTurnOff_cafe_1.close();
-    window.modalGoTo_0_cafe_1.showModal();
-    socket_1.send(JSON.stringify({'message':'stop'}))
+  bPowerOn_Cafe_1.setAttribute("hidden", "hidden");
+  bPowerOff_Cafe_1.removeAttribute("hidden");
+  divButtons_cafe_1.removeAttribute("hidden");
+  document.getElementById('divCycleTestInfo_cafe_1').removeAttribute("hidden");
+  iniciarConexion_1();
+}
 
-    let progress = 0;
-    const interval = setInterval(function() {
-    progress += 0.35;
-    progressBarGoTo0_cafe_1.value = progress;
-    if (progress >= 100) {
-      clearInterval(interval);
-      setTimeout(function() {
-        modalGoTo_0_cafe_1.close();
-        progressBarGoTo0_cafe_1.value = 0;
+function powerOff_Cafe_1() {
+  window.modalTurnOff_cafe_1.close();
+  socket_1.send(JSON.stringify({'message':'stop'}))
+  turnOff_1();
+  detenerConexion_1();
+  bPowerOff_Cafe_1.setAttribute("hidden", "hidden");
+  bPowerOn_Cafe_1.removeAttribute("hidden");
+  divButtons_cafe_1.setAttribute("hidden", "hidden");
+  document.getElementById('divCycleTestInfo_cafe_1').setAttribute("hidden", "hidden");
+}
 
-      }, 10); // Cerrar el modal después de 2 segundos
-    }
-    }, 20); // Actualizar la barra de progreso cada 20ms
+function detenerConexion_1() {
+  socket_1.send(JSON.stringify({
+    'message':'stop'
+  }))
+}
 
-    turnOff_1();
-    bPowerOff_Cafe_1.setAttribute("hidden", "hidden");
-    bPowerOn_Cafe_1.removeAttribute("hidden");
-    divButtons_cafe_1.setAttribute("hidden", "hidden");
-  }
-  // Detener el consumidor
 function startWrite_1() {
   socket_1.send(JSON.stringify({
     'message':'start'
@@ -315,27 +507,17 @@ function resume_ws_1() {
   }))
 }
 
-    function showParams_1() {
-        /*$.ajax({
-            url: '/show_start_cafe_alone/',
-            success: function (data) {
-            }
-        });*/
-        divParamsCafe_1.removeAttribute("hidden");
-        divShowParamsCafe_1.setAttribute("hidden", "hidden");
-        divHideParamsCafe_1.removeAttribute("hidden");
-    }
+function showParams_1() {
+    divParamsCafe_1.removeAttribute("hidden");
+    divShowParamsCafe_1.setAttribute("hidden", "hidden");
+    divHideParamsCafe_1.removeAttribute("hidden");
+}
 
-    function hideParams_1() {
-        /*$.ajax({
-            url: '/show_start_cafe_alone/',
-            success: function (data) {
-            }
-        });*/
-        divParamsCafe_1.setAttribute("hidden", "hidden");
-        divHideParamsCafe_1.setAttribute("hidden", "hidden");
-        divShowParamsCafe_1.removeAttribute("hidden");
-    }
+function hideParams_1() {
+    divParamsCafe_1.setAttribute("hidden", "hidden");
+    divHideParamsCafe_1.setAttribute("hidden", "hidden");
+    divShowParamsCafe_1.removeAttribute("hidden");
+}
 
 var numeros_1 = []; // Declarar un arreglo vacío
 var arreglo_1 = Array(100).fill(0);
@@ -346,10 +528,11 @@ var arreglo4_1 = Array(100).fill(0);
 for (var i = 0; i <= 100; i++) {
 numeros_1.push(i.toString()); // Convertir el número a string y agregarlo al arreglo
 }
+const arrayDeCeros_1 = new Array(100).fill("");
 
 var canvas_1 = document.getElementById('myChart_1');
 var data_1 = {
-labels: numeros_1,
+labels: arrayDeCeros_1,
 datasets: [
 {
   label: "Control Signal",
@@ -464,6 +647,58 @@ data: data_1,
 options: option_1
 });
 
+function saveData_1() {
+    const form = document.getElementById('cycleTestForm_1');
+    const formData = new FormData(form);
+
+    // Validaciones personalizadas (ejemplo)
+    const observations = document.getElementById('observations_1').value;
+    if (!observations.match(/^[A-Za-z0-9\s]*$/)) {
+        alert('The observations contain illegal characters.');
+        return;
+    }
+
+    // Envío del formulario usando AJAX
+    fetch(form.action, {
+        method: 'POST',
+        body: formData,
+        headers: {
+            'X-CSRFToken': '{{ csrf_token }}' // Incluye el token CSRF para Django
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            alert('Form submitted successfully.');
+            form.reset(); // Resetea el formulario si es necesario
+            document.getElementById('formCreateCycleTest_1').close(); // Cierra el diálogo
+        } else {
+            alert('There was an error submitting the form.');
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert('An unexpected error occurred.');
+    });
+}
+
+function receiveData_1() {
+    fetch('/ct/cycleTest_sendData_1/')
+    .then(response => response.json())
+    .then(data => {
+        // Mostrar el valor en el contenedor
+        document.getElementById('dateStart_dialog_1').innerText = data.dateStart_1;
+        document.getElementById('dateEnd_dialog_1').innerText = data.dateEnd_1;
+        document.getElementById('relaysCounter_O_1').innerText = 'Open : '+ data.counter_open_cafe_1;
+        document.getElementById('relaysCounter_C_1').innerText = 'Close : '+ data.counter_close_cafe_1;
+        document.getElementById('feedbackCounter_O_1').innerText = 'Open : '+ data.counter_openF_cafe_1;
+        document.getElementById('feedbackCounter_C_1').innerText = 'Close : '+ data.counter_closeF_cafe_1;
+        document.getElementById('plannedTimeTest_dialog_1').innerText = data.customTime_1;
+        document.getElementById('finalTimeTest_1').innerText = data.finalTime_1;
+    })
+    .catch(error => console.error('Error:', error));
+}
+
 function turnOn_1() {
         $.ajax({
             url: '/ct/cycleTest_turnOn_cafe_1/',
@@ -472,7 +707,7 @@ function turnOn_1() {
         });
     }
 
-  function turnOff_1() {
+function turnOff_1() {
         $.ajax({
             url: '/ct/cycleTest_turnOff_cafe_1/',
             success: function (data) {
@@ -481,17 +716,21 @@ function turnOn_1() {
     }
 
 function start_1() {
-        $.ajax({
-            url: '/ct/cycleTest_start_cafe_1/',
-            success: function (data) {
-            }
-        });
-        startWrite_1();
-    }
-function stop_1() {
-    detenerConexion_1();
-    //socket.close();
-    }
+    check_customTestTime_1();
+
+    $.ajax({
+        url: '/ct/cycleTest_start_cafe_1/',
+        success: function (data) {
+        }
+    });
+    
+    startWrite_1();
+    bStart_1.setAttribute("hidden", "hidden");
+    stopButton_1.removeAttribute("hidden");
+    bPause_1.removeAttribute("hidden");
+    bPowerOff_Cafe_1.setAttribute("hidden", "hidden");
+    document.getElementById('botonesForm_1').setAttribute("hidden", "hidden");
+}
 
 function pause_1() {
         $.ajax({
@@ -499,13 +738,122 @@ function pause_1() {
             success: function (data) {
             }
         });
+        bPause_1.setAttribute("hidden", "hidden");
+        bResume_1.removeAttribute("hidden");
     }
 
 function resume_1() {
-        $.ajax({
-            url: '/ct/cycleTest_resume_cafe_1/',
+    $.ajax({
+        url: '/ct/cycleTest_resume_cafe_1/',
+        success: function (data) {
+        }
+    });
+    bPause_1.removeAttribute("hidden");
+    bResume_1.setAttribute("hidden", "hidden");
+}
+
+function cancel_1() {
+  dialogCycleTest_1.close();
+}
+
+function hideLoadDetails_1() {
+  if (checkbox.checked) {
+      conditionalField_1.style.display = 'flex';
+    } else {
+      conditionalField_1.style.display = 'none';
+    }
+}
+
+function toggleBlock_1() {
+        const blockable1 = document.getElementById('divCustomTime_1');
+        const blockable2 = document.getElementById('divCustomTimeInput_1');
+        const toggleSwitch = document.getElementById('toggleSwitch_1');
+
+        if (toggleSwitch.checked) {
+          blockable1.classList.remove('disabled');
+          blockable2.classList.remove('disabled');
+        } else {
+            blockable1.classList.add('disabled');
+            blockable2.classList.add('disabled');
+        }
+    }
+
+function check_customTestTime_1(){
+  var statusSwich = document.getElementById('toggleSwitch_1').checked;
+  const hoursCafe_1 = document.getElementById('hoursCafe_1');
+  
+  if (statusSwich == true)
+  {
+    $.ajax({
+            type: "POST",
+            url: '/ct/cycleTest_customTime_1/',
+            data: {csrfmiddlewaretoken: '{{ csrf_token }}',"customTime": hoursCafe_1.value},
             success: function (data) {
             }
-        });
-    }
+           });   
+  }
+  else
+  {
+    $.ajax({
+            type: "POST",
+            url: '/ct/cycleTest_customTime_1/',
+            data: {csrfmiddlewaretoken: '{{ csrf_token }}',"customTime": 9999},
+            success: function (data) {
+            }
+           });   
+  }
+}
+
 </script>
+
+<style>
+  /* Estilo básico para el modal */
+  .formCreateCycleTest_1 {
+    padding: 20px;
+    border-radius: 10px;
+    max-width: 500px;
+    width: 100%;
+  }
+
+  /* Centrar el título */
+  .modal-title {
+    text-align: center;
+    font-weight: bold;
+  }
+
+  /* Estilo para los grupos de labels e inputs */
+  .form-group {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .form-group label {
+    margin-bottom: 0px;
+  }
+
+  /* Estilo para apilar horizontalmente en pantallas grandes */
+  @media (min-width: 600px) {
+    .form-group {
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .form-group label {
+      margin-bottom: 0;
+      margin-right: 10px;
+    }
+
+    .form-group input[type="text"],
+    .form-group input[type="checkbox"] {
+      flex: 1;
+    }
+  }
+
+  /* Estilo para los botones */
+  .form-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+  }
+</style>
