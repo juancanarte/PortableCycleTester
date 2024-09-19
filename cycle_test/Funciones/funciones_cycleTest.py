@@ -2891,7 +2891,7 @@ def newCycleTestRegister(_dut, _actuatorRef, _load, _loadDetails, _testerName, _
     _day = _dateStart.strftime("%d")  # Día con dos dígitos
     _month = _dateStart.strftime("%m")   # Mes con dos dígitos
     _year = _dateStart.strftime("%Y")   # Año completo
-    _fullDate = _dateStart + _month + _day
+    _fullDate = _year + _month + _day
     __dateStart = _dateStart.strftime("%m/%d/%Y %H:%M")
     #Pasar de tabla temporal a tabla final
     temp_data = ctd(    #Instancia de base de datos final
