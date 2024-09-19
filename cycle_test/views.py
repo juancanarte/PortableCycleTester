@@ -196,7 +196,7 @@ def saveData_cafe_1(request):
         # Realiza tus validaciones y guarda los datos
         # Si todo está bien
         observations = request.POST.get('observations_1')
-        funciones_cycleTest.joinTemporalDB_a(observations)
+        funciones_cycleTest.joinTemporalDB_1(observations)
 
         return JsonResponse({'success': True})
         
