@@ -494,7 +494,7 @@ def extraer_parametros(parametrosR, modo):
 def show_params(params, modo):
     global cant_duts,modo_dut_alone,client,modoG,nodo,baud,client_1,modoG_1,nodo_1,client_2,modoG_2,nodo_2,modulation_read_a,modulation_write_a,inputType_modulation_a,\
     modulation_read_1,modulation_write_1,inputType_modulation_1,modulation_read_2,modulation_write_2,inputType_modulation_2,port_gpio_alone,\
-    op_voltage_a,op_voltage_1,op_voltage_2,puerto_dut_alone, dut_alone
+    op_voltage_a,op_voltage_1,op_voltage_2,puerto_dut_alone, dut_alone, modo_dut_1, name_dut_1
 
     parametros = params.split(',')
 
@@ -2814,7 +2814,32 @@ def saveInDB_1():
 
         time.sleep(0.06)
 
-#joinTemporalDB_a se usara para cafe 1
+def joinTemporalDB_1(observation):
+    temp_conca = tDataCt_av2.objects.values_list('temp', flat=True)
+    current_conca = tDataCt_av2.objects.values_list('current', flat=True)
+    setPoint_conca = tDataCt_av2.objects.values_list('setPoint', flat=True)
+    feedBack_conca = tDataCt_av2.objects.values_list('feedback', flat=True)
+    relayO_conca = tDataCt_av2.objects.values_list('relayO', flat=True)
+    relayC_conca = tDataCt_av2.objects.values_list('relayC', flat=True)
+    timeStamp_conca = tDataCt_av2.objects.values_list('timeStamp', flat=True)
+    pauseStatus_conca = tDataCt_av2.objects.values_list('pauseStatus', flat=True)
+
+    lista_temp = list(temp_conca)
+    lista_current = list(current_conca)
+    lista_setPoint = list(setPoint_conca)
+    lista_feedBack = list(feedBack_conca)
+    lista_relayO = list(relayO_conca)
+    lista_relayC = list(relayC_conca)
+    lista_timeStamp = list(timeStamp_conca)
+    lista_pauseStatus = list(pauseStatus_conca)
+
+    newCycleTestRegister(name_dut_1, actuatorRef_g, load_g, loadDetails_g, testerName_g,
+                         observation, modo_dut_1, baud_1, nodo_1, op_voltage_1, inputType_modulation_1,
+                         signalType_1, widthTimePulse_1, setPoint_h_1, setPoint_l_1, dateStart_1, dateEnd_1,
+                         customTime_1, finalTestTime_1,
+                         lista_temp, lista_current, lista_setPoint,
+                         lista_feedBack, lista_relayO, lista_relayC,
+                         lista_timeStamp, lista_pauseStatus, relaysCounter_1, feedBackCounter_1) 
 
 def setCustomTime_1(_customTime_1):
     global customTime_1
@@ -2863,11 +2888,11 @@ def newCycleTestRegister(_dut, _actuatorRef, _load, _loadDetails, _testerName, _
     jsonBytes_FeedBackCounterA = jsonFeedBackCounterA.encode('utf-8')
 
     #manege date
-    _day = dateStart_a.strftime("%d")  # Día con dos dígitos
-    _month = dateStart_a.strftime("%m")   # Mes con dos dígitos
-    _year = dateStart_a.strftime("%Y")   # Año completo
-    _fullDate = _year + _month + _day
-    _dateStart = dateStart_a.strftime("%m/%d/%Y %H:%M")
+    _day = _dateStart.strftime("%d")  # Día con dos dígitos
+    _month = _dateStart.strftime("%m")   # Mes con dos dígitos
+    _year = _dateStart.strftime("%Y")   # Año completo
+    _fullDate = _dateStart + _month + _day
+    __dateStart = _dateStart.strftime("%m/%d/%Y %H:%M")
     #Pasar de tabla temporal a tabla final
     temp_data = ctd(    #Instancia de base de datos final
         dut = _dut,
@@ -2889,7 +2914,7 @@ def newCycleTestRegister(_dut, _actuatorRef, _load, _loadDetails, _testerName, _
         month = _month,
         year = _year,
         fullDate = _fullDate,
-        dateStart = _dateStart,
+        dateStart = __dateStart,
         dateEnd = _dateEnd,
         plannedTimeTest = _plannedTimeTest,
         finalTimeTest = _finalTimeTest,
