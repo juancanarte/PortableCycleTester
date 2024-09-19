@@ -146,6 +146,8 @@ def activar_funcion_desde_vista():
 #Funcioes CYCLE TEST para CAFE 1
 def cycleTest_start_cafe_1(request):
     funciones_cycleTest.cycleTest_start_cafe_1()
+    tempDataCt_a.objects.all().delete()
+    tempDataCtv2_a.objects.all().delete()
     data = ''
     return JsonResponse({'data': data})
 
@@ -178,6 +180,36 @@ def turnOn_cafe_1(request):
 def turnOff_cafe_1(request):
     data = ''
     funciones_cycleTest.turnOff_cafe_1()
+    return JsonResponse({'data': data})
+
+def sendData_cafe_1(request):
+    data = funciones_cycleTest.sendData_cafe_1()
+
+    print(data)
+    return JsonResponse({'dateStart_1': data['dateStart_1'], 'dateEnd_1': data['dateEnd_1'], 'counter_open_cafe_1':data['counter_open_cafe_1'],
+                         'counter_close_cafe_1':data['counter_close_cafe_1'], 'counter_openF_cafe_1':data['counter_openF_cafe_1'],
+                         'counter_closeF_cafe_1':data['counter_closeF_cafe_1'], 'customTime_1':data['customTime_1'], 'finalTime_1':data['finalTime_1']})
+
+@csrf_exempt
+def saveData_cafe_1(request):
+    if request.method == 'POST':
+        # Realiza tus validaciones y guarda los datos
+        # Si todo está bien
+        observations = request.POST.get('observations_1')
+        funciones_cycleTest.joinTemporalDB_a(observations)
+
+        return JsonResponse({'success': True})
+        
+        # Si hubo un error
+        # return JsonResponse({'success': False, 'error': 'Mensaje de error'})
+    return JsonResponse({'success': False, 'error': 'Método no permitido'}, status=405)
+
+@csrf_exempt
+def customTime_cafe_1(request):
+    data = ''
+    if request.method == 'POST':
+        input_data = request.POST.get('customTime', '')
+        funciones_cycleTest.setCustomTime_1(input_data)
     return JsonResponse({'data': data})
 
 #Funcioes CYCLE TEST para CAFE 2

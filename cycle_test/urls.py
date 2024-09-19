@@ -7,7 +7,7 @@ from django.conf.urls.static import static
 urlpatterns = [
     path('cycle_test/', views.cycle_test, name='Cycle_test'),
     #Funciones Cycle Test CAFE Alone
-    path('show_start_cafe_alone/', views.show_start_cafe_alone, name='sw_new'),
+    #path('show_start_cafe_alone/', views.show_start_cafe_alone, name='sw_new'),
     path('cycleTest_start_cafe_alone/', views.cycleTest_start_cafe_alone, name='CycleTest_start_cafe_alone'),
     path('cycleTest_stop_cafe_alone/', views.cycleTest_stop_cafe_alone, name='CycleTest_stop_cafe_alone'),
     path('cycleTest_pause_cafe_alone/', views.cycleTest_pause_cafe_alone, name='CycleTest_pause_cafe_alone'),
@@ -26,6 +26,9 @@ urlpatterns = [
     path('cycleTest_read_cafe_1/', views.cycleTest_read_cafe_1, name='CycleTest_read_cafe_1'),
     path('cycleTest_turnOn_cafe_1/', views.turnOn_cafe_1, name='TurnOn_cafe_1'),
     path('cycleTest_turnOff_cafe_1/', views.turnOff_cafe_1, name='TurnOff_cafe_1'),
+    path('cycleTest_sendData_1/', views.sendData_cafe_1, name='SendData_cafe_1'),
+    path('cycleTest_saveData_1/', views.saveData_cafe_1, name='SaveData_cafe_1'),
+    path('cycleTest_customTime_1/', views.customTime_cafe_1, name='CustomTime_cafe_1'),
     #Funciones Cycle Test CAFE #2
     path('cycleTest_start_cafe_2/', views.cycleTest_start_cafe_2, name='CycleTest_start_cafe_2'),
     path('cycleTest_stop_cafe_2/', views.cycleTest_stop_cafe_2, name='CycleTest_stop_cafe_2'),

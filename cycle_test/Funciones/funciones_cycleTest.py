@@ -9,6 +9,7 @@ import json
 import numpy as np
 from cycle_test.models import tempDataCt_a as tDataCt_a
 from cycle_test.models import tempDataCtv2_a as tDataCt_av2
+from cycle_test.models import tempDataCtv2_dut2 as tDataCt_av2_dut2
 from cycle_test.models import cycleTestData as ctd
 import pytz
 from cycle_test import views
@@ -1246,7 +1247,6 @@ def theread_read_cafe_alone():
                 posMod_a = result.registers[1]
             except:
                 falla = falla + 1
-            
         else:
             falla = 0
             posMod_a = setPoint_modulation_a
@@ -1295,27 +1295,24 @@ def feedBack_analysis_cafe_a(valor_actual):
         if p == 1:
             # Detectar si el valor acaba de cambiar a 100
             if valor_anterior_cafe_a < highValue_cafe_1 - 2 and valor_actual >= highValue_cafe_1 - 2:
-            #if valor_anterior_cafe_a != 100 and valor_actual == 100:
                 counter_openF_cafe_a += 1
             
             # Detectar si el valor acaba de cambiar a 0
             elif valor_anterior_cafe_a > lowValue_cafe_1 + 1 and valor_actual <= lowValue_cafe_1 + 1:
-            #elif valor_anterior_cafe_a != 0 and valor_actual == 0:
                 counter_closeF_cafe_a += 1
         
         elif p == 2:
             # Detectar si el valor acaba de cambiar a 100
             if valor_anterior_cafe_a < highValue_cafe_2 - 2 and valor_actual >= highValue_cafe_2 - 2:
-            #if valor_anterior_cafe_a != 100 and valor_actual == 100:
                 counter_openF_cafe_a += 1
             
             # Detectar si el valor acaba de cambiar a 0
             elif valor_anterior_cafe_a > lowValue_cafe_2 + 1 and valor_actual <= lowValue_cafe_2 + 1:
-            #elif valor_anterior_cafe_a != 0 and valor_actual == 0:
                 counter_closeF_cafe_a += 1
 
         valor_anterior_cafe_a = valor_actual
 
+'''
 def cronometro():
     global minutos_cafe_a, segundos_cafe_a
     tiempo_acumulado = 0
@@ -1329,6 +1326,7 @@ def cronometro():
         tiempo_acumulado = time.time() - tiempo_inicio
         while pausa_flag_a.is_set():
             time.sleep(0.1)
+'''
 
 def _actualizar_tiempo():
     global inicio_a, tiempo_pausado_a, en_progreso_a, tiempo_total_a, _detener_hilo_a
@@ -1403,9 +1401,8 @@ def detener():
 
 def turnOn_cafe_alone():
     global client, nodo, modoG, inputType_modulation_a, modulation_write_a, setPoint_modulation_a, tiempoApagadoCafe_a, tiempoEncendidoCafe_a
-    #gpio.output(#, gpio.HIGH)  #GPIO Activar GPIO para encender puerto ALONE
+    
     port = globals()['port_gpio_alone']
-    opVoltage = globals()['op_voltage_a']
 
     if port == 1:
         #Encender DUT #1
@@ -1446,20 +1443,21 @@ def turnOn_cafe_alone():
     
     elif modoG == 3:    #ModBus
         result2 = client.write_register(2, 0, nodo)
+        setPoint_modulation_a = 0
 
 def turnOff_cafe_alone():
     global client, nodo, modoG, inputType_modulation_a, modulation_write_a, setPoint_modulation_a, tiempoApagadoCafe_a
-    #gpio.output(#, gpio.LOW)  #GPIO Desactivar GPIO para apagar puerto ALONE
+
     p = globals()['port_gpio_alone']
 
         #Posicion inicial en Cero cuando se alimente CAFE
     if modoG == 1:      #Digital
         if p == 1:
-            gpio.output(20, gpio.LOW)#DIGITAL OPEN DUT#1
+            gpio.output(20, gpio.LOW)#DIGITAL CLOSE DUT#1
         else:
-            gpio.output(12, gpio.LOW)#DIGITAL OPEN DUT#2
+            gpio.output(12, gpio.LOW)#DIGITAL CLOSE DUT#2
             
-        setPoint_modulation_a = 100
+        setPoint_modulation_a = 0
         print("posicion inicial digital cafe a")
     
     elif modoG == 2:    #Modulation
@@ -1482,6 +1480,7 @@ def turnOff_cafe_alone():
     
     elif modoG == 3:    #ModBus
         result2 = client.write_register(2, 0, nodo)
+        setPoint_modulation_a = 0
         
     if p == 1:
         #Apagar DUT #1
@@ -1934,42 +1933,140 @@ def cycleTest_pause_cafe_1():
 def cycleTest_resume_cafe_1():
     global pausa_hilo_1
     pausa_hilo_1 = False
+    reanudar_1()
 
 def relay_analysis_1(signal_relayA, signal_relayB):
     global posAnteriorA_1, posAnteriorB_1, counter_open_cafe_1, counter_close_cafe_1
 
-    if signal_relayA == 50 and posAnteriorA_1 == 0:
+    if signal_relayA == 100 and posAnteriorA_1 == 0:
         counter_open_cafe_1 = counter_open_cafe_1 + 1
 
-    if signal_relayB == 50 and posAnteriorB_1 == 0:
+    if signal_relayB == 100 and posAnteriorB_1 == 0:
         counter_close_cafe_1 = counter_close_cafe_1 + 1
 
     posAnteriorA_1 = signal_relayA
     posAnteriorB_1 = signal_relayB
 
-def cronometro_1():
+def feedBack_analysis_cafe_1(valor_actual):
+    global counter_openF_cafe_1, counter_closeF_cafe_1, valor_anterior_cafe_1, highValue_cafe_1, lowValue_cafe_1, highValue_cafe_2, lowValue_cafe_2,\
+           modoG_1
+    
+    if (modoG_1 == 1):
+        counter_openF_cafe_1 = 0
+        counter_closeF_cafe_1 = 0
+    else:    
+        if valor_anterior_cafe_1 is None:
+            valor_anterior_cafe_1 = valor_actual
+            return
+        
+        # Detectar si el valor acaba de cambiar a 100
+        if valor_anterior_cafe_1 < highValue_cafe_1 - 2 and valor_actual >= highValue_cafe_1 - 2:
+            counter_openF_cafe_1 += 1
+        
+        # Detectar si el valor acaba de cambiar a 0
+        elif valor_anterior_cafe_1 > lowValue_cafe_1 + 1 and valor_actual <= lowValue_cafe_1 + 1:
+            counter_closeF_cafe_1 += 1
+
+        valor_anterior_cafe_1 = valor_actual
+
+'''
+def fcronometro_1():
     global minutos_cafe_1, segundos_cafe_1
+    tiempo_acumulado = 0
+
     tiempo_inicio = time.time()
     while not flag_c_1.is_set():
         tiempo_transcurrido = time.time() - tiempo_inicio
         minutos_cafe_1, segundos_cafe_1 = divmod(int(tiempo_transcurrido), 60)
         #print(f"Tiempo transcurrido: {minutos_cafe_a:02}:{segundos_cafe_a:02}", end='\r')
         time.sleep(1)
+'''
+
+def _actualizar_tiempo_1():
+    global inicio_1, tiempo_pausado_1, en_progreso_1, tiempo_total_1, _detener_hilo_1
+
+    while not _detener_hilo_1.is_set():
+        if en_progreso_1:
+            tiempo_total_1 = time.time() - inicio_1
+        time.sleep(0.1)
+
+def iniciar_1():
+    global inicio_1, tiempo_pausado_1, en_progreso_1, tiempo_total_1, hiloCrono_1, _detener_hilo_1, dateStart_1, zona_horaria
+
+    if not en_progreso_1:
+        dateStart_1 = datetime.now(zona_horaria) #Capturar fecha inicial completa
+
+        inicio_1 = time.time() - tiempo_total_1
+        en_progreso_1 = True
+        if hiloCrono_1 is None:
+            _detener_hilo_1.clear()
+            hiloCrono_1 = threading.Thread(target=_actualizar_tiempo_1)
+            hiloCrono_1.start()
+        print("Cronómetro_1 iniciado")
+
+def pausar_1():
+    global inicio_1, tiempo_pausado_1, en_progreso_1, tiempo_total_1, _detener_hilo_1
+    if en_progreso_1:
+        en_progreso_1 = False
+        print("Cronómetro_1 pausado")
+
+def reanudar_1():
+    global inicio_1, tiempo_pausado_1, en_progreso_1, tiempo_total_1, _detener_hilo_1
+    if not en_progreso_1:
+        inicio_1 = time.time() - tiempo_total_1
+        en_progreso_1 = True
+        print("Cronómetro_1 reanudado")
+
+def reiniciar_1():
+    global inicio_1, tiempo_pausado_1, en_progreso_1, tiempo_total_1, _detener_hilo_1
+    en_progreso_1 = False
+    tiempo_total_1 = 0
+    inicio_1 = 0
+    print("Cronómetro_1 reiniciado")
+
+def tiempo_transcurrido_1():
+    global tiempo_total_1
+    return tiempo_total_1
+
+def mostrar_tiempo_1():
+    global minutos_cafe_1, segundos_cafe_1, horas_cafe_1, customTime_1
+
+    tiempo = tiempo_transcurrido_1()
+    minutos_cafe_1, segundos_cafe_1 = divmod(tiempo, 60)
+    horas, minutos_cafe_1 = divmod(minutos_cafe_1, 60)
+    minutos_cafe_1 = int(minutos_cafe_1)
+    segundos_cafe_1 = int(segundos_cafe_1)
+    horas_cafe_1 = int(horas)
+
+    if minutos_cafe_1 >= customTime_1:
+        cycleTest_stop_cafe_1()
+
+def detener_1():
+    global inicio_1, tiempo_pausado_1, en_progreso_1, tiempo_total_1, hiloCrono_a, _detener_hilo_1, dateEnd_1, zona_horaria
+
+    if hiloCrono_1 is not None:
+        dateEnd_1 = datetime.now(zona_horaria)
+        dateEnd_1 = dateEnd_1.strftime("%m/%d/%Y %H:%M")
+
+        _detener_hilo_1.set()
+        hiloCrono_1.join()
+        hiloCrono_1 = None
+        print("Hilo del cronómetro_1 detenido")
 
 def turnOn_cafe_1():
     global client_1, nodo_1, modoG_1, inputType_modulation_1, modulation_write_1, setPoint_modulation_1, tiempoApagadoCafe_1, tiempoEncendidoCafe_a
-    #gpio.output(#, gpio.HIGH)  #GPIO Activar GPIO para encender puerto ALONE
-    opVoltage = globals()['op_voltage_1']
 
-    if opVoltage == '24vdc':
-        print("Rele 24vdc cafe 1")
-    else:
-        print("120/240 vdc cafe 1")
+    #Encender DUT #1
+    pcfRPI_on_off.write("p4", "HIGH")
 
-    time.sleep(tiempoEncendidoCafe_a)
-        #Posicion inicial en Cero cuando se alimente CAFE
+    time.sleep(tiempoEncendidoCafe_1)
+
+    #Posicion inicial en Cero cuando se alimente CAFE
     if modoG_1 == 1:      #Digital
-        print("posicion inicial digital cafe a")
+        gpio.output(20, gpio.LOW)#DIGITAL OPEN DUT#1
+
+        setPoint_modulation_1 = 100
+        print("posicion inicial digital cafe 1")
     
     elif modoG_1 == 2:    #Modulation
         if inputType_modulation_1 == '0-10v':
@@ -1995,10 +2092,11 @@ def turnOn_cafe_1():
 
 def turnOff_cafe_1():
     global client_1, nodo_1, modoG_1, inputType_modulation_1, modulation_write_1, setPoint_modulation_1, tiempoApagadoCafe_1
-    #gpio.output(#, gpio.LOW)  #GPIO Desactivar GPIO para apagar puerto ALONE
 
-        #Posicion inicial en Cero cuando se alimente CAFE
+    #Posicion inicial en Cero cuando se alimente CAFE
     if modoG_1 == 1:      #Digital
+        gpio.output(20, gpio.LOW)#DIGITAL CLOSE DUT#1
+        setPoint_modulation_1 = 0
         print("posicion inicial digital cafe a")
     
     elif modoG_1 == 2:    #Modulation
@@ -2023,12 +2121,23 @@ def turnOff_cafe_1():
         result2 = client_1.write_register(2, 0, nodo)
         setPoint_modulation_1 = 0
 
-    time.sleep(tiempoApagadoCafe_1)
+    #Apagar DUT #1
+    pcfRPI_on_off.write("p4", "LOW")
 
-    print("Apagar cafe 1")
     cycleTest_stop_cafe_1()
     if (client_1 != None):
         client_1.close()
+
+def sendData_cafe_1():
+    global dateStart_1, dateEnd_1, counter_open_cafe_1, counter_close_cafe_1, counter_openF_cafe_1, counter_closeF_cafe_1, customTime_1, finalTestTime_1
+
+    _aux = dateStart_1.strftime("%m/%d/%Y %H:%M")
+
+    dataList = {'dateStart_1':_aux, 'dateEnd_1':dateEnd_1, 'counter_open_cafe_1':counter_open_cafe_1,'counter_close_cafe_1':counter_close_cafe_1,
+                'customTime_1':customTime_1, 'counter_openF_cafe_1':counter_openF_cafe_1, 'counter_closeF_cafe_1':counter_closeF_cafe_1, 'finalTime_1':finalTestTime_1}
+
+    return dataList
+
 #Funciones CYCLE TEST para CAFE #2
 def cycleTest_start_cafe_2():
     global thread_modbus_2, thread_crono_2, client_2, modoG_2, nodo_2, running_threads, counter_open_cafe_2,\
@@ -2443,7 +2552,7 @@ def relay_analysis_2(signal_relayA, signal_relayB):
     posAnteriorA_2 = signal_relayA
     posAnteriorB_2 = signal_relayB
 
-def cronometro_2():
+def fcronometro_2():
     global minutos_cafe_2, segundos_cafe_2
     tiempo_inicio = time.time()
     while not flag_c_2.is_set():
@@ -2455,13 +2564,7 @@ def turnOn_cafe_2():
     global client_2, nodo_2, modoG_2, inputType_modulation_2, modulation_write_2, setPoint_modulation_2, tiempoEncendidoCafe_a
 
     #gpio.output(#, gpio.HIGH)  #GPIO Activar GPIO para encender puerto ALONE
-    opVoltage = globals()['op_voltage_2']
 
-    if opVoltage == '24vdc':
-        print("Rele 24vdc cafe 2")
-    else:
-        print("120/240 vdc cafe 2")
-    
     time.sleep(tiempoEncendidoCafe_a)
 
         #Posicion inicial en Cero cuando se alimente CAFE
@@ -2565,6 +2668,7 @@ def stop():
             if (client_1 != None):
                 client_1.close()
             turnOff_cafe_1()
+            stop_saveInDB_1()
         """    
         elif name_dut_1 == 'COIL':
             show_stop_coil_1()
@@ -2594,6 +2698,7 @@ def stop():
     #gpio.output(#, gpio.LOW)  #GPIO Desactivar GPIO para apagar puerto ALONE
     print("PARAR TODOS LOS HILOS")
 
+#-----------Storage cafe alone-----------#
 def start_saveInDB_a():
     global thread_saveDB_a, running_threads
 
@@ -2657,59 +2762,6 @@ def joinTemporalDB_a(observation):
                          lista_temp, lista_current, lista_setPoint,
                          lista_feedBack, lista_relayO, lista_relayC,
                          lista_timeStamp, lista_pauseStatus, relaysCounter_a, feedBackCounter_a) 
-    '''
-    registros = tDataCt_a.objects.all() #Conncecion al modelo de DB
-
-    #Creacion de listas para concatenar registros temporales
-    temp_conca = []
-    current_conca = []
-    setPoint_conca = []
-    feedBack_conca = []
-    relayO_conca = []
-    relayC_conca = []
-    timeStamp_conca = []
-    pauseStatus_conca = []
-
-    for registro in registros:
-        # Decodificar el BLOB de bytes a string
-        tempConca_json = registro.temp.decode('utf-8')
-        currentConca_json = registro.current.decode('utf-8')
-        setPointConca_json = registro.setPoint.decode('utf-8')
-        feedbackConca_json = registro.feedback.decode('utf-8')
-        relayOConca_json = registro.relayO.decode('utf-8')
-        relayCConca_json = registro.relayC.decode('utf-8')
-        timeStampConca_json = registro.timeStamp.decode('utf-8')
-        pauseStatusConca_json = registro.pauseStatus.decode('utf-8')
-        
-        # Convertir el string JSON a una lista
-        lista_temp = json.loads(tempConca_json)
-        lista_current = json.loads(currentConca_json)
-        lista_setPoint = json.loads(setPointConca_json)
-        lista_feedBack = json.loads(feedbackConca_json)
-        lista_relayO = json.loads(relayOConca_json)
-        lista_relayC = json.loads(relayCConca_json)
-        lista_timeStamp = json.loads(timeStampConca_json)
-        lista_pauseStatus = json.loads(pauseStatusConca_json)
-
-        # Concatenar las listas
-        temp_conca.extend(lista_temp)
-        current_conca.extend(lista_current)
-        setPoint_conca.extend(lista_setPoint)
-        feedBack_conca.extend(lista_feedBack)
-        relayO_conca.extend(lista_relayO)
-        relayC_conca.extend(lista_relayC)
-        timeStamp_conca.extend(lista_timeStamp)
-        pauseStatus_conca.extend(lista_pauseStatus)
-
-
-    newCycleTestRegister(dut_alone, actuatorRef_g, load_g, loadDetails_g, testerName_g,
-                         observation, modo_dut_alone, baud, nodo, op_voltage_a, inputType_modulation_a,
-                         signalType_a, widthTimePulse_a, 100, 0, dateStart_a, dateEnd_a,
-                         customTime_a, finalTestTime_a,
-                         temp_conca, current_conca, setPoint_conca,
-                         feedBack_conca, relayO_conca, relayC_conca,
-                         timeStamp_conca, pauseStatus_conca, relaysCounter_a, feedBackCounter_a) 
-    '''
 
 def saveCtData(testerName_l, actuatorRef_l, load_l, loadDetails_l):
     global testerName_g, actuatorRef_g, load_g, loadDetails_g
@@ -2723,6 +2775,50 @@ def saveCtData(testerName_l, actuatorRef_l, load_l, loadDetails_l):
 def setCustomTime_a(_customTime_a):
     global customTime_a
     customTime_a = int(_customTime_a)
+
+#-----------Storage cafe 1-----------#
+def start_saveInDB_1():
+    global thread_saveDB_1, running_threads
+
+    if thread_saveDB_1 is None or not thread_saveDB_1.is_alive():
+        thread_saveDB_1 = threading.Thread(target=saveInDB_1)
+        thread_saveDB_1.start()
+        running_threads.append(thread_saveDB_1)
+
+def stop_saveInDB_1():
+    global thread_saveDB_1, flag_thread_saveDB_1
+
+    #Detenr hilo que guarda en base de datos
+    if thread_saveDB_1 is not None and thread_saveDB_1.is_alive():
+        flag_thread_saveDB_1.set()
+        thread_saveDB_1.join()
+        flag_thread_saveDB_1.clear()
+
+def saveInDB_1():
+    global temp_1, current_1, setPoint_1, feedback_1, relayFeO_1, relayFeC_1, timeStamp_1, pauseStatus_1, flag_thread_saveDB_1, tiempo_total_1
+    
+    tDataCt_av2.objects.all().delete
+    
+    while not flag_thread_saveDB_1.is_set():
+        temp_data = tDataCt_av2(      #Instancia de base de datos temporal
+                temp = int(temp_1),
+                current = int(current_1),
+                setPoint = int(setPoint_modulation_1),
+                feedback = int(position_1),
+                relayO = int(relayO_1),
+                relayC = int(relayC_1),
+                timeStamp = float(tiempo_total_1),
+                pauseStatus = bool(pausa_hilo_1)
+            )
+        temp_data.save() #Guardar json en base de datos
+
+        time.sleep(0.06)
+
+#joinTemporalDB_a se usara para cafe 1
+
+def setCustomTime_1(_customTime_1):
+    global customTime_1
+    customTime_1 = int(_customTime_1)
 
 def newCycleTestRegister(_dut, _actuatorRef, _load, _loadDetails, _testerName, _observations,
                          _operationMode, _bauds, _node, _operationVoltage, _inputType, _signalType,
