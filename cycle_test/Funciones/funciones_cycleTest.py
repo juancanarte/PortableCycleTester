@@ -2042,7 +2042,7 @@ def mostrar_tiempo_1():
         cycleTest_stop_cafe_1()
 
 def detener_1():
-    global inicio_1, tiempo_pausado_1, en_progreso_1, tiempo_total_1, hiloCrono_a, _detener_hilo_1, dateEnd_1, zona_horaria
+    global inicio_1, tiempo_pausado_1, en_progreso_1, tiempo_total_1, hiloCrono_1, _detener_hilo_1, dateEnd_1, zona_horaria
 
     if hiloCrono_1 is not None:
         dateEnd_1 = datetime.now(zona_horaria)
