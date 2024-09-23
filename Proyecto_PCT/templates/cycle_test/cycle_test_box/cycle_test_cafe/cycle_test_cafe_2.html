@@ -317,7 +317,7 @@
 
 <!-- Modal Stop cycle test?-->
 <dialog class="" id="modalStopTest_cafe_2">
-  <h2>Stop cycle test?</h2>
+  <h2>Stop cycle test DUT2?</h2>
   <br>
   <div>
     <button class="css-button-eye" style="margin-right: 10px; border-radius: 0%; width:80px;" onclick="stop_2();window.modalStopTest_cafe_2.close();">
@@ -694,7 +694,7 @@ function receiveData_2() {
         document.getElementById('feedbackCounter_O_2').innerText = 'Open : '+ data.counter_openF_cafe_2;
         document.getElementById('feedbackCounter_C_2').innerText = 'Close : '+ data.counter_closeF_cafe_2;
         document.getElementById('plannedTimeTest_dialog_2').innerText = data.customTime_2;
-        document.getElementById('finalTimeTest_2').innerText = data.finalTime_1;
+        document.getElementById('finalTimeTest_2').innerText = data.finalTime_2;
     })
     .catch(error => console.error('Error:', error));
 }
