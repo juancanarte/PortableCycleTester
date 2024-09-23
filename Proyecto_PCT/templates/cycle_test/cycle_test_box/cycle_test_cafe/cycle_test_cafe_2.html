@@ -388,13 +388,9 @@ bResume_2.addEventListener('click', function() {
 
 function stop_2(){
   $.ajax({
-            url: '/ct/cycleTest_stop_cafe_2/',
+            url: '/ct/cycleTest_stop_cafe_1/',
             success: function (data) {
-              console.log("aqui arriba");
-              /*
-              receiveData_2();
-              document.getElementById('botonesForm_2').removeAttribute("hidden");
-              */
+              console.log("test ajax");
             }
         });
 
