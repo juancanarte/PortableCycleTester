@@ -390,6 +390,7 @@ function stop_2(){
   $.ajax({
             url: '/ct/cycleTest_stop_cafe_2/',
             success: function (data) {
+              console.log("aqui arriba");
               receiveData_2();
               document.getElementById('botonesForm_2').removeAttribute("hidden");
             }
@@ -400,6 +401,7 @@ function stop_2(){
   }))
 
   //receiveData_a();
+  console.log("aqui abajo");
   resume_ws_2();
   resume_2();
   dialogCycleTest_2.showModal();
