@@ -363,8 +363,6 @@ feedBackCounter_2 = None
 setPoint_h_2 = 100
 setPoint_l_2 = 0
 
-posAnt_modBus_2 = 0
-
 thread_saveDB_2 = None
 flag_thread_saveDB_2 = threading.Event()
 #----------------CRONOMETRO------------#
@@ -494,7 +492,7 @@ def extraer_parametros(parametrosR, modo):
 def show_params(params, modo):
     global cant_duts,modo_dut_alone,client,modoG,nodo,baud,client_1,modoG_1,nodo_1,client_2,modoG_2,nodo_2,modulation_read_a,modulation_write_a,inputType_modulation_a,\
     modulation_read_1,modulation_write_1,inputType_modulation_1,modulation_read_2,modulation_write_2,inputType_modulation_2,port_gpio_alone,\
-    op_voltage_a,op_voltage_1,op_voltage_2,puerto_dut_alone, dut_alone, modo_dut_1, name_dut_1
+    op_voltage_a,op_voltage_1,op_voltage_2,puerto_dut_alone, dut_alone, modo_dut_1, name_dut_1, name_dut_2
 
     parametros = params.split(',')
 
@@ -2118,7 +2116,7 @@ def turnOff_cafe_1():
             print("close_4-20mA")
     
     elif modoG_1 == 3:    #ModBus
-        result2 = client_1.write_register(2, 0, nodo)
+        result2 = client_1.write_register(2, 0, nodo_1)
         setPoint_modulation_1 = 0
 
     #Apagar DUT #1
@@ -2141,48 +2139,43 @@ def sendData_cafe_1():
 #Funciones CYCLE TEST para CAFE #2
 def cycleTest_start_cafe_2():
     global thread_modbus_2, thread_crono_2, client_2, modoG_2, nodo_2, running_threads, counter_open_cafe_2,\
-           counter_close_cafe_2, minutos_cafe_2, segundos_cafe_2, thread_readMod_2
+           counter_close_cafe_2, minutos_cafe_2, segundos_cafe_2, thread_readMod_2, counter_openF_cafe_2, counter_closeF_cafe_2
 
     counter_open_cafe_2 = 0
     counter_close_cafe_2 = 0
+
+    counter_openF_cafe_2 = 0
+    counter_closeF_cafe_2 = 0
 
     if thread_modbus_2 is None or not thread_modbus_2.is_alive():
         thread_modbus_2 = threading.Thread(target=cycleTest_write_start_2)
         thread_modbus_2.start()
         running_threads.append(thread_modbus_2) 
-    
-    if thread_crono_2 is None or not thread_crono_2.is_alive():
-        thread_crono_2 = threading.Thread(target=cronometro_2)
-        thread_crono_2.start()
-        running_threads.append(thread_crono_2)
+
+    reiniciar_2()
+    iniciar_2()
+    start_saveInDB_2()
+
     '''
-    #Iniciar hilo de lectura modbus para cafe 2
-    if modoG_2 == 3:
-        if thread_readMod_2 is None or not thread_readMod_2.is_alive():
-            thread_readMod_2 = threading.Thread(target=theread_read_cafe_2)
-            thread_readMod_2.start()
-            running_threads.append(thread_readMod_2) 
+    if modoG_1 == 3:
+        if thread_readMod_1 is None or not thread_readMod_1.is_alive():
+            thread_readMod_1 = threading.Thread(target=theread_read_cafe_1)
+            thread_readMod_1.start()
+            running_threads.append(thread_readMod_1)
     else:
         pass
     '''
 
 def cycleTest_stop_cafe_2():
-    global thread_modbus_2, client_2, modoG_2, nodo_2, running_threads, flag_2, flag_c_2, thread_crono_2, minutos_cafe_2, segundos_cafe_2,\
-           thread_readMod_2, flag_read_2
+    global thread_modbus_2,client_2,modoG_2,nodo_2,running_threads,flag_2,flag_c_2,thread_crono_2,horas_cafe_2,minutos_cafe_2,segundos_cafe_2,thread_readMod_2,\
+           flag_read_2,counter_open_cafe_2,counter_close_cafe_2, counter_openF_cafe_2, counter_closeF_cafe_2, relaysCounter_2, feedBackCounter_2, finalTestTime_2
+
 
     if thread_modbus_2 is not None and thread_modbus_2.is_alive():
         flag_2.set()
         thread_modbus_2.join()
         flag_2.clear()
-
-    if thread_crono_2 is not None and thread_crono_2.is_alive():
-        flag_c_2.set()
-        thread_crono_2.join()
-        flag_c_2.clear()
-        minutos_cafe_2 = 0
-        segundos_cafe_2 = 0
-
-    #Detener hilo de lectura modbus para cafe 2
+    
     if modoG_2 == 3:
         if thread_readMod_2 is not None and thread_readMod_2.is_alive():
             flag_read_2.set()
@@ -2191,16 +2184,37 @@ def cycleTest_stop_cafe_2():
     else:
         pass
 
+    relaysCounter_2 = [str(counter_open_cafe_2), str(counter_close_cafe_2)]
+    feedBackCounter_2 = [str(counter_openF_cafe_2), str(counter_closeF_cafe_2)]
+    finalTestTime_2 = str(horas_cafe_2) + ':' + str(minutos_cafe_2) + ':' + str(segundos_cafe_2)
+
+    detener_2()
+    stop_saveInDB_2()
+
 def cycleTest_write_start_2():
     global client_2, nodo_2, modoG_2, flag_2, inputType_modulation_2, modulation_read_2, modulation_write_2, setPoint_modulation_2, port_gpio_2,\
-    listaP, pausa_hilo_2
+    listaP, pausa_hilo_2, signalType_2, widthTimePulse_2, highValue_cafe_2, lowValue_cafe_2, highValue_cafe_2, lowValue_cafe_2, setPoint_h_2, setPoint_l_2
+
+    setPoint_h_2 = highValue_cafe_2
+    setPoint_l_2 = lowValue_cafe_2
 
     setPoint_modulation_2 = 0
     widthTimePulse_show = int(listaP[22][0])
+    widthTimePulse_2 = int(listaP[22][0])
     signalType = listaP[21]
+    signalType_2 = listaP[21]
 
     if modoG_2 == 1:
-        print("open_digital_cafe_1")
+        while not flag_2.is_set():
+            while pausa_hilo_2 == True:
+                time.sleep(0.1)
+            gpio.output(12, gpio.HIGH)#DIGITAL OPEN DUT#1
+            setPoint_modulation_2 = 100
+            time.sleep(widthTimePulse_show)
+
+            gpio.output(12, gpio.LOW)#DIGITAL CLOSE DUT#1
+            setPoint_modulation_2 = 0
+            time.sleep(widthTimePulse_show)
     
     elif modoG_2 == 2:
         if signalType == 'pulseSignal':             #Signal Type PULSE SIGNAL settings default----------------------------------------
@@ -2208,63 +2222,71 @@ def cycleTest_write_start_2():
                 while not flag_2.is_set():
                     while pausa_hilo_2 == True:
                         time.sleep(0.1)
-                    modulation_write_2.raw_value = alto_Mod_0_10 
-                    setPoint_modulation_2 = 100
+                    temp_setPoint_2 = map(setPoint_h_2,0,100,bajo_Mod_0_10,alto_Mod_0_10)
+                    modulation_write_2.raw_value = int(temp_setPoint_2)
+                    setPoint_modulation_2 = setPoint_h_2
                     time.sleep(widthTimePulse_show)
 
-                    modulation_write_2.raw_value = bajo_Mod_0_10
-                    setPoint_modulation_2 = 0
+                    temp_setPoint_2 = map(setPoint_l_2,0,100,bajo_Mod_0_10,alto_Mod_0_10)
+                    modulation_write_2.raw_value = int(temp_setPoint_2)
+                    setPoint_modulation_2 = setPoint_l_2
                     time.sleep(widthTimePulse_show)
             elif inputType_modulation_2 == '2-10v':
                 while not flag_2.is_set():
                     while pausa_hilo_2 == True:
                         time.sleep(0.1)
-                    modulation_write_2.raw_value = alto_Mod_2_10 
-                    setPoint_modulation_2 = 100
+                    temp_setPoint_2 = map(setPoint_h_2,0,100,bajo_Mod_2_10,alto_Mod_2_10)
+                    modulation_write_2.raw_value = int(temp_setPoint_2)
+                    setPoint_modulation_2 = setPoint_h_2
                     time.sleep(widthTimePulse_show)
 
-                    modulation_write_2.raw_value = bajo_Mod_2_10 
-                    setPoint_modulation_2 = 0
+                    temp_setPoint_2 = map(setPoint_l_2,0,100,bajo_Mod_2_10,alto_Mod_2_10)
+                    modulation_write_2.raw_value = int(temp_setPoint_2)
+                    setPoint_modulation_2 = setPoint_l_2
                     time.sleep(widthTimePulse_show)
             elif inputType_modulation_2 == '0-20mA':
                 while not flag_2.is_set():
                     while pausa_hilo_2 == True:
                         time.sleep(0.1)
-                    modulation_write_2.raw_value = alto_Mod_0_20 
-                    setPoint_modulation_2 = 100
+                    temp_setPoint_2 = map(setPoint_h_1,0,100,bajo_Mod_0_20,alto_Mod_0_20)
+                    modulation_write_2.raw_value = int(temp_setPoint_2)
+                    setPoint_modulation_2 = setPoint_h_2
                     time.sleep(widthTimePulse_show)
 
-                    modulation_write_2.raw_value = bajo_Mod_0_20 
-                    setPoint_modulation_2 = 0
+                    temp_setPoint_2 = map(setPoint_l_2,0,100,bajo_Mod_0_20,alto_Mod_0_20)
+                    modulation_write_2.raw_value = int(temp_setPoint_2)
+                    setPoint_modulation_2 = setPoint_l_2
                     time.sleep(widthTimePulse_show)
             elif inputType_modulation_2 == '4-20mA':
                 while not flag_2.is_set():
                     while pausa_hilo_2 == True:
                         time.sleep(0.1)
-                    modulation_write_2.raw_value = alto_Mod_4_20 
-                    setPoint_modulation_2 = 100
+                    temp_setPoint_2 = map(setPoint_h_2,0,100,bajo_Mod_4_20,alto_Mod_4_20)
+                    modulation_write_2.raw_value = int(temp_setPoint_2)
+                    setPoint_modulation_2 = setPoint_h_2
                     time.sleep(widthTimePulse_show)
 
-                    modulation_write_2.raw_value = bajo_Mod_4_20 
-                    setPoint_modulation_2 = 0
+                    temp_setPoint_2 = map(setPoint_l_2,0,100,bajo_Mod_4_20,alto_Mod_4_20)
+                    modulation_write_2.raw_value = int(temp_setPoint_2)
+                    setPoint_modulation_2 = setPoint_l_2
                     time.sleep(widthTimePulse_show)
 
         elif signalType == 'sawSignal':             #Signal Type SAW SIGNAL settings default--------------------------------------------
             if inputType_modulation_2 == '0-10v':
                 i = 0
-                porcent_step = saw_porcent   #Porcentaje de sierra
+                porcent_step = saw_porcent
                 wtp_show = (widthTimePulse_show*1000)/(100/porcent_step)
                 wtp_show = widthTimePulse_show
-                array_1 = np.arange(0,101,porcent_step)
-                array_2 = np.arange(100, -1, -1*porcent_step)[1:-1]
+                array_1 = np.arange(setPoint_l_2,setPoint_h_2 + 1,porcent_step)
+                array_2 = np.arange(setPoint_h_2, setPoint_l_2 - 1, -1*porcent_step)[1:-1]
                 final_array = np.concatenate((array_1, array_2))
                 while not flag_2.is_set():
                     while pausa_hilo_2 == True:
                         time.sleep(0.1)
                     item = final_array[i]
                     fpos = map(item,0,100,bajo_Mod_0_10,alto_Mod_0_10)
-                    modulation_write_2.raw_value = int(fpos)
                     setPoint_modulation_2 = int(item)
+                    modulation_write_2.raw_value = int(fpos)
                     i = i + 1
                     if i == len(final_array):
                         i = 0
@@ -2272,19 +2294,19 @@ def cycleTest_write_start_2():
 
             elif inputType_modulation_2 == '2-10v':
                 i = 0
-                porcent_step = saw_porcent    #Porcentaje de sierra
+                porcent_step = saw_porcent
                 wtp_show = (widthTimePulse_show*1000)/(100/porcent_step)
                 wtp_show = widthTimePulse_show
-                array_1 = np.arange(0,101,porcent_step)
-                array_2 = np.arange(100, -1, -1*porcent_step)[1:-1]
+                array_1 = np.arange(setPoint_l_2,setPoint_h_2 + 1,porcent_step)
+                array_2 = np.arange(setPoint_h_2, setPoint_l_2 - 1, -1*porcent_step)[1:-1]
                 final_array = np.concatenate((array_1, array_2))
                 while not flag_2.is_set():
                     while pausa_hilo_2 == True:
                         time.sleep(0.1)                    
                     item = final_array[i]
                     fpos = map(item,0,100,bajo_Mod_2_10,alto_Mod_2_10 )
-                    modulation_write_2.raw_value = int(fpos)
                     setPoint_modulation_2 = int(item)
+                    modulation_write_2.raw_value = int(fpos)
                     i = i + 1
                     if i == len(final_array):
                         i = 0
@@ -2292,19 +2314,19 @@ def cycleTest_write_start_2():
 
             elif inputType_modulation_2 == '0-20mA':
                 i = 0
-                porcent_step = saw_porcent       #Porcentaje de escalon
+                porcent_step = saw_porcent
                 wtp_show = (widthTimePulse_show*1000)/(100/porcent_step)
                 wtp_show = widthTimePulse_show
-                array_1 = np.arange(0,101,porcent_step)
-                array_2 = np.arange(100, -1, -1*porcent_step)[1:-1]
+                array_1 = np.arange(setPoint_l_2,setPoint_h_2 + 1,porcent_step)
+                array_2 = np.arange(setPoint_h_2, setPoint_l_2 - 1, -1*porcent_step)[1:-1]
                 final_array = np.concatenate((array_1, array_2))
                 while not flag_2.is_set():
                     while pausa_hilo_2 == True:
                         time.sleep(0.1)
                     item = final_array[i]
                     fpos = map(item,0,100,bajo_Mod_0_20,alto_Mod_0_20)
-                    modulation_write_2.raw_value = int(fpos)
                     setPoint_modulation_2 = int(item)
+                    modulation_write_2.raw_value = int(fpos)
                     i = i + 1
                     if i == len(final_array):
                         i = 0
@@ -2312,19 +2334,19 @@ def cycleTest_write_start_2():
 
             elif inputType_modulation_2 == '4-20mA':
                 i = 0
-                porcent_step = saw_porcent      #Porcentaje de escalon
+                porcent_step = saw_porcent
                 wtp_show = (widthTimePulse_show*1000)/(100/porcent_step)
                 wtp_show = widthTimePulse_show
-                array_1 = np.arange(0,101,porcent_step)
-                array_2 = np.arange(100, -1, -1*porcent_step)[1:-1]
+                array_1 = np.arange(setPoint_l_2,setPoint_h_2 + 1,porcent_step)
+                array_2 = np.arange(setPoint_h_2, setPoint_l_2 - 1, -1*porcent_step)[1:-1]
                 final_array = np.concatenate((array_1, array_2))
                 while not flag_2.is_set():
                     while pausa_hilo_2 == True:
                         time.sleep(0.1)
                     item = final_array[i]
                     fpos = map(item,0,100,bajo_Mod_4_20,alto_Mod_4_20)
-                    modulation_write_2.raw_value = int(fpos)
                     setPoint_modulation_2 = int(item)
+                    modulation_write_2.raw_value = int(fpos)
                     i = i + 1
                     if i == len(final_array):
                         i = 0
@@ -2336,16 +2358,16 @@ def cycleTest_write_start_2():
                 porcent_step = scale_porcent                   #Porcentaje de escalon
                 wtp_show = (widthTimePulse_show*1000)/(100/porcent_step)
                 wtp_show = widthTimePulse_show
-                array_1 = np.arange(0,101,porcent_step)
-                array_2 = np.arange(100, -1, -1*porcent_step)[1:-1]
+                array_1 = np.arange(setPoint_l_2,setPoint_h_2 + 1,porcent_step)
+                array_2 = np.arange(setPoint_h_2, setPoint_l_2 - 1, -1*porcent_step)[1:-1]
                 final_array = np.concatenate((array_1, array_2))
                 while not flag_2.is_set():
                     while pausa_hilo_2 == True:
                         time.sleep(0.1)
                     item = final_array[i]
                     fpos = map(item,0,100,bajo_Mod_0_10,alto_Mod_0_10)
-                    modulation_write_2.raw_value = int(fpos)
                     setPoint_modulation_2 = int(item)
+                    modulation_write_2.raw_value = int(fpos)
                     i = i + 1
                     if i == len(final_array):
                         i = 0
@@ -2376,16 +2398,16 @@ def cycleTest_write_start_2():
                 porcent_step = scale_porcent                   #Porcentaje de escalon
                 wtp_show = (widthTimePulse_show*1000)/(100/porcent_step)
                 wtp_show = widthTimePulse_show
-                array_1 = np.arange(0,101,porcent_step)
-                array_2 = np.arange(100, -1, -1*porcent_step)[1:-1]
+                array_1 = np.arange(setPoint_l_2,setPoint_h_2 + 1,porcent_step)
+                array_2 = np.arange(setPoint_h_2, setPoint_l_2 - 1, -1*porcent_step)[1:-1]
                 final_array = np.concatenate((array_1, array_2))
                 while not flag_2.is_set():
                     while pausa_hilo_2 == True:
                         time.sleep(0.1)
                     item = final_array[i]
                     fpos = map(item,0,100,bajo_Mod_0_20,alto_Mod_0_20)
-                    modulation_write_2.raw_value = int(fpos)
                     setPoint_modulation_2 = int(item)
+                    modulation_write_2.raw_value = int(fpos)                    
                     i = i + 1
                     if i == len(final_array):
                         i = 0
@@ -2396,16 +2418,16 @@ def cycleTest_write_start_2():
                 porcent_step = scale_porcent                   #Porcentaje de escalon
                 wtp_show = (widthTimePulse_show*1000)/(100/porcent_step)
                 wtp_show = widthTimePulse_show
-                array_1 = np.arange(0,101,porcent_step)
-                array_2 = np.arange(100, -1, -1*porcent_step)[1:-1]
+                array_1 = np.arange(setPoint_l_2,setPoint_h_2 + 1,porcent_step)
+                array_2 = np.arange(setPoint_h_2, setPoint_l_2 - 1, -1*porcent_step)[1:-1]
                 final_array = np.concatenate((array_1, array_2))
                 while not flag_2.is_set():
                     while pausa_hilo_2 == True:
                         time.sleep(0.1)                    
                     item = final_array[i]
                     fpos = map(item,0,100,bajo_Mod_4_20,alto_Mod_4_20)
-                    modulation_write_2.raw_value = int(fpos)
                     setPoint_modulation_2 = int(item)
+                    modulation_write_2.raw_value = int(fpos)
                     i = i + 1
                     if i == len(final_array):
                         i = 0
@@ -2416,12 +2438,12 @@ def cycleTest_write_start_2():
             while not flag_2.is_set():
                 while pausa_hilo_2 == True:
                     time.sleep(0.1)
-                result2 = client_2.write_register(2, 100, nodo_2)
-                setPoint_modulation_2 = 100
+                result2 = client_2.write_register(2, setPoint_h_2, nodo_2)
+                setPoint_modulation_2 = setPoint_h_2
                 time.sleep(widthTimePulse_show)
 
-                result2 = client_2.write_register(2, 0, nodo_2)
-                setPoint_modulation_2 = 0
+                result2 = client_2.write_register(2, setPoint_l_2, nodo_2)
+                setPoint_modulation_2 = setPoint_l_2
                 time.sleep(widthTimePulse_show)
 
         
@@ -2430,8 +2452,8 @@ def cycleTest_write_start_2():
             porcent_step = saw_porcent
             wtp_show = (widthTimePulse_show*1000)/(100/porcent_step)
             wtp_show = widthTimePulse_show
-            array_1 = np.arange(0,101,porcent_step)
-            array_2 = np.arange(100, -1, -1*porcent_step)[1:-1]
+            array_1 = np.arange(setPoint_l_2,setPoint_h_2 + 1,porcent_step)
+            array_2 = np.arange(setPoint_h_2, setPoint_l_2 - 1, -1*porcent_step)[1:-1]
             final_array = np.concatenate((array_1, array_2))
             while not flag_2.is_set():
                 while pausa_hilo_2 == True:
@@ -2450,8 +2472,8 @@ def cycleTest_write_start_2():
             porcent_step = scale_porcent
             wtp_show = (widthTimePulse_show*1000)/(100/porcent_step)
             wtp_show = widthTimePulse_show
-            array_1 = np.arange(0,101,porcent_step)
-            array_2 = np.arange(100, -1, -1*porcent_step)[1:-1]
+            array_1 = np.arange(setPoint_l_2,setPoint_h_2 + 1,porcent_step)
+            array_2 = np.arange(setPoint_h_2, setPoint_l_2 - 1, -1*porcent_step)[1:-1]
             final_array = np.concatenate((array_1, array_2))
             while not flag_2.is_set():
                 while pausa_hilo_2 == True:
@@ -2467,14 +2489,16 @@ def cycleTest_write_start_2():
 
 def cycleTest_read_cafe_2():
     global client_2, nodo_2, modoG_2, modulation_read_2, inputType_modulation_2, setPoint_modulation_2, listaP, counter_open_cafe_2,\
-    counter_close_cafe_2, minutos_cafe_2, segundos_cafe_2, posMod_2
+    counter_close_cafe_2, counter_openF_cafe_2, counter_closeF_cafe_2, minutos_cafe_2, segundos_cafe_2, posMod_2, relayO_2, relayC_2, controlSignal_2,\
+    feedbackSignal_2, position_2, horas_cafe_2
 
-    signalType_2 = listaP[14]
+    signalType_2 = listaP[21]
     #-----------------------------------------Al encender CAFE------------------------------------
     position = 0
     setPoint = 0
     if modoG_2 == 1:
-        print("leyendo digital")
+        setPoint = setPoint_modulation_2
+        position = 0
     
     elif modoG_2 == 2:
         if inputType_modulation_2 == '0-10v':   
@@ -2495,26 +2519,29 @@ def cycleTest_read_cafe_2():
             setPoint = setPoint_modulation_2
 
     elif modoG_2 == 3:
-        #result = client_2.read_holding_registers(0,3,nodo_2)
-        # try:
-        #     position = result.registers[1]
-        # except:
-        #     position = setPoint_modulation_2
-
-        #position = result.registers[1]
         position = posMod_2
         setPoint = setPoint_modulation_2
 
     try:
-        relay_O = int(not gpio.input(24))*50
-        relay_C = int(not gpio.input(25))*50
+        relay_O = int(not gpio.input(23))*100
+        relay_C = int(not gpio.input(18))*100
     except:
         relay_O = random.randint(0,100)
         relay_C = random.randint(0,100)
 
-    relay_analysis_2(relay_O, relay_C)
+    relayO_2 = relay_O
+    relayC_2 = relay_C
+    controlSignal_2 = setPoint
+    feedbackSignal_2 = position
 
-    return setPoint, position, signalType_2, relay_O, relay_C, counter_open_cafe_2, counter_close_cafe_2, minutos_cafe_2, segundos_cafe_2
+    position_2 = position
+
+    mostrar_tiempo_2()
+
+    relay_analysis_2(relay_O, relay_C)
+    feedBack_analysis_cafe_2(position) 
+
+    return setPoint,position,signalType_2,relay_O,relay_C,counter_open_cafe_2,counter_close_cafe_2,counter_openF_cafe_2,counter_closeF_cafe_2,horas_cafe_2,minutos_cafe_2,segundos_cafe_2
 
 def theread_read_cafe_2():
     global client_2, nodo_2, flag_read_2, posMod_2, setPoint_modulation_2, posAnt_modBus_2
@@ -2543,33 +2570,135 @@ def cycleTest_resume_cafe_2():
 def relay_analysis_2(signal_relayA, signal_relayB):
     global posAnteriorA_2, posAnteriorB_2, counter_open_cafe_2, counter_close_cafe_2
 
-    if signal_relayA == 50 and posAnteriorA_2 == 0:
+    if signal_relayA == 100 and posAnteriorA_2 == 0:
         counter_open_cafe_2 = counter_open_cafe_2 + 1
 
-    if signal_relayB == 50 and posAnteriorB_2 == 0:
+    if signal_relayB == 100 and posAnteriorB_2 == 0:
         counter_close_cafe_2 = counter_close_cafe_2 + 1
 
     posAnteriorA_2 = signal_relayA
     posAnteriorB_2 = signal_relayB
 
+def feedBack_analysis_cafe_2(valor_actual):
+    global counter_openF_cafe_2, counter_closeF_cafe_2, valor_anterior_cafe_2, highValue_cafe_2, lowValue_cafe_2, highValue_cafe_2, lowValue_cafe_2,\
+           modoG_2
+    
+    if (modoG_2 == 1):
+        counter_openF_cafe_2 = 0
+        counter_closeF_cafe_2 = 0
+    else:    
+        if valor_anterior_cafe_2 is None:
+            valor_anterior_cafe_2 = valor_actual
+            return
+        
+        # Detectar si el valor acaba de cambiar a 100
+        if valor_anterior_cafe_2 < highValue_cafe_2 - 2 and valor_actual >= highValue_cafe_2 - 2:
+            counter_openF_cafe_2 += 1
+        
+        # Detectar si el valor acaba de cambiar a 0
+        elif valor_anterior_cafe_2 > lowValue_cafe_2 + 1 and valor_actual <= lowValue_cafe_2 + 1:
+            counter_closeF_cafe_2 += 1
+
+        valor_anterior_cafe_2 = valor_actual
+
+'''
 def fcronometro_2():
     global minutos_cafe_2, segundos_cafe_2
+    tiempo_acumulado = 0
+
     tiempo_inicio = time.time()
     while not flag_c_2.is_set():
         tiempo_transcurrido = time.time() - tiempo_inicio
         minutos_cafe_2, segundos_cafe_2 = divmod(int(tiempo_transcurrido), 60)
+        #print(f"Tiempo transcurrido: {minutos_cafe_a:02}:{segundos_cafe_a:02}", end='\r')
         time.sleep(1)
+'''
+
+def _actualizar_tiempo_2():
+    global inicio_2, tiempo_pausado_2, en_progreso_2, tiempo_total_2, _detener_hilo_2
+
+    while not _detener_hilo_2.is_set():
+        if en_progreso_2:
+            tiempo_total_2 = time.time() - inicio_2
+        time.sleep(0.1)
+
+def iniciar_2():
+    global inicio_2, tiempo_pausado_2, en_progreso_2, tiempo_total_2, hiloCrono_2, _detener_hilo_2, dateStart_2, zona_horaria
+
+    if not en_progreso_2:
+        dateStart_2 = datetime.now(zona_horaria) #Capturar fecha inicial completa
+
+        inicio_2 = time.time() - tiempo_total_2
+        en_progreso_2 = True
+        if hiloCrono_2 is None:
+            _detener_hilo_2.clear()
+            hiloCrono_2 = threading.Thread(target=_actualizar_tiempo_2)
+            hiloCrono_2.start()
+        print("Cronómetro_2 iniciado")
+
+def pausar_2():
+    global inicio_2, tiempo_pausado_2, en_progreso_2, tiempo_total_2, _detener_hilo_2
+    if en_progreso_2:
+        en_progreso_2 = False
+        print("Cronómetro_2 pausado")
+
+def reanudar_2():
+    global inicio_2, tiempo_pausado_2, en_progreso_2, tiempo_total_2, _detener_hilo_2
+    if not en_progreso_2:
+        inicio_2 = time.time() - tiempo_total_2
+        en_progreso_2 = True
+        print("Cronómetro_2 reanudado")
+
+def reiniciar_2():
+    global inicio_2, tiempo_pausado_2, en_progreso_2, tiempo_total_2, _detener_hilo_2
+    en_progreso_2 = False
+    tiempo_total_2 = 0
+    inicio_2 = 0
+    print("Cronómetro_2 reiniciado")
+
+def tiempo_transcurrido_2():
+    global tiempo_total_2
+    return tiempo_total_2
+
+def mostrar_tiempo_2():
+    global minutos_cafe_2, segundos_cafe_2, horas_cafe_2, customTime_2
+
+    tiempo = tiempo_transcurrido_2()
+    minutos_cafe_2, segundos_cafe_2 = divmod(tiempo, 60)
+    horas, minutos_cafe_2 = divmod(minutos_cafe_2, 60)
+    minutos_cafe_2 = int(minutos_cafe_2)
+    segundos_cafe_2 = int(segundos_cafe_2)
+    horas_cafe_2 = int(horas)
+
+    if minutos_cafe_2 >= customTime_2:
+        cycleTest_stop_cafe_2()
+
+def detener_2():
+    global inicio_2, tiempo_pausado_2, en_progreso_2, tiempo_total_2, hiloCrono_2, _detener_hilo_2, dateEnd_2, zona_horaria
+
+    if hiloCrono_2 is not None:
+        dateEnd_2 = datetime.now(zona_horaria)
+        dateEnd_2 = dateEnd_2.strftime("%m/%d/%Y %H:%M")
+
+        _detener_hilo_2.set()
+        hiloCrono_2.join()
+        hiloCrono_2 = None
+        print("Hilo del cronómetro_2 detenido")
 
 def turnOn_cafe_2():
-    global client_2, nodo_2, modoG_2, inputType_modulation_2, modulation_write_2, setPoint_modulation_2, tiempoEncendidoCafe_a
+    global client_2, nodo_2, modoG_2, inputType_modulation_2, modulation_write_2, setPoint_modulation_2, tiempoApagadoCafe_2, tiempoEncendidoCafe_a
 
-    #gpio.output(#, gpio.HIGH)  #GPIO Activar GPIO para encender puerto ALONE
+    #Encender DUT #1
+    pcfRPI_on_off.write("p5", "HIGH")
 
-    time.sleep(tiempoEncendidoCafe_a)
+    time.sleep(tiempoEncendidoCafe_2)
 
-        #Posicion inicial en Cero cuando se alimente CAFE
+    #Posicion inicial en Cero cuando se alimente CAFE
     if modoG_2 == 1:      #Digital
-        print("posicion inicial digital cafe a")
+        gpio.output(12, gpio.LOW)#DIGITAL OPEN DUT#1
+
+        setPoint_modulation_2 = 100
+        print("posicion inicial digital cafe 2")
     
     elif modoG_2 == 2:    #Modulation
         if inputType_modulation_2 == '0-10v':
@@ -2595,11 +2724,12 @@ def turnOn_cafe_2():
 
 def turnOff_cafe_2():
     global client_2, nodo_2, modoG_2, inputType_modulation_2, modulation_write_2, setPoint_modulation_2, tiempoApagadoCafe_2
-    #gpio.output(#, gpio.LOW)  #GPIO Desactivar GPIO para apagar puerto ALONE
 
-        #Posicion inicial en Cero cuando se alimente CAFE
+    #Posicion inicial en Cero cuando se alimente CAFE
     if modoG_2 == 1:      #Digital
-        print("posicion inicial digital cafe a")
+        gpio.output(12, gpio.LOW)#DIGITAL CLOSE DUT#2
+        setPoint_modulation_2 = 0
+        print("posicion inicial digital cafe 2")
     
     elif modoG_2 == 2:    #Modulation
         if inputType_modulation_2 == '0-10v':
@@ -2607,29 +2737,41 @@ def turnOff_cafe_2():
             setPoint_modulation_2 = 0
             print("close_0-10v")
         if inputType_modulation_2 == '2-10v':
-            modulation_write_2.raw_value = bajo_Mod_2_10 
+            modulation_write_2.raw_value = bajo_Mod_2_10
             setPoint_modulation_2 = 0
             print("close_2-10v")
         if inputType_modulation_2 == '0-20mA':
-            modulation_write_2.raw_value = bajo_Mod_0_20 
+            modulation_write_2.raw_value = bajo_Mod_0_20
             setPoint_modulation_2 = 0
             print("close_0-20mA")
         if inputType_modulation_2 == '4-20mA':
-            modulation_write_2.raw_value = bajo_Mod_4_20 
+            modulation_write_2.raw_value = bajo_Mod_4_20
             setPoint_modulation_2 = 0
             print("close_4-20mA")
     
     elif modoG_2 == 3:    #ModBus
         result2 = client_2.write_register(2, 0, nodo_2)
         setPoint_modulation_2 = 0
-        print("apagar cafe 2 modbus")
 
-    time.sleep(tiempoApagadoCafe_2)
+    #Apagar DUT #2
+    pcfRPI_on_off.write("p5", "LOW")
 
     cycleTest_stop_cafe_2()
     if (client_2 != None):
         client_2.close()
+
+def sendData_cafe_2():
+    global dateStart_2, dateEnd_2, counter_open_cafe_2, counter_close_cafe_2, counter_openF_cafe_2, counter_closeF_cafe_2, customTime_2, finalTestTime_2
+
+    _aux = dateStart_2.strftime("%m/%d/%Y %H:%M")
+
+    dataList = {'dateStart_2':_aux, 'dateEnd_2':dateEnd_2, 'counter_open_cafe_2':counter_open_cafe_2,'counter_close_cafe_2':counter_close_cafe_2,
+                'customTime_2':customTime_2, 'counter_openF_cafe_2':counter_openF_cafe_2, 'counter_closeF_cafe_2':counter_closeF_cafe_2, 'finalTime_2':finalTestTime_2}
+
+    return dataList
+
 #-----------FIN Funciones CYCLE TEST---------#
+
 def map(valor, desde_min, desde_max, a_min, a_max):
     # Asegurarse de que el valor esté dentro del rango original
     valor = max(desde_min, min(valor, desde_max))
@@ -2845,6 +2987,76 @@ def setCustomTime_1(_customTime_1):
     global customTime_1
     customTime_1 = int(_customTime_1)
 
+#-----------Storage cafe 2-----------#
+def start_saveInDB_2():
+    global thread_saveDB_2, running_threads
+
+    if thread_saveDB_2 is None or not thread_saveDB_2.is_alive():
+        thread_saveDB_2 = threading.Thread(target=saveInDB_2)
+        thread_saveDB_2.start()
+        running_threads.append(thread_saveDB_2)
+
+def stop_saveInDB_2():
+    global thread_saveDB_2, flag_thread_saveDB_2
+
+    #Detenr hilo que guarda en base de datos
+    if thread_saveDB_2 is not None and thread_saveDB_2.is_alive():
+        flag_thread_saveDB_2.set()
+        thread_saveDB_2.join()
+        flag_thread_saveDB_2.clear()
+
+def saveInDB_2():
+    global temp_2, current_2, setPoint_2, feedback_2, relayFeO_2, relayFeC_2, timeStamp_2, pauseStatus_2, flag_thread_saveDB_2, tiempo_total_2
+    
+    tDataCt_av2_dut2.objects.all().delete
+    
+    while not flag_thread_saveDB_1.is_set():
+        temp_data = tDataCt_av2_dut2(      #Instancia de base de datos temporal
+                temp = int(temp_2),
+                current = int(current_2),
+                setPoint = int(setPoint_modulation_2),
+                feedback = int(position_2),
+                relayO = int(relayO_2),
+                relayC = int(relayC_2),
+                timeStamp = float(tiempo_total_2),
+                pauseStatus = bool(pausa_hilo_2)
+            )
+        temp_data.save() #Guardar json en base de datos
+
+        time.sleep(0.06)
+
+def joinTemporalDB_2(observation):
+    temp_conca = tDataCt_av2_dut2.objects.values_list('temp', flat=True)
+    current_conca = tDataCt_av2_dut2.objects.values_list('current', flat=True)
+    setPoint_conca = tDataCt_av2_dut2.objects.values_list('setPoint', flat=True)
+    feedBack_conca = tDataCt_av2_dut2.objects.values_list('feedback', flat=True)
+    relayO_conca = tDataCt_av2_dut2.objects.values_list('relayO', flat=True)
+    relayC_conca = tDataCt_av2_dut2.objects.values_list('relayC', flat=True)
+    timeStamp_conca = tDataCt_av2_dut2.objects.values_list('timeStamp', flat=True)
+    pauseStatus_conca = tDataCt_av2_dut2.objects.values_list('pauseStatus', flat=True)
+
+    lista_temp = list(temp_conca)
+    lista_current = list(current_conca)
+    lista_setPoint = list(setPoint_conca)
+    lista_feedBack = list(feedBack_conca)
+    lista_relayO = list(relayO_conca)
+    lista_relayC = list(relayC_conca)
+    lista_timeStamp = list(timeStamp_conca)
+    lista_pauseStatus = list(pauseStatus_conca)
+
+    newCycleTestRegister(name_dut_2, actuatorRef_g, load_g, loadDetails_g, testerName_g,
+                         observation, modo_dut_2, baud_2, nodo_2, op_voltage_2, inputType_modulation_2,
+                         signalType_2, widthTimePulse_2, setPoint_h_2, setPoint_l_2, dateStart_2, dateEnd_2,
+                         customTime_2, finalTestTime_2,
+                         lista_temp, lista_current, lista_setPoint,
+                         lista_feedBack, lista_relayO, lista_relayC,
+                         lista_timeStamp, lista_pauseStatus, relaysCounter_2, feedBackCounter_2) 
+
+def setCustomTime_2(_customTime_2):
+    global customTime_2
+    customTime_2 = int(_customTime_2)
+
+#-------------Fin-----------#
 def newCycleTestRegister(_dut, _actuatorRef, _load, _loadDetails, _testerName, _observations,
                          _operationMode, _bauds, _node, _operationVoltage, _inputType, _signalType,
                          _pulseTime, _highValue,

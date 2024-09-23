@@ -183,7 +183,7 @@
   <button class="css-button-eye" style="margin-right: 10px; border-radius: 0%; width:80px;" onclick="window.dialogCancelar_1.close();window.formCreateCycleTest_1.close();">
     Ok
   </button>
-  <button class="css-button-eye" style="margin-right: 10px; border-radius: 0%; width:80px;" onclick="window.dialogCancelar.close();">
+  <button class="css-button-eye" style="margin-right: 10px; border-radius: 0%; width:80px;" onclick="window.dialogCancelar_1.close();">
     Cancel
   </button>
 </dialog>
@@ -403,7 +403,6 @@ function stop_1(){
   resume_ws_1();
   resume_1();
   dialogCycleTest_1.showModal();
-  //document.getElementById('botonesForm').removeAttribute("hidden");
   document.getElementById('bStart_1').removeAttribute("hidden");
   document.getElementById('powerOff_Cafe_1').removeAttribute("hidden");
   document.getElementById('bStop_1').setAttribute("hidden", "hidden");
@@ -776,7 +775,7 @@ function toggleBlock_1() {
             blockable1.classList.add('disabled');
             blockable2.classList.add('disabled');
         }
-    }
+}
 
 function check_customTestTime_1(){
   var statusSwich = document.getElementById('toggleSwitch_1').checked;

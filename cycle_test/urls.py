@@ -37,6 +37,9 @@ urlpatterns = [
     path('cycleTest_read_cafe_2/', views.cycleTest_read_cafe_2, name='CycleTest_read_cafe_2'),
     path('cycleTest_turnOn_cafe_2/', views.turnOn_cafe_2, name='TurnOn_cafe_2'),
     path('cycleTest_turnOff_cafe_2/', views.turnOff_cafe_2, name='TurnOff_cafe_2'),
+    path('cycleTest_sendData_2/', views.sendData_cafe_2, name='SendData_cafe_2'),
+    path('cycleTest_saveData_2/', views.saveData_cafe_2, name='SaveData_cafe_2'),
+    path('cycleTest_customTime_2/', views.customTime_cafe_2, name='CustomTime_cafe_2'),
     #FIN funciones Cycle Test
     path('stop/', views.stop, name='Stop'),
 ]

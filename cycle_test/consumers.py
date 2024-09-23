@@ -335,6 +335,7 @@ class ct_read_cafe_2(AsyncWebsocketConsumer):
         self.paused = True
         self.running = False
         await asyncio.sleep(1)
+        print("Desconectado")
         raise StopConsumer()
 
     async def receive(self, text_data):
@@ -356,17 +357,9 @@ class ct_read_cafe_2(AsyncWebsocketConsumer):
         global ct_position_cafe_2, ct_setPoint_cafe_2, ct_relays_cafe_2
         while self.running:
             if not self.paused:
-                _pos, _setPos, _signalType, _relay_O, _relay_C, _relayCountA, _relayCountB, _min, _sec  = funciones_cycleTest.cycleTest_read_cafe_2()
+                _pos, _setPos, _signalType, _relay_O, _relay_C, _relayCountA, _relayCountB, _relayCountFA, _relayCountFB, _hor, _min, _sec  = funciones_cycleTest.cycleTest_read_cafe_2()
                 _ct_relays_cafe_2 = randint(1,100)
-                if (_signalType == 'sawSignal'):
-                    if (_pos != ct_position_cafe_2):
-                        await self.send(json.dumps({'pos':ct_position_cafe_2, 'setPos':ct_setPoint_cafe_2, 'relay_O':_relay_O, 'relay_C':_relay_C,
-                                                    'relayCountA':_relayCountA, 'relayCountB':_relayCountB, "min":_min, "sec":_sec}))
-                        ct_position_cafe_2 = _pos
-                        ct_setPoint_cafe_2 = _setPos
-                        ct_relays_cafe_2 = _ct_relays_cafe_2
-                
-                else:
-                    await self.send(json.dumps({'pos':_pos, 'setPos':_setPos, 'relay_O':_relay_O, 'relay_C':_relay_C, 'relayCountA':_relayCountA,
-                                                'relayCountB':_relayCountB, "min":_min, "sec":_sec}))
+
+                await self.send(json.dumps({'pos':_pos, 'setPos':_setPos, 'relay_O':_relay_O, 'relay_C':_relay_C, 'relayCountA':_relayCountA, 'relayCountFA':_relayCountFA,
+                                            'relayCountFB':_relayCountFB,'relayCountB':_relayCountB, 'hor':_hor, "min":_min, "sec":_sec}))
             await asyncio.sleep(0.08)

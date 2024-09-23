@@ -6,6 +6,7 @@ from Proyecto_PCT.Funciones.show import funciones_show
 from cycle_test.Funciones import funciones_cycleTest
 from cycle_test.models import tempDataCt_a
 from cycle_test.models import tempDataCtv2_a
+from cycle_test.models import tempDataCtv2_dut2
 from cycle_test.models import users
 from cycle_test.models import cycleTestData
 from django.views.decorators.csrf import csrf_exempt
@@ -215,6 +216,7 @@ def customTime_cafe_1(request):
 #Funcioes CYCLE TEST para CAFE 2
 def cycleTest_start_cafe_2(request):
     funciones_cycleTest.cycleTest_start_cafe_2()
+    tempDataCtv2_dut2.objects.all().delete()
     data = ''
     return JsonResponse({'data': data})
 
@@ -239,6 +241,12 @@ def cycleTest_read_cafe_2(request):
     data2 = res2
     return JsonResponse({'data1':data1, 'data2':data2})
 
+def cycleTest_read_cafe_2(request):
+    res1, res2 = funciones_cycleTest.cycleTest_read_cafe_2()
+    data1 = res1
+    data2 = res2
+    return JsonResponse({'data1':data1, 'data2':data2})
+
 def turnOn_cafe_2(request):
     data = ''
     funciones_cycleTest.turnOn_cafe_2()
@@ -248,6 +256,37 @@ def turnOff_cafe_2(request):
     data = ''
     funciones_cycleTest.turnOff_cafe_2()
     return JsonResponse({'data': data})
+
+def sendData_cafe_2(request):
+    data = funciones_cycleTest.sendData_cafe_2()
+
+    print(data)
+    return JsonResponse({'dateStart_2': data['dateStart_2'], 'dateEnd_2': data['dateEnd_2'], 'counter_open_cafe_2':data['counter_open_cafe_2'],
+                         'counter_close_cafe_2':data['counter_close_cafe_2'], 'counter_openF_cafe_2':data['counter_openF_cafe_2'],
+                         'counter_closeF_cafe_2':data['counter_closeF_cafe_2'], 'customTime_2':data['customTime_2'], 'finalTime_2':data['finalTime_2']})
+
+@csrf_exempt
+def saveData_cafe_2(request):
+    if request.method == 'POST':
+        # Realiza tus validaciones y guarda los datos
+        # Si todo está bien
+        observations = request.POST.get('observations_2')
+        funciones_cycleTest.joinTemporalDB_2(observations)
+
+        return JsonResponse({'success': True})
+        
+        # Si hubo un error
+        # return JsonResponse({'success': False, 'error': 'Mensaje de error'})
+    return JsonResponse({'success': False, 'error': 'Método no permitido'}, status=405)
+
+@csrf_exempt
+def customTime_cafe_2(request):
+    data = ''
+    if request.method == 'POST':
+        input_data = request.POST.get('customTime', '')
+        funciones_cycleTest.setCustomTime_2(input_data)
+    return JsonResponse({'data': data})
+
 #-----------------FIN funciones cycle test-----------------#
 
 def stop(request):
