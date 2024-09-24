@@ -840,7 +840,7 @@ def cycleTest_stop_cafe_alone():
     global thread_modbus_a,client,modoG,nodo,running_threads,flag_a,flag_c_a,thread_crono_a,horas_cafe_a,minutos_cafe_a,segundos_cafe_a,thread_readMod_a,\
            flag_read_a,counter_open_cafe_a,counter_close_cafe_a, counter_openF_cafe_a, counter_closeF_cafe_a, relaysCounter_a, feedBackCounter_a, finalTestTime_a
 
-    pcfRPI.write("p7", "HIGH") #Apagar led RUN
+    pcfRPI.write("p7", "LOW") #Apagar led RUN
 
     if thread_modbus_a is not None and thread_modbus_a.is_alive():
         flag_a.set()
