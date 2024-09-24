@@ -390,14 +390,16 @@ bResume_2.addEventListener('click', function() {
   $.ajax({
             url: '/ct/cycleTest_stop_cafe_2/',
             success: function (data) {
-              console.log("test ajax");
+              receiveData_2();
               document.getElementById('botonesForm_2').removeAttribute("hidden");
+              console.log("test ajax");
             }
         });
 
   socket_2.send(JSON.stringify({
     'message':'stop'
   }))
+
   resume_ws_2();
   resume_2();
   dialogCycleTest_2.showModal();
