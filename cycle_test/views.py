@@ -221,8 +221,7 @@ def cycleTest_start_cafe_2(request):
     return JsonResponse({'data': data})
 
 def cycleTest_stop_cafe_2(request):
-    print("algo pasa")
-    funciones_cycleTest.cycleTest_stop_cafe_2()
+    funciones_cycleTest.cycleTest_stop_cafe_1()
     data = ''
     return JsonResponse({'data': data})
 
