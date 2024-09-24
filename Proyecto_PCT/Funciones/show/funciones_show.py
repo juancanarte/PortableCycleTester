@@ -124,6 +124,10 @@ bajo_Mod_4_20 = 720
 scale_porcent = 10
 width_time_saw = 0.3
 tOutModbus = 0.5
+
+#-------------LEDS----------#
+flag_led = threading.Event()
+thread_leds = None
 #--------------------------------------------CAFE ALONE--------------------------------------------#
 modo_dut_alone = ''
 dut_alone = ''
@@ -185,6 +189,32 @@ posCoil_2 = None
 
 stop_condition = threading.Condition()
 running_threads = []
+
+#--------------LEDs status------------#
+def start_blink_led_wifi():
+    if thread_leds is None or not thread_leds.is_alive():
+        thread_leds = threading.Thread(target=blink_led_wifi)
+        thread_leds.start()
+        #running_threads.append(thread_leds) 
+
+def stop_blink_led_wifi():
+    if thread_leds is not None and thread_leds.is_alive():
+        flag_led.set()
+        thread_leds.join()
+        flag_led.clear()
+            # print("open_modb
+
+def blink_led_wifi():
+    while not flag_led.is_set():
+        pcfRPI.write("p6", "HIGH")
+        time.sleep(1)
+
+        pcfRPI.write("p6", "LOW")
+        time.sleep(1)
+
+start_blink_led_wifi()
+
+#--------------LEDs status------------#
 
 def extraer_parametros(parametrosR, modo):
     parametros = parametrosR.split(',')
