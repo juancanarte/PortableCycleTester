@@ -2175,19 +2175,17 @@ def cycleTest_stop_cafe_2():
         flag_2.set()
         thread_modbus_2.join()
         flag_2.clear()
-    '''
+
     if modoG_2 == 3:
         if thread_readMod_2 is not None and thread_readMod_2.is_alive():
             flag_read_2.set()
             thread_readMod_2.join()
             flag_read_2.clear()
-    else:
-        pass
 
     relaysCounter_2 = [str(counter_open_cafe_2), str(counter_close_cafe_2)]
     feedBackCounter_2 = [str(counter_openF_cafe_2), str(counter_closeF_cafe_2)]
     finalTestTime_2 = str(horas_cafe_2) + ':' + str(minutos_cafe_2) + ':' + str(segundos_cafe_2)
-
+    '''
     detener_2()
     stop_saveInDB_2()
     '''
