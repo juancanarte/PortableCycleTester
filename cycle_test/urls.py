@@ -41,7 +41,7 @@ urlpatterns = [
     path('cycleTest_saveData_2/', views.saveData_cafe_2, name='SaveData_cafe_2'),
     path('cycleTest_customTime_2/', views.customTime_cafe_2, name='CustomTime_cafe_2'),
     #Funciones Cycle Test COIL Alone
-    path('cycleTest_saveData_coil_alone/', views.saveData_coil_alone, name='saveData_coil_alone'),
+    path('cycleTest_saveData_coil_alone/', views.saveData_coil_alone, name='SaveData_coil_alone'),
 
     #FIN funciones Cycle Test
     path('stop/', views.stop, name='Stop'),
