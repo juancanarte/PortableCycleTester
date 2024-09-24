@@ -3010,7 +3010,7 @@ def saveInDB_2():
     
     tDataCt_av2_dut2.objects.all().delete
     
-    while not flag_thread_saveDB_1.is_set():
+    while not flag_thread_saveDB_2.is_set():
         temp_data = tDataCt_av2_dut2(      #Instancia de base de datos temporal
                 temp = int(temp_2),
                 current = int(current_2),
