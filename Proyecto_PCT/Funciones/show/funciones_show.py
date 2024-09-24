@@ -82,7 +82,7 @@ try:
 
     pcfRPI.write("p4", "LOW")
     pcfRPI.write("p5", "LOW")
-    pcfRPI.write("p6", "HIGH")
+    pcfRPI.write("p6", "LOW")
     pcfRPI.write("p7", "LOW")
 
     #---------pcb digital output / Digital input i2c---------·#
@@ -631,6 +631,8 @@ def show_params(params, modo):
 #Funciones SHOW para CAFE alone
 def show_start_cafe_alone():
     global thread_modbus_a, client, modoG, nodo, running_threads
+
+    pcfRPI.write("p7", "LOW") #Encender led RUN
 
     if thread_modbus_a is None or not thread_modbus_a.is_alive():
         thread_modbus_a = threading.Thread(target=show_write_start)
