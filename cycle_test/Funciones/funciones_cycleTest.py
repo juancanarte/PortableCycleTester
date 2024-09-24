@@ -2170,12 +2170,12 @@ def cycleTest_stop_cafe_2():
     global thread_modbus_2,client_2,modoG_2,nodo_2,running_threads,flag_2,flag_c_2,thread_crono_2,horas_cafe_2,minutos_cafe_2,segundos_cafe_2,thread_readMod_2,\
            flag_read_2,counter_open_cafe_2,counter_close_cafe_2, counter_openF_cafe_2, counter_closeF_cafe_2, relaysCounter_2, feedBackCounter_2, finalTestTime_2
 
-    '''
+
     if thread_modbus_2 is not None and thread_modbus_2.is_alive():
         flag_2.set()
         thread_modbus_2.join()
         flag_2.clear()
-    
+    '''
     if modoG_2 == 3:
         if thread_readMod_2 is not None and thread_readMod_2.is_alive():
             flag_read_2.set()
