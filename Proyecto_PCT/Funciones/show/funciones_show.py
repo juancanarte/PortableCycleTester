@@ -641,6 +641,8 @@ def show_start_cafe_alone():
 def show_stop_cafe_alone():
     global thread_modbus_a, client, modoG, nodo, running_threads,flag_a
 
+    pcfRPI.write("p7", "LOW") #Apagar led RUN
+
     if thread_modbus_a is not None and thread_modbus_a.is_alive():
         flag_a.set()
         thread_modbus_a.join()
