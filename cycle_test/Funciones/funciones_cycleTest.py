@@ -87,8 +87,8 @@ try:
 
     pcfRPI_on_off.write("p4", "LOW")
     pcfRPI_on_off.write("p5", "LOW")
-    pcfRPI_on_off.write("p6", "LOW")
-    pcfRPI_on_off.write("p7", "LOW")
+    pcfRPI_on_off.write("p6", "HIGH")
+    pcfRPI_on_off.write("p7", "HIGH")
 except:
     print("Es windows")
     
