@@ -630,7 +630,7 @@ def show_params(params, modo):
 def show_start_cafe_alone():
     global thread_modbus_a, client, modoG, nodo, running_threads
 
-    pcfRPI.write("p7", "LOW") #Encender led RUN
+    pcfRPI.write("p7", "HIGH") #Encender led RUN
 
     if thread_modbus_a is None or not thread_modbus_a.is_alive():
         thread_modbus_a = threading.Thread(target=show_write_start)
