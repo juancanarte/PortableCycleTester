@@ -192,6 +192,8 @@ running_threads = []
 
 #--------------LEDs status------------#
 def start_blink_led_wifi():
+    global thread_leds
+
     if thread_leds is None or not thread_leds.is_alive():
         thread_leds = threading.Thread(target=blink_led_wifi)
         thread_leds.start()
@@ -205,6 +207,8 @@ def stop_blink_led_wifi():
             # print("open_modb
 
 def blink_led_wifi():
+    global flag_led
+
     while not flag_led.is_set():
         pcfRPI.write("p6", "HIGH")
         time.sleep(1)
