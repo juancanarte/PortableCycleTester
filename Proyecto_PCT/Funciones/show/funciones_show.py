@@ -80,9 +80,9 @@ try:
     pcfRPI.pin_mode("p6", "OUTPUT")
     pcfRPI.pin_mode("p7", "OUTPUT")
 
-    pcfRPI.write("p4", "HIGH")
-    pcfRPI.write("p5", "HIGH")
-    pcfRPI.write("p6", "HIGH")
+    pcfRPI.write("p4", "LOW")
+    pcfRPI.write("p5", "LOW")
+    pcfRPI.write("p6", "LOW")
     pcfRPI.write("p7", "HIGH")
 
     #---------pcb digital output / Digital input i2c---------·#
@@ -96,10 +96,10 @@ try:
     pcfRPI_on_off.pin_mode("p6", "OUTPUT")
     pcfRPI_on_off.pin_mode("p7", "OUTPUT")
 
-    pcfRPI_on_off.write("p4", "HIGH")
-    pcfRPI_on_off.write("p5", "HIGH")
-    pcfRPI_on_off.write("p6", "HIGH")
-    pcfRPI_on_off.write("p7", "HIGH")
+    pcfRPI_on_off.write("p4", "LOW")
+    pcfRPI_on_off.write("p5", "LOW")
+    pcfRPI_on_off.write("p6", "LOW")
+    pcfRPI_on_off.write("p7", "LOW")
 except:
     print("Es windows")
 
