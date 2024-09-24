@@ -1,1 +1,666 @@
-<h2>cycle test COIL alone</h2>
+{% load static %}
+<div class="container">
+    <div class="row justify-content-center align-items-center">
+      <div class="col-sm">
+        <h3 class="subtitulo">COIL - {{opVoltage_coil_a}}</h3>
+        <h4 class="subtitulo" style="font-size: 20px;">Tester name : {{testerName}}</h3>
+      </div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="row justify-content-center align-items-center">
+      <div class="col-sm">
+
+        <div class="computer_text_main" style="margin-top: 10px;">
+            <h2>Parameters</h2>
+            <div id="divShowParamsCoil_a">
+                <button id="showParamsCoil_a" class="css-button-eye" onclick="showParams_a()">
+                    <img src="{% static 'images/eye.svg' %}" alt="Icono">
+                </button>
+            </div>
+            <div id="divHideParamsCoil_a" hidden>
+                <button id="hideParamsCoil_a" class="css-button-eye" onclick="hideParams_a()">
+                    <img src="{% static 'images/eye-off.svg' %}" alt="Icono">
+                </button>
+            </div>
+        </div>
+
+        <div id="divParamsCoil_a" class="computer_text_main flex-column" style="margin-top: 10px; margin-bottom: 10px; width: 205px;" hidden>
+            <table style="width: 100%;">
+                <tr>
+                  <th>Config.</th>
+                  <th>Option</th>
+                </tr>
+                <tr id="OpVoltCoil_a">
+                  <td>Op. Voltage :</td>
+                  <td>{{opVoltage_coil_a}}</td>
+                </tr>
+                </tr>
+                <tr id="WidthCoil_a">
+                  <td>Pulse width :</td>
+                  <td>{{widthTime_coil_a}}</td>
+                </tr>
+              </table>
+        </div>
+
+        <div class="row justify-content-center align-items-center">
+            <div class="col-sm">
+              <div class="computer_text_main">
+                <canvas id="myChart"></canvas> 
+              </div>
+            </div>
+        </div>
+
+        <div id="divCycleTestInfo_coil_a" hidden>
+          <div class="row justify-content-center align-items-center">
+            <div class="computer_text_main" style="max-width: 560px;">
+              <div class="computer_text_main" style="margin: 0px; width: auto;">
+                <label class="switch">
+                  <input type="checkbox" id="toggleSwitch" onchange="toggleBlock()">
+                  <span class="slider"></span>
+              </label>
+              </div>
+  
+              <div id="divCustomTime" class="computer_text_main disabled" style="margin: 0px 6px 0px 6px; width: auto;">
+                <h3>Custom test time (hours) : </h3> 
+              </div>
+  
+              <div id="divCustomTimeInput" class="computer_text_main disabled" style="margin: 0px; width: auto;">
+                <label for="hoursCoil_a"></label>
+                <input type="text" id="hoursCoil_a" name="hoursCoil_a" style="max-width: 40px;" pattern="[A-Za-z0-9\s]*" required>
+              </div>
+            </div>
+          </div>
+  
+          <div class="row justify-content-center align-items-center">
+            <div class="computer_text_main" style="max-width: 540px;">
+              <div class="computer_text_main" style="padding: 5px;">
+                  <h3>Time Test (hh/mm/ss) =>&nbsp;</h3>
+                  <h1 id="testTime"></h1>
+              </div>
+            </div>
+          </div>
+  
+          <div class="row justify-content-center align-items-center">
+              <div class="computer_text_main" style="max-width: 540px; margin-bottom: 4px;">
+              <div class="computer_text_main" style="margin: 0px; width: 156px;">
+                  <h3>Relays counter =>&nbsp;</h3>
+              </div>
+  
+                  <div class="computer_text_main" style="justify-content: left; width: 125px; margin: 0px;">
+                      <h3 id="open_coil_a">Open : 0000</h3>
+                  </div>
+  
+                  <div class="computer_text_main"  style="justify-content: left; width: 125px; margin: 0px;">
+                      <h3 id="close_coil_a">Close : 0000</h3>
+                  </div>
+              </div>
+          </div>
+  
+          <div class="row justify-content-center align-items-center">
+            <div class="computer_text_main" style="max-width: 540px;">
+              <div class="computer_text_main" style="margin: 0px; width: 139px;">
+                  <h3 id="current_coil_a">Current = 0.3A&nbsp;</h3>
+              </div>
+  
+              <div class="computer_text_main" style="justify-content: left; width: 226px; margin: 0px;">
+                  <h3 id="temp_coil_a">Temperature = 55°C / 131°F</h3>
+              </div>
+  
+            </div>
+          </div>
+        </div>
+
+        <div id="divButtons_coil_a" class="computer_text_main" style="margin-top: 10px;" hidden>
+            <div id="divStart_a">
+                <button id="bStart_a" class="css-button-show" onclick="start()">Start</button>
+            </div>
+            <div id="divStop_a">
+                <button id="bStop_a" class="css-button-show" onclick="window.modalStopTest_cafe_a.showModal();" hidden>Stop</button>
+            </div>
+            <div id="divPause_a">
+                <button id="bPause_a" class="css-button-show" hidden>Pause</button>
+            </div>
+            <div id="divReset_a">
+                <button id="bResume_a" class="css-button-show" hidden>Resume</button>
+            </div>
+        </div>
+
+      </div>
+    </div>
+</div>
+
+<!--formulario cycle test-->
+
+<!-- Modal sure ?-->
+<dialog id="dialogCancelar">
+  <h2>Remove Data?</h2>
+  <br>
+  <button class="css-button-eye" style="margin-right: 10px; border-radius: 0%; width:80px;" onclick="window.dialogCancelar.close();window.formCreateCycleTest.close();">
+    Ok
+  </button>
+  <button class="css-button-eye" style="margin-right: 10px; border-radius: 0%; width:80px;" onclick="window.dialogCancelar.close();">
+    Cancel
+  </button>
+</dialog>
+
+<!-- Modal sure ?-->
+<dialog id="dialogNext">
+  <h2>Data stored</h2>
+  <br>
+  <button class="css-button-eye" style="margin-right: 10px; border-radius: 0%; width:80px;" onclick="window.dialogNext.close();">
+    Next
+  </button>
+</dialog>
+
+<!-- Modal formulario cycle test-->
+<dialog id="formCreateCycleTest">
+  <h3 class="modal-title">CYCLE TEST FINISHED</h3>
+  <form id="cycleTestForm" action="{% url 'SaveData_coil_alone' %}">
+    <div id="conditionalField" class="form-group" style="display: flex; justify-content: center; flex-direction: row; align-items: flex-start; margin-bottom: 10px;">
+      <label for="observations">Observations:</label>
+      <textarea id="observations" name="observations" style="max-width: 177px;" rows="5" pattern="[A-Za-z0-9\s]*"></textarea>
+    </div>
+
+    <h4 class="modal-title" style="margin-top: 10px;">Cycle test settings</h4>
+    <div class="computer_text_main flex-column" style="margin-bottom: 10px; width: 213px;">
+      <table style="width: 88%;">
+        <tr id="OpVoltCoil_dialog">
+          <td>Op. Voltage :</td>
+          <td>{{opVoltage_coil_a}}</td>
+        </tr>
+        <tr id="WidthCoil_dialog">
+          <td>Pulse width :</td>
+          <td>{{widthTime_coil_a}}</td>
+        </tr>
+      </table>
+    </div>
+
+    <h4 class="modal-title" style="margin-top: 10px;">Cycle test data</h4>
+    <div class="computer_text_main flex-column" style="margin-bottom: 10px; width: 332px;">
+      <table style="width: 88%;">
+        <tr>
+          <td>Date start :</td>
+          <td id="dateStart_dialog">mm/dd/yyyy HH:MM</td>
+        </tr>
+        <tr>
+          <td>Date end :</td>
+          <td id="dateEnd_dialog">mm/dd/yyyy HH:MM</td>
+        </tr>
+        <tr>
+          <td>Planned time test (hh):</td>
+          <td id="plannedTimeTest_dialog">0000</td>
+        </tr>
+        <tr>
+          <td>Final time test (h:m:s):</td>
+          <td id="finalTimeTest">0000</td>
+        </tr>
+        <tr>
+          <td>Relays counter :</td>
+          <td id="relaysCounter_O">Open : 0000</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td id="relaysCounter_C">Close : 0000</td>
+        </tr>
+      </table>
+    </div>
+
+    <!-- Botones al final del formulario -->
+    <div id="botonesForm" class="form-actions" hidden>
+      <button class="css-button-show" type="button" id="cancelBtn" onclick="window.dialogCancelar.showModal();">Cancelar</button>
+      <button class="css-button-show" type="button" onclick="saveData_a();">Save</button>
+    </div>
+  </form>
+</dialog>
+
+<!-- Modal Stop cycle test?-->
+<dialog class="" id="modalStopTest_coil_a">
+  <h2>Stop cycle test?</h2>
+  <br>
+  <div>
+    <button class="css-button-eye" style="margin-right: 10px; border-radius: 0%; width:80px;" onclick="stop();window.modalStopTest_coil_a.close();">
+      Yes
+    </button>
+    <button class="css-button-eye" style="margin-right: 10px; border-radius: 0%; width:80px;" onclick="window.modalStopTest_coil_a.close();">
+      No
+    </button>
+  </div>
+</dialog>
+
+<script src="{% static 'js/chart.min.js' %}"></script>
+<script>
+  var dataSockets = null;
+
+  const dialogCycleTest = document.getElementById('formCreateCycleTest');
+  const cancelBtn = document.getElementById('cancelBtn');
+
+  var divShowParamsCoil_a = document.getElementById('divShowParamsCoil_a');
+  var divHideParamsCoil_a = document.getElementById('divHideParamsCoil_a');
+  var divParamsCoil_a = document.getElementById('divParamsCoil_a');
+  var divButtons_coil_a = document.getElementById('divButtons_coil_a')
+  const bStart_a = document.getElementById('bStart_a');
+  const stopButton = document.getElementById('bStop_a');
+  const bPause_a = document.getElementById('bPause_a');
+  const bResume_a = document.getElementById('bResume_a');
+
+  var OpVoltCoil_dialog = document.getElementById('OpVoltCoil_dialog');
+  var WidthCoil_dialog = document.getElementById('WidthCoil_dialog');
+
+bPause_a.addEventListener('click', function() {
+        pause();
+        //pause_ws();
+    });
+
+bResume_a.addEventListener('click', function() {
+        resume();
+        resume_ws();
+    });
+
+    var socket = null;
+
+function stop(){
+  $.ajax({
+            url: '/ct/cycleTest_stop_coil_alone/',
+            success: function (data) {
+              receiveData_a();
+              document.getElementById('botonesForm').removeAttribute("hidden");
+            }
+        });
+
+  socket.send(JSON.stringify({
+    'message':'stop'
+  }))
+
+  resume_ws();
+  resume();
+  dialogCycleTest.showModal();
+  document.getElementById('bStart_a').removeAttribute("hidden");
+  document.getElementById('bStop_a').setAttribute("hidden", "hidden");
+  document.getElementById('bPause_a').setAttribute("hidden", "hidden");
+
+  document.querySelector('#open_coil_a').innerText = "Open : 0";
+  document.querySelector('#close_coil_a').innerText = "Close : 0";
+  document.querySelector('#testTime').innerText = "0:0:0";
+}
+
+function iniciarConexion()
+{
+  socket = new WebSocket("ws://" + window.location.host + "/ws/ct_read_coil_alone/");
+  socket.onmessage = function(event){
+    dataSockets  = JSON.parse(event.data);
+
+    document.querySelector('#open_coil_a').innerText = "Open : " + dataSockets.relayCountA;
+    document.querySelector('#close_coil_a').innerText = "Close : " + dataSockets.relayCountB;
+    document.querySelector('#testTime').innerText = dataSockets.hor + ":" + dataSockets.min + ":" + dataSockets.sec;
+
+    myLineChart.data.datasets[0].data.splice(0, 1);
+    myLineChart.data.datasets[0].data.push(dataSockets.pos);
+    
+    myLineChart.data.datasets[1].data.splice(0, 1);
+    myLineChart.data.datasets[1].data.push(dataSockets.setPos);
+
+    myLineChart.data.datasets[2].data.splice(0, 1);
+    myLineChart.data.datasets[2].data.push(dataSockets.relay_O);
+
+    myLineChart.data.datasets[3].data.splice(0, 1);
+    myLineChart.data.datasets[3].data.push(dataSockets.relay_C);
+
+    myLineChart.data.labels.splice(0,1);
+    myLineChart.data.labels.push(dataSockets.hor + ":" + dataSockets.min + ":" + dataSockets.sec);
+
+    myLineChart.update();
+  }
+  socket.onclose = function(event) {
+    socket.close(); // Cierra la conexión WebSocket
+    detenerConexion();
+  };
+}
+
+function powerOn_Coil_a() {
+  divButtons_cafe_a.removeAttribute("hidden");
+  document.getElementById('divCycleTestInfo_cafe_a').removeAttribute("hidden");
+  iniciarConexion();
+}
+
+function powerOff_Cafe_a() {
+  socket.send(JSON.stringify({'message':'stop'}))
+  detenerConexion();
+  divButtons_cafe_a.setAttribute("hidden", "hidden");
+  document.getElementById('divCycleTestInfo_coil_a').setAttribute("hidden", "hidden");
+}
+
+function detenerConexion() {
+  socket.send(JSON.stringify({
+    'message':'stop'
+  }))
+}
+
+function startWrite() {
+  socket.send(JSON.stringify({
+    'message':'start'
+  }))
+}
+
+function pause_ws() {
+  socket.send(JSON.stringify({
+    'message':'pause'
+  }))
+}
+
+function resume_ws() {
+  socket.send(JSON.stringify({
+    'message':'resume'
+  }))
+}
+
+function showParams_a() {
+    divParamsCoil_a.removeAttribute("hidden");
+    divShowParamsCoil_a.setAttribute("hidden", "hidden");
+    divHideParamsCoil_a.removeAttribute("hidden");
+}
+
+function hideParams_a() {
+    divParamsCoil_a.setAttribute("hidden", "hidden");
+    divHideParamsCoil_a.setAttribute("hidden", "hidden");
+    divShowParamsCoil_a.removeAttribute("hidden");
+}
+
+var numeros = []; // Declarar un arreglo vacío
+var arreglo = Array(100).fill(0);
+var arreglo2 = Array(100).fill(0);
+var arreglo3 = Array(100).fill(0);
+
+for (var i = 0; i <= 100; i++) {
+numeros.push(i.toString()); // Convertir el número a string y agregarlo al arreglo
+}
+const arrayDeCeros = new Array(100).fill("");
+
+var canvas = document.getElementById('myChart');
+var data = {// www . ja  v a 2s.c  om
+labels: arrayDeCeros,
+datasets: [
+{
+  label: "Control Signal",
+  fill: false,
+  lineTension: 0.0,
+  backgroundColor: "rgba(255,166,0,1)",
+  borderColor: "rgba(255,166,0,1)",
+  borderCapStyle: 'butt',
+  borderDash: [],
+  borderDashOffset: 0.0,
+  borderJoinStyle: 'miter',
+  pointBorderColor: "rgba(75,192,192,1)",
+  pointBackgroundColor: "#fff",
+  pointBorderWidth: 1,
+  pointHoverRadius: 1,
+  pointHoverBackgroundColor: "rgba(75,192,192,1)",
+  pointHoverBorderColor: "rgba(220,220,220,1)",
+  pointHoverBorderWidth: 2,
+  pointRadius: 0,
+  pointHitRadius: 10,
+  data: arreglo,
+},
+{
+  label: "Current",
+  fill: false,
+  lineTension: 0.0,
+  backgroundColor: "rgba(0,0,255,1)",
+  borderColor: "rgba(0,0,255,1)",
+  borderCapStyle: 'butt',
+  borderDash: [],
+  borderDashOffset: 0.0,
+  borderJoinStyle: 'miter',
+  pointBorderColor: "rgba(75,12,192,1)",
+  pointBackgroundColor: "#fff",
+  pointBorderWidth: 1,
+  pointHoverRadius: 1,
+  pointHoverBackgroundColor: "rgba(75,12,192,1)",
+  pointHoverBorderColor: "rgba(220,20,220,1)",
+  pointHoverBorderWidth: 2,
+  pointRadius: 0,
+  pointHitRadius: 10,
+  data: arreglo2,
+},
+{
+  label: "Temperature",
+  fill: false,
+  lineTension: 0.0,
+  backgroundColor: "rgba(0,255,0,1)",
+  borderColor: "rgba(0,255,0,1)",
+  borderCapStyle: 'butt',
+  borderDash: [],
+  borderDashOffset: 0.0,
+  borderJoinStyle: 'miter',
+  pointBorderColor: "rgba(75,12,192,1)",
+  pointBackgroundColor: "#fff",
+  pointBorderWidth: 1,
+  pointHoverRadius: 1,
+  pointHoverBackgroundColor: "rgba(75,12,192,1)",
+  pointHoverBorderColor: "rgba(220,20,220,1)",
+  pointHoverBorderWidth: 2,
+  pointRadius: 0,
+  pointHitRadius: 10,
+  data: arreglo3,
+}
+]
+};
+
+var option = {
+animation: true,
+responsive: true,
+scales: {
+        y: {
+            suggestedMin: 0,
+            suggestedMax: 100
+        },
+        x: {
+            suggestedMin: 0,
+            suggestedMax: 100,
+            ticks:{
+                minTicksLimit: 25,
+                maxTicksLimit: 25,
+                sampleSize:25,
+            }
+        }
+    }
+};
+
+var myLineChart = new Chart(canvas, {
+type: 'line',
+data: data,
+options: option
+});
+
+function saveData_a() {
+    const form = document.getElementById('cycleTestForm');
+    const formData = new FormData(form);
+
+    // Validaciones personalizadas (ejemplo)
+    const observations = document.getElementById('observations').value;
+    if (!observations.match(/^[A-Za-z0-9\s]*$/)) {
+        alert('The observations contain illegal characters.');
+        return;
+    }
+
+    // Envío del formulario usando AJAX
+    fetch(form.action, {
+        method: 'POST',
+        body: formData,
+        headers: {
+            'X-CSRFToken': '{{ csrf_token }}' // Incluye el token CSRF para Django
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            alert('Form submitted successfully.');
+            form.reset(); // Resetea el formulario si es necesario
+            document.getElementById('formCreateCycleTest').close(); // Cierra el diálogo
+        } else {
+            alert('There was an error submitting the form.');
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert('An unexpected error occurred.');
+    });
+}
+
+function receiveData_a() {
+    fetch('/ct/cycleTest_sendData_coil_alone/')
+    .then(response => response.json())
+    .then(data => {
+        // Mostrar el valor en el contenedor
+        document.getElementById('dateStart_dialog').innerText = data.dateStart_a;
+        document.getElementById('dateEnd_dialog').innerText = data.dateEnd_a;
+        document.getElementById('relaysCounter_O').innerText = 'Open : '+ data.counter_open_cafe_a;
+        document.getElementById('relaysCounter_C').innerText = 'Close : '+ data.counter_close_cafe_a;
+        document.getElementById('plannedTimeTest_dialog').innerText = data.customTime_a;
+        document.getElementById('finalTimeTest').innerText = data.finalTime_a;
+    })
+    .catch(error => console.error('Error:', error));
+}
+
+function start() {
+    check_customTestTime();
+
+    $.ajax({
+        url: '/ct/cycleTest_start_coil_alone/',
+        success: function (data) {
+        }
+    });
+    
+    startWrite();
+    bStart_a.setAttribute("hidden", "hidden");
+    stopButton.removeAttribute("hidden");
+    bPause_a.removeAttribute("hidden");
+    document.getElementById('botonesForm').setAttribute("hidden", "hidden");
+}
+
+function pause() {
+        $.ajax({
+            url: '/ct/cycleTest_pause_coil_alone/',
+            success: function (data) {
+            }
+        });
+        bPause_a.setAttribute("hidden", "hidden");
+        bResume_a.removeAttribute("hidden");
+    }
+
+function resume() {
+        $.ajax({
+            url: '/ct/cycleTest_resume_coil_alone/',
+            success: function (data) {
+            }
+        });
+        bPause_a.removeAttribute("hidden");
+        bResume_a.setAttribute("hidden", "hidden");
+    }
+
+function cancel() {
+  dialogCycleTest.close();
+}
+
+function hideLoadDetails() {
+  if (checkbox.checked) {
+      conditionalField.style.display = 'flex';
+    } else {
+      conditionalField.style.display = 'none';
+    }
+}
+
+function toggleBlock() {
+        const blockable1 = document.getElementById('divCustomTime');
+        const blockable2 = document.getElementById('divCustomTimeInput');
+        const toggleSwitch = document.getElementById('toggleSwitch');
+
+        if (toggleSwitch.checked) {
+          blockable1.classList.remove('disabled');
+          blockable2.classList.remove('disabled');
+        } else {
+            blockable1.classList.add('disabled');
+            blockable2.classList.add('disabled');
+        }
+    }
+
+function check_customTestTime(){
+  var statusSwich = document.getElementById('toggleSwitch').checked;
+  const hoursCafe_a = document.getElementById('hoursCafe_a');
+  
+  if (statusSwich == true)
+  {
+    $.ajax({
+            type: "POST",
+            url: '/ct/cycleTest_customTime_coil_alone/',
+            data: {csrfmiddlewaretoken: '{{ csrf_token }}',"customTime": hoursCafe_a.value},
+            success: function (data) {
+            }
+           });   
+  }
+  else
+  {
+    $.ajax({
+            type: "POST",
+            url: '/ct/cycleTest_customTime_coil_alone/',
+            data: {csrfmiddlewaretoken: '{{ csrf_token }}',"customTime": 9999},
+            success: function (data) {
+            }
+           });   
+  }
+}
+
+</script>
+
+<style>
+  /* Estilo básico para el modal */
+  .formCreateCycleTest {
+    padding: 20px;
+    border-radius: 10px;
+    max-width: 500px;
+    width: 100%;
+  }
+
+  /* Centrar el título */
+  .modal-title {
+    text-align: center;
+    font-weight: bold;
+  }
+
+  /* Estilo para los grupos de labels e inputs */
+  .form-group {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .form-group label {
+    margin-bottom: 0px;
+  }
+
+  /* Estilo para apilar horizontalmente en pantallas grandes */
+  @media (min-width: 600px) {
+    .form-group {
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .form-group label {
+      margin-bottom: 0;
+      margin-right: 10px;
+    }
+
+    .form-group input[type="text"],
+    .form-group input[type="checkbox"] {
+      flex: 1;
+    }
+  }
+
+  /* Estilo para los botones */
+  .form-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+  }
+</style>
