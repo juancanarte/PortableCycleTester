@@ -2825,6 +2825,7 @@ def stop():
             if (client_2 != None):
                 client_2.close()
             turnOff_cafe_2()
+            stop_saveInDB_2()
         """
         elif name_dut_2 == 'COIL':
             show_stop_coil_2()
