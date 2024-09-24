@@ -2187,9 +2187,8 @@ def cycleTest_stop_cafe_2():
     finalTestTime_2 = str(horas_cafe_2) + ':' + str(minutos_cafe_2) + ':' + str(segundos_cafe_2)
 
     detener_2()
-    '''
     stop_saveInDB_2()
-    '''
+
 
 def cycleTest_write_start_2():
     global client_2, nodo_2, modoG_2, flag_2, inputType_modulation_2, modulation_read_2, modulation_write_2, setPoint_modulation_2, port_gpio_2,\
