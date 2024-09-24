@@ -71,8 +71,8 @@ try:
 
     pcfRPI.write("p4", "LOW")
     pcfRPI.write("p5", "LOW")
-    pcfRPI.write("p6", "LOW")
-    pcfRPI.write("p7", "HIGH")
+    pcfRPI.write("p6", "HIGH")
+    pcfRPI.write("p7", "LOW")
 
     #---------pcb digital output / Digital input i2c---------·#
     pcfRPI_on_off = pcf8574_io.PCF(0x26)
