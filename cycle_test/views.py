@@ -287,7 +287,15 @@ def customTime_cafe_2(request):
         funciones_cycleTest.setCustomTime_2(input_data)
     return JsonResponse({'data': data})
 
-#-----------------FIN funciones cycle test-----------------#
+#Funcioes CYCLE TEST para COIL alone
+
+def sendData_coil_alone(request):
+    data = funciones_cycleTest.sendData_cafe_alone()
+
+    print(data)
+    return JsonResponse({'dateStart_a': data['dateStart_a'], 'dateEnd_a': data['dateEnd_a'], 'counter_open_cafe_a':data['counter_open_cafe_a'],
+                         'counter_close_cafe_a':data['counter_close_cafe_a'], 'counter_openF_cafe_a':data['counter_openF_cafe_a'],
+                         'counter_closeF_cafe_a':data['counter_closeF_cafe_a'], 'customTime_a':data['customTime_a'], 'finalTime_a':data['finalTime_a']})
 
 def stop(request):
     funciones_cycleTest.stop()
