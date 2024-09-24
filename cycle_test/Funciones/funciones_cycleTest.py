@@ -492,7 +492,7 @@ def extraer_parametros(parametrosR, modo):
 def show_params(params, modo):
     global cant_duts,modo_dut_alone,client,modoG,nodo,baud,client_1,modoG_1,nodo_1,client_2,modoG_2,nodo_2,modulation_read_a,modulation_write_a,inputType_modulation_a,\
     modulation_read_1,modulation_write_1,inputType_modulation_1,modulation_read_2,modulation_write_2,inputType_modulation_2,port_gpio_alone,\
-    op_voltage_a,op_voltage_1,op_voltage_2,puerto_dut_alone, dut_alone, modo_dut_1, name_dut_1, name_dut_2
+    op_voltage_a,op_voltage_1,op_voltage_2,puerto_dut_alone, dut_alone, modo_dut_1, name_dut_1, name_dut_2, modo_dut_2
 
     parametros = params.split(',')
 
@@ -2188,7 +2188,6 @@ def cycleTest_stop_cafe_2():
 
     detener_2()
     stop_saveInDB_2()
-
 
 def cycleTest_write_start_2():
     global client_2, nodo_2, modoG_2, flag_2, inputType_modulation_2, modulation_read_2, modulation_write_2, setPoint_modulation_2, port_gpio_2,\
