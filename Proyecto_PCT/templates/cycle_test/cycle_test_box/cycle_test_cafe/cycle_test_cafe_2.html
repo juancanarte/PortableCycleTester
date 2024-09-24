@@ -391,6 +391,7 @@ bResume_2.addEventListener('click', function() {
             url: '/ct/cycleTest_stop_cafe_2/',
             success: function (data) {
               console.log("test ajax");
+              document.getElementById('botonesForm_2').removeAttribute("hidden");
             }
         });
 
