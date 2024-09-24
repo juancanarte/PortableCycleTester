@@ -397,6 +397,19 @@ bResume_2.addEventListener('click', function() {
   socket_2.send(JSON.stringify({
     'message':'stop'
   }))
+  resume_ws_2();
+  resume_2();
+  dialogCycleTest_2.showModal();
+  document.getElementById('bStart_2').removeAttribute("hidden");
+  document.getElementById('powerOff_Cafe_2').removeAttribute("hidden");
+  document.getElementById('bStop_2').setAttribute("hidden", "hidden");
+  document.getElementById('bPause_2').setAttribute("hidden", "hidden");
+
+  document.querySelector('#open_cafe_2').innerText = "Open : 0";
+  document.querySelector('#close_cafe_2').innerText = "Close : 0";
+  document.querySelector('#openFe_cafe_2').innerText = "Open : 0";
+  document.querySelector('#closeFe_cafe_2').innerText = "Close : 0";
+  document.querySelector('#testTime_2').innerText = "0:0:0";
 }
 
 function iniciarConexion_2()
