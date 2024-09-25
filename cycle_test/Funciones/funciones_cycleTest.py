@@ -639,6 +639,16 @@ def show_params(params, modo):
                         gpio.output(16, gpio.HIGH)#Swich to AC DUT 1
                 except:
                     pass
+
+                try:
+                    """"""
+                    i2c_read_a = busio.I2C(board.SCL, board.SDA)
+                    adc_read_a = ADS.ADS1115(i2c_read_a)
+                    modulation_read_a = AnalogIn(adc_read_a, ADS.P0)
+                    """"""
+                except:
+                    pass
+
             elif puerto_dut_alone == 2:
                 #Activar DUT #2
                 if op_voltage_a == '24vdc':
@@ -2784,6 +2794,23 @@ def cycleTest_start_coil_a():
         thread_coil_a.start()
         running_threads.append(thread_coil_a)
 
+def cycleTest_stop_coil_alone():
+    global thread_coil_a, flag_coil_alone, port_gpio_alone
+
+    #Cerrar solenoide en AUTO
+    if port_gpio_alone == 1:
+        #Apagar DUT #1
+        pcfRPI_on_off.write("p4", "LOW")
+    elif port_gpio_alone == 2:
+        #Apagar DUT #2
+        pcfRPI_on_off.write("p5", "LOW")
+
+    if thread_coil_a is not None and thread_coil_a.is_alive():
+        flag_coil_alone.set()
+        thread_coil_a.join()
+        flag_coil_alone.clear()
+    print("Stop coil alone")
+
 def cycleTest_write_start_coil_a():
     global listaP, port_gpio_alone, widthTimePulse_coil_a, flag_coil_alone, posCoil_a
 
@@ -2812,22 +2839,13 @@ def cycleTest_write_start_coil_a():
         posCoil_a = 0
         time.sleep(widthTimePulse_coil_a)
 
-def cycleTest_stop_coil_alone():
-    global thread_coil_a, flag_coil_alone, port_gpio_alone
+def cycleTest_read_coil_a():
+    global puerto_dut_alone, posCoil_a
 
-    #Cerrar solenoide en AUTO
-    if port_gpio_alone == 1:
-        #Apagar DUT #1
-        pcfRPI_on_off.write("p4", "LOW")
-    elif port_gpio_alone == 2:
-        #Apagar DUT #2
-        pcfRPI_on_off.write("p5", "LOW")
+    if puerto_dut_alone == 1:
 
-    if thread_coil_a is not None and thread_coil_a.is_alive():
-        flag_coil_alone.set()
-        thread_coil_a.join()
-        flag_coil_alone.clear()
-    print("Stop coil alone")
+
+    return posCoil_a, 
 
 def setCustomTime_coil_a(_customTime_a):
     global customTime_a
