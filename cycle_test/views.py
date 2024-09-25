@@ -288,6 +288,15 @@ def customTime_cafe_2(request):
     return JsonResponse({'data': data})
 
 #Funcioes CYCLE TEST para COIL alone
+def cycleTest_start_coil_alone(request):
+    funciones_cycleTest.cycleTest_start_coil_a()
+    tempDataCt_a.objects.all().delete()
+    tempDataCtv2_a.objects.all().delete()
+
+    data = ''
+    return JsonResponse({'data': data})
+
+
 
 @csrf_exempt
 def saveData_coil_alone(request):

@@ -2129,7 +2129,7 @@ def show_start_coil_alone():
     if thread_modbus_a is None or not thread_modbus_a.is_alive():
         thread_modbus_a = threading.Thread(target=show_write_start_coil_a)
         thread_modbus_a.start()
-        running_threads.append(thread_modbus_a) 
+        running_threads.append(thread_modbus_a)
 
 def show_stop_coil_alone():
     global thread_modbus_a, flag_a, port_gpio_alone

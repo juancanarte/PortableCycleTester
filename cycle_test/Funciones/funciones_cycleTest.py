@@ -381,6 +381,7 @@ dateEnd_2 = None
 customTime_2 = 9999
 finalTestTime_2 = None
 #----------------------------------------------COIL ALONE----------------------------------------------#
+thread_coil_a = None
 posCoil_a = None
 #----------------------------------------------COIL 1----------------------------------------------#
 posCoil_1 = None
@@ -2771,6 +2772,51 @@ def sendData_cafe_2():
                 'customTime_2':customTime_2, 'counter_openF_cafe_2':counter_openF_cafe_2, 'counter_closeF_cafe_2':counter_closeF_cafe_2, 'finalTime_2':finalTestTime_2}
 
     return dataList
+
+#Funciones CYCLE TEST para COIL Alone
+def cycleTest_start_coil_a():
+    global thread_coil_a, running_threads
+
+    if thread_coil_a is None or not thread_coil_a.is_alive():
+        thread_coil_a = threading.Thread(target=cycleTest_write_start_coil_a)
+        thread_coil_a.start()
+        running_threads.append(thread_coil_a)
+
+def cycleTest_write_start_coil_a():
+    global listaP
+
+    print(listaP)
+
+    '''
+    if (port_gpio_alone == 1):
+        widthTimePulse_show = int(defSettings[3][0])
+    elif (port_gpio_alone == 2):
+        widthTimePulse_show = int(defSettings[7][0])
+
+    while not flag_a.is_set():
+        #Abrir solenoide en AUTO
+        if port_gpio_alone == 1:
+            #Encender DUT #1
+            pcfRPI_on_off.write("p4", "HIGH")
+        elif port_gpio_alone == 2:
+            #Encender DUT #2
+            pcfRPI_on_off.write("p5", "HIGH")
+
+        posCoil_a = 'open'
+        time.sleep(widthTimePulse_show)
+
+        #Cerrar solenoide en AUTO
+        if port_gpio_alone == 1:
+            #Apagar DUT #1
+            pcfRPI_on_off.write("p4", "LOW")
+        elif port_gpio_alone == 2:
+            #Apagar DUT #2
+            pcfRPI_on_off.write("p5", "LOW")
+
+        posCoil_a = 'close'
+        time.sleep(widthTimePulse_show)
+        '''
+
 
 #-----------FIN Funciones CYCLE TEST---------#
 
