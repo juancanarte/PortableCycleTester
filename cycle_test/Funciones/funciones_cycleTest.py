@@ -383,6 +383,7 @@ finalTestTime_2 = None
 #----------------------------------------------COIL ALONE----------------------------------------------#
 thread_coil_a = None
 posCoil_a = None
+widthTimePulse_coil_a = 0
 #----------------------------------------------COIL 1----------------------------------------------#
 posCoil_1 = None
 #----------------------------------------------COIL 2----------------------------------------------#
@@ -2783,15 +2784,11 @@ def cycleTest_start_coil_a():
         running_threads.append(thread_coil_a)
 
 def cycleTest_write_start_coil_a():
-    global listaP
+    global listaP, port_gpio_alone, widthTimePulse_coil_a
 
-    print(listaP)
+    widthTimePulse_coil_a = int(listaP[8][0])
 
-    '''
-    if (port_gpio_alone == 1):
-        widthTimePulse_show = int(defSettings[3][0])
-    elif (port_gpio_alone == 2):
-        widthTimePulse_show = int(defSettings[7][0])
+    print(widthTimePulse_coil_a)
 
     while not flag_a.is_set():
         #Abrir solenoide en AUTO
@@ -2815,7 +2812,6 @@ def cycleTest_write_start_coil_a():
 
         posCoil_a = 'close'
         time.sleep(widthTimePulse_show)
-        '''
 
 
 #-----------FIN Funciones CYCLE TEST---------#
