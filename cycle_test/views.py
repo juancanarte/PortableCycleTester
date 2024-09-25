@@ -296,7 +296,18 @@ def cycleTest_start_coil_alone(request):
     data = ''
     return JsonResponse({'data': data})
 
+def cycleTest_stop_coil_alone(request):
+    funciones_cycleTest.cycleTest_stop_coil_alone()
+    data = ''
+    return JsonResponse({'data': data})
 
+@csrf_exempt
+def customTime_coil_alone(request):
+    data = ''
+    if request.method == 'POST':
+        input_data = request.POST.get('customTime', '')
+        funciones_cycleTest.setCustomTime_coil_a(input_data)
+    return JsonResponse({'data': data})
 
 @csrf_exempt
 def saveData_coil_alone(request):

@@ -382,8 +382,9 @@ customTime_2 = 9999
 finalTestTime_2 = None
 #----------------------------------------------COIL ALONE----------------------------------------------#
 thread_coil_a = None
-posCoil_a = None
+posCoil_a = 0
 widthTimePulse_coil_a = 0
+flag_coil_alone = threading.Event()
 #----------------------------------------------COIL 1----------------------------------------------#
 posCoil_1 = None
 #----------------------------------------------COIL 2----------------------------------------------#
@@ -2784,13 +2785,11 @@ def cycleTest_start_coil_a():
         running_threads.append(thread_coil_a)
 
 def cycleTest_write_start_coil_a():
-    global listaP, port_gpio_alone, widthTimePulse_coil_a
+    global listaP, port_gpio_alone, widthTimePulse_coil_a, flag_coil_alone, posCoil_a
 
     widthTimePulse_coil_a = int(listaP[8][0])
 
-    print(widthTimePulse_coil_a)
-
-    while not flag_a.is_set():
+    while not flag_coil_alone.is_set():
         #Abrir solenoide en AUTO
         if port_gpio_alone == 1:
             #Encender DUT #1
@@ -2799,8 +2798,8 @@ def cycleTest_write_start_coil_a():
             #Encender DUT #2
             pcfRPI_on_off.write("p5", "HIGH")
 
-        posCoil_a = 'open'
-        time.sleep(widthTimePulse_show)
+        posCoil_a = 100
+        time.sleep(widthTimePulse_coil_a)
 
         #Cerrar solenoide en AUTO
         if port_gpio_alone == 1:
@@ -2810,9 +2809,29 @@ def cycleTest_write_start_coil_a():
             #Apagar DUT #2
             pcfRPI_on_off.write("p5", "LOW")
 
-        posCoil_a = 'close'
-        time.sleep(widthTimePulse_show)
+        posCoil_a = 0
+        time.sleep(widthTimePulse_coil_a)
 
+def cycleTest_stop_coil_alone():
+    global thread_coil_a, flag_coil_alone, port_gpio_alone
+
+    #Cerrar solenoide en AUTO
+    if port_gpio_alone == 1:
+        #Apagar DUT #1
+        pcfRPI_on_off.write("p4", "LOW")
+    elif port_gpio_alone == 2:
+        #Apagar DUT #2
+        pcfRPI_on_off.write("p5", "LOW")
+
+    if thread_coil_a is not None and thread_coil_a.is_alive():
+        flag_coil_alone.set()
+        thread_coil_a.join()
+        flag_coil_alone.clear()
+    print("Stop coil alone")
+
+def setCustomTime_coil_a(_customTime_a):
+    global customTime_a
+    customTime_a = int(_customTime_a)
 
 #-----------FIN Funciones CYCLE TEST---------#
 
