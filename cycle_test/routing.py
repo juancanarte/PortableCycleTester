@@ -11,4 +11,5 @@ ws_urlpatters = [
     path('ws/ct_read_cafe_alone/', ct_read_cafe_a.as_asgi()),
     path('ws/ct_read_cafe_1/', ct_read_cafe_1.as_asgi()),
     path('ws/ct_read_cafe_2/', ct_read_cafe_2.as_asgi()),
+    path('ws/ct_read_coil_alone/', ct_read_coil_a.as_asgi()),
 ]

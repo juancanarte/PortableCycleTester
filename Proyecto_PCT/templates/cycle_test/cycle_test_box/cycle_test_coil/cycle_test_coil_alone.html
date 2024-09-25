@@ -260,6 +260,8 @@ bResume_a.addEventListener('click', function() {
 
     var socket = null;
 
+    iniciarConexion()
+
 function stop(){
   $.ajax({
             url: '/ct/cycleTest_stop_coil_alone/',
