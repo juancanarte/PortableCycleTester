@@ -41,9 +41,13 @@ urlpatterns = [
     path('cycleTest_saveData_2/', views.saveData_cafe_2, name='SaveData_cafe_2'),
     path('cycleTest_customTime_2/', views.customTime_cafe_2, name='CustomTime_cafe_2'),
     #Funciones Cycle Test COIL Alone
-    path('cycleTest_saveData_coil_alone/', views.saveData_coil_alone, name='SaveData_coil_alone'),
     path('cycleTest_start_coil_alone/', views.cycleTest_start_coil_alone, name='CycleTest_start_coil_alone'),
     path('cycleTest_stop_coil_alone/', views.cycleTest_stop_coil_alone, name='CycleTest_stop_coil_alone'),
+    path('cycleTest_pause_coil_alone/', views.cycleTest_pause_coil_alone, name='CycleTest_pause_coil_alone'),
+    path('cycleTest_resume_coil_alone/', views.cycleTest_resume_coil_alone, name='CycleTest_resume_coil_alone'),
+    path('cycleTest_read_coil_alone/', views.cycleTest_read_coil_alone, name='CycleTest_read_coil_alone'),
+    path('cycleTest_sendData_coil_alone/', views.sendData_coil_alone, name='CycleTest_sendData_coil_alone'),
+    path('cycleTest_saveData_coil_alone/', views.saveData_coil_alone, name='SaveData_coil_alone'),
     path('cycleTest_customTime_coil_alone/', views.customTime_coil_alone, name='CustomTime_coil_alone'),
     #FIN funciones Cycle Test
     path('stop/', views.stop, name='Stop'),

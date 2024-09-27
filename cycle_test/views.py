@@ -301,13 +301,27 @@ def cycleTest_stop_coil_alone(request):
     data = ''
     return JsonResponse({'data': data})
 
-@csrf_exempt
-def customTime_coil_alone(request):
+def cycleTest_pause_coil_alone(request):
+    funciones_cycleTest.pausar_coil_a()
     data = ''
-    if request.method == 'POST':
-        input_data = request.POST.get('customTime', '')
-        funciones_cycleTest.setCustomTime_coil_a(input_data)
     return JsonResponse({'data': data})
+
+def cycleTest_resume_coil_alone(request):
+    funciones_cycleTest.cycleTest_resume_coil_a()
+    data = ''
+    return JsonResponse({'data': data})
+
+def cycleTest_read_coil_alone(request):
+    res1, res2 = funciones_cycleTest.cycleTest_read_coil_a()
+    data1 = res1
+    data2 = res2
+    return JsonResponse({'data1':data1, 'data2':data2})
+
+def sendData_coil_alone(request):
+    data = funciones_cycleTest.sendData_coil_a()
+
+    return JsonResponse({'dateStart_coil_a': data['dateStart_coil_a'], 'dateEnd_coil_a': data['dateEnd_coil_a'], 'counter_open_coil_a': data['counter_open_coil_a'],
+                         'customTime_coil_a': data['customTime_coil_a'], 'finalTestTime_coil_a': data['finalTestTime_coil_a']})
 
 @csrf_exempt
 def saveData_coil_alone(request):
@@ -322,6 +336,14 @@ def saveData_coil_alone(request):
         # Si hubo un error
         # return JsonResponse({'success': False, 'error': 'Mensaje de error'})
     return JsonResponse({'success': False, 'error': 'Método no permitido'}, status=405)
+
+@csrf_exempt
+def customTime_coil_alone(request):
+    data = ''
+    if request.method == 'POST':
+        input_data = request.POST.get('customTime', '')
+        funciones_cycleTest.setCustomTime_coil_a(input_data)
+    return JsonResponse({'data': data})
 
 def stop(request):
     funciones_cycleTest.stop()

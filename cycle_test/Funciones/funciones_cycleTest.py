@@ -122,6 +122,10 @@ saw_porcent = 1
 width_time_saw = 0.1
 tOutModbus = 0.5
 
+current_dut_1 = None
+current_dut_2 = None
+temp_dut_1 = None
+temp_dut_2 = None
 #--------------------------------- Cycle Test Data-----------------------------------------#
 testerName_g = ''
 actuatorRef_g = ''
@@ -385,6 +389,23 @@ thread_coil_a = None
 posCoil_a = 0
 widthTimePulse_coil_a = 0
 flag_coil_alone = threading.Event()
+counter_open_coil_a = 0
+pausa_hilo_coil_a = False
+#--------Cronometro--------#
+tiempo_inicial_coil_a = 0
+tiempo_pausado_coil_a = 0
+en_progreso_coil_a = False
+tiempo_total_coil_a = 0
+hiloCrono_coil_a = None
+_detener_hilo_coil_a = threading.Event()
+minutos_coil_a = 0
+segundos_coil_a = 0
+horas_coil_a = 0
+
+dateStart_coil_a = None
+dateEnd_coil_a = None
+customTime_coil_a = 9999
+finalTestTime_coil_a = None
 #----------------------------------------------COIL 1----------------------------------------------#
 posCoil_1 = None
 #----------------------------------------------COIL 2----------------------------------------------#
@@ -495,7 +516,8 @@ def extraer_parametros(parametrosR, modo):
 def show_params(params, modo):
     global cant_duts,modo_dut_alone,client,modoG,nodo,baud,client_1,modoG_1,nodo_1,client_2,modoG_2,nodo_2,modulation_read_a,modulation_write_a,inputType_modulation_a,\
     modulation_read_1,modulation_write_1,inputType_modulation_1,modulation_read_2,modulation_write_2,inputType_modulation_2,port_gpio_alone,\
-    op_voltage_a,op_voltage_1,op_voltage_2,puerto_dut_alone, dut_alone, modo_dut_1, name_dut_1, name_dut_2, modo_dut_2
+    op_voltage_a,op_voltage_1,op_voltage_2,puerto_dut_alone, dut_alone, modo_dut_1, name_dut_1, name_dut_2, modo_dut_2, current_dut_1, current_dut_2,\
+    temp_dut_1, temp_dut_2
 
     parametros = params.split(',')
 
@@ -513,6 +535,15 @@ def show_params(params, modo):
     #parametros DUT 1
     mode_dut_2 = ''
     name_dut_2 = ''
+
+    #-------------------sensado de temperatura y corriente-------------------
+    i2c_read_tempCur = busio.I2C(board.SCL, board.SDA)
+    adc_read_tc = ADS.ADS1115(i2c_read_tempCur, address=0x49)
+    current_dut_1 = AnalogIn(adc_read_tc, ADS.P0)
+    temp_dut_1 = AnalogIn(adc_read_tc, ADS.P1)
+    current_dut_2 = AnalogIn(adc_read_tc, ADS.P2)
+    temp_dut_2 = AnalogIn(adc_read_tc, ADS.P3)
+
     #Cuantos DUT hay
     if parametros[0] != '0' and  parametros[1] != '0':  #Si hay 1 DUT
         cant_duts = 1
@@ -2812,44 +2843,139 @@ def cycleTest_stop_coil_alone():
     print("Stop coil alone")
 
 def cycleTest_write_start_coil_a():
-    global listaP, port_gpio_alone, widthTimePulse_coil_a, flag_coil_alone, posCoil_a
+    global listaP, port_gpio_alone, widthTimePulse_coil_a, flag_coil_alone, posCoil_a, counter_open_coil_a, pausa_hilo_coil_a
 
     widthTimePulse_coil_a = int(listaP[8][0])
 
-    while not flag_coil_alone.is_set():
-        #Abrir solenoide en AUTO
-        if port_gpio_alone == 1:
+    if port_gpio_alone == 1:
+        while not flag_coil_alone.is_set():
+            while pausa_hilo_coil_a == True:
+                    time.sleep(0.1)
             #Encender DUT #1
             pcfRPI_on_off.write("p4", "HIGH")
-        elif port_gpio_alone == 2:
-            #Encender DUT #2
-            pcfRPI_on_off.write("p5", "HIGH")
+            counter_open_coil_a = counter_open_coil_a + 1
 
-        posCoil_a = 100
-        time.sleep(widthTimePulse_coil_a)
+            time.sleep(widthTimePulse_coil_a)
 
-        #Cerrar solenoide en AUTO
-        if port_gpio_alone == 1:
             #Apagar DUT #1
             pcfRPI_on_off.write("p4", "LOW")
-        elif port_gpio_alone == 2:
+    
+    elif port_gpio_alone == 2:
+        while not flag_coil_alone.is_set():
+            while pausa_hilo_coil_a == True:
+                time.sleep(0.1)
+            #Encender DUT #2
+            pcfRPI_on_off.write("p5", "HIGH")
+            counter_open_coil_a = counter_open_coil_a + 1
+
+            time.sleep(widthTimePulse_coil_a)
+
             #Apagar DUT #2
             pcfRPI_on_off.write("p5", "LOW")
 
-        posCoil_a = 0
-        time.sleep(widthTimePulse_coil_a)
-
 def cycleTest_read_coil_a():
-    global puerto_dut_alone, posCoil_a
+    global puerto_dut_alone, posCoil_a, current_dut_1, current_dut_2, temp_dut_1, temp_dut_2, counter_open_coil_a
 
     if puerto_dut_alone == 1:
+        current = current_dut_1.voltage
+        temp = temp_dut_1.voltage
+    elif puerto_dut_alone == 2:
+        current = current_dut_2.voltage
+        temp = temp_dut_2.voltage
 
+    return posCoil_a, current, temp, counter_open_coil_a
 
-    return posCoil_a, 
+def cycleTest_resume_coil_a():
+    global pausa_hilo_coil_a
+
+    pausa_hilo_coil_a = False
+    reanudar_coil_a()
 
 def setCustomTime_coil_a(_customTime_a):
     global customTime_a
     customTime_a = int(_customTime_a)
+
+def _actualizar_tiempo_coil_a():
+    global tiempo_inicial_coil_a, en_progreso_coil_a, tiempo_total_coil_a, _detener_hilo_coil_a
+
+    while not _detener_hilo_coil_a.is_set():
+        if en_progreso_coil_a:
+            tiempo_total_coil_a = time.time() - tiempo_inicial_coil_a
+        time.sleep(0.1)
+
+def iniciar_coil_a():
+    global tiempo_inicial_coil_a, en_progreso_coil_a, tiempo_total_coil_a, hiloCrono_coil_a, _detener_hilo_coil_a, dateStart_coil_a, zona_horaria
+
+    if not en_progreso_coil_a:
+        dateStart_coil_a = datetime.now(zona_horaria) #Capturar fecha inicial completa
+
+        tiempo_inicial_coil_a = time.time() - tiempo_total_coil_a
+        en_progreso_coil_a = True
+        if hiloCrono_coil_a is None:
+            _detener_hilo_coil_a.clear()
+            hiloCrono_coil_a = threading.Thread(target=_actualizar_tiempo_coil_a)
+            hiloCrono_coil_a.start()
+        print("Cronómetro iniciado")
+
+def pausar_coil_a():
+    global en_progreso_coil_a
+
+    if en_progreso_coil_a:
+        en_progreso_coil_a = False
+        print("Cronómetro pausado")
+
+def reanudar_coil_a():
+    global tiempo_inicial_coil_a, en_progreso_coil_a, tiempo_total_coil_a
+    if not en_progreso_coil_a:
+        tiempo_inicial_coil_a = time.time() - tiempo_total_coil_a
+        en_progreso_coil_a = True
+        print("Cronómetro reanudado")
+
+def reiniciar_coil_a():
+    global tiempo_inicial_coil_a, en_progreso_coil_a, hiloCrono_coil_a
+    en_progreso_coil_a = False
+    hiloCrono_coil_a = 0
+    tiempo_inicial_coil_a = 0
+    print("Cronómetro reiniciado")
+
+def tiempo_transcurrido_coil_a():
+    global tiempo_total_coil_a
+    return tiempo_total_coil_a
+
+def mostrar_tiempo_coil_a():
+    global minutos_coil_a, segundos_coil_a, horas_coil_a, customTime_coil_a
+
+    tiempo = tiempo_transcurrido()
+    minutos_coil_a, segundos_coil_a = divmod(tiempo, 60)
+    horas, minutos_coil_a = divmod(minutos_coil_a, 60)
+    minutos_coil_a = int(minutos_coil_a)
+    segundos_coil_a = int(segundos_coil_a)
+    horas_coil_a = int(horas)
+
+    if minutos_coil_a >= customTime_coil_a:
+        cycleTest_stop_coil_alone()
+
+def detener_coil_a():
+    global hiloCrono_coil_a, _detener_hilo_coil_a, dateEnd_coil_a, zona_horaria
+
+    if hiloCrono_coil_a is not None:
+        dateEnd_coil_a = datetime.now(zona_horaria)
+        dateEnd_coil_a = dateEnd_coil_a.strftime("%m/%d/%Y %H:%M")
+
+        _detener_hilo_coil_a.set()
+        hiloCrono_coil_a.join()
+        hiloCrono_coil_a = None
+        print("Hilo del cronómetro detenido")
+
+def sendData_coil_a():
+    global dateStart_coil_a, dateEnd_coil_a, counter_open_coil_a, customTime_coil_a, finalTestTime_coil_a
+
+    _aux = dateStart_coil_a.strftime("%m/%d/%Y %H:%M")
+
+    dataList = {'dateStart_coil_a':_aux, 'dateEnd_coil_a':dateEnd_coil_a, 'counter_open_coil_a':counter_open_coil_a,
+                'customTime_coil_a':customTime_coil_a, 'finalTestTime_coil_a':finalTestTime_coil_a}
+
+    return dataList
 
 #-----------FIN Funciones CYCLE TEST---------#
 
