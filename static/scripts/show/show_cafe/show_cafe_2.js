@@ -229,9 +229,9 @@ resize_ob_2.observe(document.querySelector("#txt_cafe_2"));
             success: function (data) {
             }
         });
-        bOpen_2.disabled = true;
-        bOpen_2.style.backgroundColor = "#6f6e6e";
-        bOpen_2.style.fontSize = "12px";
+        //bOpen_2.disabled = true;
+        //bOpen_2.style.backgroundColor = "#6f6e6e";
+        //bOpen_2.style.fontSize = "12px";
         bClose_2.disabled = false;
         bClose_2.style.backgroundColor = "#143a51";
         bClose_2.style.fontSize = "16px"; 

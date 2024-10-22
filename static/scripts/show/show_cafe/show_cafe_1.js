@@ -231,9 +231,9 @@ function detenerConexion_1() {
             success: function (data) {
             }
         });
-        bOpen_1.disabled = true;
-        bOpen_1.style.backgroundColor = "#6f6e6e";
-        bOpen_1.style.fontSize = "12px";
+        //bOpen_1.disabled = true;
+        //bOpen_1.style.backgroundColor = "#6f6e6e";
+        //bOpen_1.style.fontSize = "12px";
         bClose_1.disabled = false;
         bClose_1.style.backgroundColor = "#143a51";
         bClose_1.style.fontSize = "16px"; 
