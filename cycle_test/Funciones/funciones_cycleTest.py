@@ -540,8 +540,8 @@ def show_params(params, modo):
     i2c_read_tempCur = busio.I2C(board.SCL, board.SDA)
     adc_read_tc = ADS.ADS1115(i2c_read_tempCur, address=0x49)
     current_dut_1 = AnalogIn(adc_read_tc, ADS.P0)
-    temp_dut_1 = AnalogIn(adc_read_tc, ADS.P1)
-    current_dut_2 = AnalogIn(adc_read_tc, ADS.P2)
+    current_dut_2 = AnalogIn(adc_read_tc, ADS.P1)
+    temp_dut_1 = AnalogIn(adc_read_tc, ADS.P2)
     temp_dut_2 = AnalogIn(adc_read_tc, ADS.P3)
 
     #Cuantos DUT hay
@@ -1223,7 +1223,7 @@ def cycleTest_write_start():
 def cycleTest_read_cafe_alone():
     global client, nodo, modoG, modulation_read_a, inputType_modulation_a, setPoint_modulation_a, listaP, counter_open_cafe_a,\
     counter_close_cafe_a, counter_openF_cafe_a, counter_closeF_cafe_a, minutos_cafe_a, segundos_cafe_a, puerto_dut_alone, posMod_a, relayO_a, relayC_a, controlSignal_a,\
-    feedbackSignal_a, position_a, horas_cafe_a
+    feedbackSignal_a, position_a, horas_cafe_a, temp_a, current_a
 
     signalType_a = listaP[4]
     #-----------------------------------------Al encender CAFE------------------------------------
@@ -1269,6 +1269,14 @@ def cycleTest_read_cafe_alone():
         relay_O = random.randint(0,100)
         relay_C = random.randint(0,100)
 
+    #Lectura de corriente y temperatura de CAFE alone
+    if (puerto_dut_alone == 1):
+        current_a = current_dut_1.voltage
+        temp_a = temp_dut_1.voltage
+    elif (puerto_dut_alone == 2):
+        current_a = current_dut_2.voltage
+        temp_a = temp_dut_2.voltage
+
     relayO_a = relay_O
     relayC_a = relay_C
     controlSignal_a = setPoint
@@ -1281,7 +1289,8 @@ def cycleTest_read_cafe_alone():
     relay_analysis(relay_O, relay_C)
     feedBack_analysis_cafe_a(position)
 
-    return setPoint,position,signalType_a,relay_O,relay_C,counter_open_cafe_a,counter_close_cafe_a,counter_openF_cafe_a,counter_closeF_cafe_a,horas_cafe_a,minutos_cafe_a,segundos_cafe_a
+    return setPoint,position,current_a,temp_a,signalType_a,relay_O,relay_C,counter_open_cafe_a,counter_close_cafe_a,counter_openF_cafe_a,\
+           counter_closeF_cafe_a,horas_cafe_a,minutos_cafe_a,segundos_cafe_a
 
 def theread_read_cafe_alone():
     global client, nodo, flag_read_a, posMod_a, setPoint_modulation_a
@@ -3067,7 +3076,7 @@ def stop_saveInDB_a():
         flag_thread_saveDB_a.clear()
 
 def saveInDB_a():
-    global temp_a, current_a, setPoint_a, feedback_a, relayFeO_a, relayFeC_a, timeStamp_a, pauseStatus_a, indexDB_a, flag_thread_saveDB_a, tiempo_total_a
+    global temp_a, current_a, setPoint_a, feedback_a, relayFeO_a, relayFeC_a, timeStamp_a, pauseStatus_a, flag_thread_saveDB_a, tiempo_total_a
     
     tDataCt_av2.objects.all().delete
     
